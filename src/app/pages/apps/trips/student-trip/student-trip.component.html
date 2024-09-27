@@ -1,0 +1,62 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <div class="row justify-content-between">
+      <div class="col-sm-4">
+        <mat-form-field appearance="outline" class="w-100 hide-hint">
+          <input
+            matInput
+            class="p-b-0"
+            placeholder="Search here..." (keyup)="applyFilter($event)"
+          />
+          <mat-icon matSuffix>
+            <i-tabler name="search" class="icon-20"></i-tabler>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div class="row">
+  <div
+    class="col-sm-6 col-lg-4"
+    *ngFor="let student of students"
+  >
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="text-center p-24">
+        <img
+          src="{{ student.student.profileImageUrl }}"
+          class="rounded-circle border p-5"
+          width="100"
+        />
+        <h4 mat-card-title class="card-title m-t-16 m-b-0">
+          {{ student.student.name }}
+        </h4>
+        <span class="f-s-12">{{ student.student.classLevel }}</span>
+        <div class="m-t-20">
+          <button (click)="actionStudentTrip('drop_off', student)" *ngIf="student.status == 'BOARDED'" mat-flat-button class="m-r-8" color="primary">
+            Drop Off
+          </button>
+          <button  (click)="actionStudentTrip('pickup', student)" *ngIf="student.status == 'PENDING'" mat-flat-button class="m-r-8" color="accent">
+            Pickup
+          </button>
+           <button disabled="true"  *ngIf="student.status == 'DROPPED_OFF'" mat-flat-button class="m-r-8" color="disabled">
+            Dropped Off
+          </button>
+        </div>
+        <div class="m-t-20">
+          <span class="f-s-14">
+            Guardian Name: {{ student.student.guardian.name }}
+            <br/>
+            Relationship: {{ student.student.guardian.guardianType }}
+            <br/>
+            Mobile: {{ student.student.guardian.phoneNumber }}</span
+          >
+        </div>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+    </mat-card>
+  </div>
+</div>
+
+

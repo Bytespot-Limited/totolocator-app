@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col-lg-3 col-sm-6" *ngFor="let chart of pieChartData">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-x-24 p-y-16">
+        <div class="row justify-content-between">
+          <div class="col-6 d-flex align-items-center">
+            <div>
+              <mat-card-title class="f-s-20 f-w-500"> {{chart.sumOfRecords}} </mat-card-title>
+              <mat-card-subtitle class="f-s-14 f-w-400">
+                {{chart.name}}
+              </mat-card-subtitle>
+            </div>
+          </div>
+          <div class="col-5 d-flex align-items-center">
+            <div
+              class="d-flex flex-column align-items-center justify-content-end"
+            >
+              <apx-chart
+                [series]="chart.series"
+                [chart]="chart.chart"
+                [labels]="chart.labels"
+                [tooltip]="chart.tooltip"
+                [legend]="chart.legend"
+                [colors]="chart.colors"
+                [dataLabels]="chart.dataLabels"
+                [plotOptions]="chart.plotOptions"
+                [stroke]="chart.stroke"
+              >
+              </apx-chart>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!--  &lt;!&ndash; 2 &ndash;&gt;-->
+  <!--  <div class="col-lg-3 col-sm-6">-->
+  <!--    <mat-card class="cardWithShadow">-->
+  <!--      <mat-card-content class="p-x-24 p-y-16">-->
+  <!--        <div class="row justify-content-between">-->
+  <!--          <div class="col-6 d-flex align-items-center">-->
+  <!--            <div>-->
+  <!--              <mat-card-title class="f-s-20 f-w-500"> 22 </mat-card-title>-->
+  <!--              <mat-card-subtitle class="f-s-14 f-w-400">-->
+  <!--                Terminals-->
+  <!--              </mat-card-subtitle>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          <div class="col-5 d-flex align-items-center">-->
+  <!--            <div-->
+  <!--              class="d-flex flex-column align-items-center justify-content-end"-->
+  <!--            >-->
+  <!--              <apx-chart-->
+  <!--                [series]="pie2Chart.series"-->
+  <!--                [chart]="pie2Chart.chart"-->
+  <!--                [labels]="pie2Chart.labels"-->
+  <!--                [tooltip]="pie2Chart.tooltip"-->
+  <!--                [legend]="pie2Chart.legend"-->
+  <!--                [colors]="pie2Chart.colors"-->
+  <!--                [dataLabels]="pie2Chart.dataLabels"-->
+  <!--                [plotOptions]="pie2Chart.plotOptions"-->
+  <!--                [stroke]="pie2Chart.stroke"-->
+  <!--              >-->
+  <!--              </apx-chart>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </mat-card-content>-->
+  <!--    </mat-card>-->
+  <!--  </div>-->
+  <!--  &lt;!&ndash; 3 &ndash;&gt;-->
+  <!--  <div class="col-lg-3 col-sm-6">-->
+  <!--    <mat-card class="cardWithShadow">-->
+  <!--      <mat-card-content class="p-x-24 p-y-16">-->
+  <!--        <div class="row justify-content-between">-->
+  <!--          <div class="col-6 d-flex align-items-center">-->
+  <!--            <div>-->
+  <!--              <mat-card-title class="f-s-20 f-w-500"> 2,500 </mat-card-title>-->
+  <!--              <mat-card-subtitle class="f-s-14 f-w-400">-->
+  <!--                Students-->
+  <!--              </mat-card-subtitle>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          <div class="col-5 d-flex align-items-center">-->
+  <!--            <div-->
+  <!--              class="d-flex flex-column align-items-center justify-content-end"-->
+  <!--            >-->
+  <!--              <apx-chart-->
+  <!--                [series]="pie3Chart.series"-->
+  <!--                [chart]="pie3Chart.chart"-->
+  <!--                [labels]="pie3Chart.labels"-->
+  <!--                [tooltip]="pie3Chart.tooltip"-->
+  <!--                [legend]="pie3Chart.legend"-->
+  <!--                [colors]="pie3Chart.colors"-->
+  <!--                [dataLabels]="pie3Chart.dataLabels"-->
+  <!--                [plotOptions]="pie3Chart.plotOptions"-->
+  <!--                [stroke]="pie3Chart.stroke"-->
+  <!--              >-->
+  <!--              </apx-chart>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </mat-card-content>-->
+  <!--    </mat-card>-->
+  <!--  </div>-->
+  <!--  &lt;!&ndash; 4 &ndash;&gt;-->
+  <!--  <div class="col-lg-3 col-sm-6">-->
+  <!--    <mat-card class="cardWithShadow">-->
+  <!--      <mat-card-content class="p-x-24 p-y-16">-->
+  <!--        <div class="row justify-content-between">-->
+  <!--          <div class="col-6 d-flex align-items-center">-->
+  <!--            <div>-->
+  <!--              <mat-card-title class="f-s-20 f-w-500"> 8 </mat-card-title>-->
+  <!--              <mat-card-subtitle class="f-s-14 f-w-400">-->
+  <!--                Invoices-->
+  <!--              </mat-card-subtitle>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          <div class="col-5 d-flex align-items-center">-->
+  <!--            <div-->
+  <!--              class="d-flex flex-column align-items-center justify-content-end"-->
+  <!--            >-->
+  <!--              <apx-chart-->
+  <!--                [series]="pie4Chart.series"-->
+  <!--                [chart]="pie4Chart.chart"-->
+  <!--                [labels]="pie4Chart.labels"-->
+  <!--                [tooltip]="pie4Chart.tooltip"-->
+  <!--                [legend]="pie4Chart.legend"-->
+  <!--                [colors]="pie4Chart.colors"-->
+  <!--                [dataLabels]="pie4Chart.dataLabels"-->
+  <!--                [plotOptions]="pie4Chart.plotOptions"-->
+  <!--                [stroke]="pie4Chart.stroke"-->
+  <!--              >-->
+  <!--              </apx-chart>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </mat-card-content>-->
+  <!--    </mat-card>-->
+  <!--  </div>-->
+</div>

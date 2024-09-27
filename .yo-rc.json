@@ -1,0 +1,11 @@
+{
+  "generator-jhipster": {
+    "baseName": "totolocatordashboardstaging",
+    "creationTimestamp": 1722590130611,
+    "entities": [],
+    "herokuAppName": "totolocator-dashboard-staging",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "17",
+    "jhipsterVersion": "8.0.0"
+  }
+}
