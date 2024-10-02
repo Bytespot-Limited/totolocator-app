@@ -3,7 +3,7 @@ import {SchoolViewComponent} from '../schools/school-view/school-view.component'
 import {MatDialog} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {environment} from 'environment';
-import {organizationForm} from "../forms/registration-form-config";
+import {organizationForm} from "../forms/institution-registration-form-config";
 import {IForm} from "../forms/interfaces/IForm";
 import {Observable} from "rxjs";
 

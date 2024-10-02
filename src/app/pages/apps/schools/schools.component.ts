@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {SchoolViewComponent} from "./school-view/school-view.component";
-import {MatDialog} from "@angular/material/dialog";
-import {environment} from "../../../../../environment";
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { SchoolViewComponent } from "./school-view/school-view.component";
+import { MatDialog } from "@angular/material/dialog";
+import { environment } from "../../../../../environment";
+import { IForm } from '../forms/interfaces/IForm';
+import { FormInput } from '../reusable/crud-form/FormInput';
+import { schoolForm } from '../forms/school-registration-form-config';
 
 
 @Component({
@@ -10,6 +13,8 @@ import {environment} from "../../../../../environment";
   templateUrl: './schools.component.html',
 })
 export class SchoolsComponent implements OnInit {
+  schoolForm = schoolForm as IForm;
+
   displayedColumns: string[] = [
     'id',
     'name',
@@ -35,10 +40,19 @@ export class SchoolsComponent implements OnInit {
   // Fetch schools from the backend
   getSchools() {
     this.http.get(environment.apiUrl.concat("schools?page=0&size=20"))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting schools data: {}", res)
-    })
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting schools data: {}", res)
+      })
+  }
+
+  addSchool(request: any): any {
+    this.http.post(environment.apiUrl.concat("schools"), request)
+      .subscribe((res: any) => {
+        var school = res
+        console.log("Added school: {}", res)
+        return school;
+      })
   }
 
   // Get school record to edit
@@ -57,31 +71,48 @@ export class SchoolsComponent implements OnInit {
   onViewItem(record: any) {
     console.log("Viewing a school")
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'View'},
+      data: {
+        action: 'View',
+        formInput: schoolForm
+      },
     });
   }
 
   onAddItem(record: any) {
     console.log("Adding a school")
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'View', schoolData: record}, // Pass relevant data
+      data: {
+        action: 'View', 
+        schoolData: record,
+        formInput: schoolForm
+      }, // Pass relevant data
     }).afterClosed().subscribe(result => {
       if (result) { // Check if dialog closed with a value
         console.log("Creation value from School View:", result);
         // Use the received value (result) here
+        if (result.action === 'Add'){
+          this.addSchool(result.data);
+        }
       }
     });
   }
 
   onUpdateItem(record: any) {
     console.log("Updating a school")
-    this.dialog.open(SchoolViewComponent);
+    this.dialog.open(SchoolViewComponent),{
+      data: {
+        action: 'Update',
+        formInput: schoolForm
+      }
+    };
   }
 
   onDeleteItem(record: any) {
     console.log("Deleting a school")
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete'},
+      data: { action: 'Delete',
+        formInput: schoolForm
+       },
     });
   }
 
@@ -89,10 +120,10 @@ export class SchoolsComponent implements OnInit {
   onFilterValue(record: any) {
     console.log("Filtering records of schools: ", record);
     this.http.get(environment.apiUrl.concat("schools?name.contains=" + record))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting schools data: {}", res)
-    })
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting schools data: {}", res)
+      })
   }
 
 }

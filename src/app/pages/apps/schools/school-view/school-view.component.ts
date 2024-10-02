@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Inject, Optional, Output} from '@angular/core';
-import {DatePipe} from "@angular/common";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormGroup} from "@angular/forms";
-import {IForm} from "../../forms/interfaces/IForm";
+import { Component, EventEmitter, Inject, Optional, Output } from '@angular/core';
+import { DatePipe } from "@angular/common";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormGroup } from "@angular/forms";
+import { IForm } from "../../forms/interfaces/IForm";
 
 @Component({
   selector: 'app-school-view',
@@ -26,7 +26,7 @@ export class SchoolViewComponent {
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.local_data = {...data};
+    this.local_data = { ...data };
     this.action = this.local_data.action;
     this.formInput = this.local_data.formInput;
 
@@ -43,11 +43,11 @@ export class SchoolViewComponent {
   }
 
   doAction(): void {
-    this.dialogRef.close({event: this.action, data: this.local_data});
+    this.dialogRef.close({ event: this.action, data: this.local_data });
   }
 
   closeDialog(): void {
-    this.dialogRef.close({event: 'Cancel'});
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
   selectFile(event: any): void {
@@ -72,7 +72,7 @@ export class SchoolViewComponent {
 
   onCreationValue(event: any) {
     // Process the event data here if needed
-    this.dialogRef.close({action: 'Add', data: event});
+    this.dialogRef.close({ action: 'Add', data: event });
   }
 
 
