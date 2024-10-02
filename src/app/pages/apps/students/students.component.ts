@@ -2,6 +2,10 @@ import {Component} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
+import {IForm} from "../forms/interfaces/IForm";
+import { studentForm } from '../forms/student-registration-form-config';
+import { environment } from 'environment';
+
 
 /**
  * {
@@ -73,6 +77,7 @@ import {SchoolViewComponent} from "../schools/school-view/school-view.component"
   templateUrl: './students.component.html'
 })
 export class StudentsComponent {
+  studentForm = studentForm as IForm;
 
   displayedColumns: string[] = [
     'id',
@@ -100,42 +105,73 @@ export class StudentsComponent {
 
   // Fetch schools from the backend
   getStudents() {
-    this.http.get("https://harmony-api-d3c63c482f2e.herokuapp.com/api/students?page=0&size=20")
+    this.http.get(environment.apiUrl.concat("students?page=0&size=20"))
     .subscribe((res: any) => {
       this.tableData = res
       console.log("Getting students data: {}", res)
     })
   }
 
+  addStudent(request: any): any {
+    this.http.post(environment.apiUrl.concat("students"), request)
+      .subscribe((res: any) => {
+        var student = res
+        console.log("Added student: {}", res)
+        return student;
+      })
+  }
+
   onViewItem(record: any) {
-    console.log("Viewing a school")
+    console.log("Viewing a student")
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'View'},
+      data: {action: 'View',
+        formInput: studentForm
+      },
     });
   }
 
   onAddItem(record: any) {
-    console.log("Adding a school")
-    this.dialog.open(SchoolViewComponent);
-
+    console.log("Adding a student")
+    this.dialog.open(SchoolViewComponent, {
+      data: {
+        action: 'View', 
+        studentData: record,
+        formInput: studentForm
+      }, // Pass relevant data
+    }).afterClosed().subscribe(result => {
+      if (result) { // Check if dialog closed with a value
+        console.log("Creation value from Student View:", result);
+        // Use the received value (result) here
+        if (result.action === 'Add'){
+          this.addStudent(result.data);
+        }
+      }
+    });
   }
 
   onUpdateItem(record: any) {
-    console.log("Updating a school")
-    this.dialog.open(SchoolViewComponent);
+    console.log("Updating a student")
+    this.dialog.open(SchoolViewComponent),{
+      data: {
+        action: 'Update',
+        formInput: studentForm
+      }
+    };
   }
 
   onDeleteItem(record: any) {
-    console.log("Deleting a school")
+    console.log("Deleting a student")
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete'},
+      data: {action: 'Delete',
+        formInput: studentForm
+      },
     });
   }
 
   // Filter records
   onFilterValue(record: any) {
     console.log("Filtering records of students: ", record);
-    this.http.get("http://localhost:8080/api/students?name.contains=" + record)
+    this.http.get(environment.apiUrl.concat("students?name.contains=" + record))
     .subscribe((res: any) => {
       this.tableData = res
       console.log("Getting students data: {}", res)
