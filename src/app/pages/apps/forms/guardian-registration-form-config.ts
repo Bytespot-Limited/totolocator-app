@@ -1,4 +1,4 @@
-import {IForm} from "./interfaces/IForm";
+import { IForm } from "./interfaces/IForm";
 
 export const guardianForm: IForm = {
   formTitle: 'Guardian Form',
