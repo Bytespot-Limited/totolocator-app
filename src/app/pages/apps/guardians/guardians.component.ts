@@ -2,6 +2,9 @@ import {Component} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
+import { IForm } from '../forms/interfaces/IForm';
+import { guardianForm } from '../forms/guardian-registration-form-config';
+import { environment } from 'environment.prod';
 
 /**
  * {
@@ -25,6 +28,8 @@ import {SchoolViewComponent} from "../schools/school-view/school-view.component"
   templateUrl: './guardians.component.html'
 })
 export class GuardiansComponent {
+guardianForm = guardianForm as IForm;
+
   displayedColumns: string[] = [
     'id',
     'name',
@@ -51,7 +56,7 @@ export class GuardiansComponent {
 
   // Fetch schools from the backend
   getGuardians() {
-    this.http.get("http://localhost:8080/api/guardians?page=0&size=20")
+    this.http.get(environment.apiUrl.concat("guardians?page=0&size=20"))
     .subscribe((res: any) => {
       this.tableData = res
       console.log("Getting guardians data: {}", res)
