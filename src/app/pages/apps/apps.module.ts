@@ -26,10 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 // Driver components
-import {
-  DriverListingComponent
-} from './drivers/driver-listing/driver-listing.component';
-import { AddDriverComponent } from './drivers/add-driver/add-driver.component';
+import { DriversComponent } from './drivers/drivers.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { CrudDataTableComponent } from './reusable/crud-data-table/crud-data-table.component';
 import { CrudFormComponent } from './reusable/crud-form/crud-form.component';
@@ -73,9 +70,7 @@ import {DynamicFormComponent} from "./reusable/dynamic-form/dynamic-form.compone
   ],
   exports: [TablerIconsModule],
   declarations: [
-
-    DriverListingComponent,
-    AddDriverComponent,
+    DriversComponent,
     OrganizationsComponent,
     SchoolsComponent,
     CrudDataTableComponent,

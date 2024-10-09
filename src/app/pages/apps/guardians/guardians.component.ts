@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
-import { SchoolViewComponent } from "../schools/school-view/school-view.component";
-import { IForm } from '../forms/interfaces/IForm';
+import {Component} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {HttpClient} from "@angular/common/http";
+import {SchoolViewComponent} from "../schools/school-view/school-view.component";
+import {IForm} from "../forms/interfaces/IForm";
 import { guardianForm } from '../forms/guardian-registration-form-config';
 import { environment } from 'environment';
-import { FormInput } from '../reusable/crud-form/FormInput';
 
 /**
  * {
@@ -28,7 +27,7 @@ import { FormInput } from '../reusable/crud-form/FormInput';
   selector: 'app-guardians',
   templateUrl: './guardians.component.html'
 })
-export class GuardiansComponent implements OnInit {
+export class GuardiansComponent {
   guardianForm = guardianForm as IForm;
 
   displayedColumns: string[] = [
@@ -55,16 +54,16 @@ export class GuardiansComponent implements OnInit {
     // this.tableData = employees
   }
 
-  // Fetch guardians from the backend
+  // Fetch schools from the backend
   getGuardians() {
-    this.http.get(environment.apiUrl.concat("/guardians?page=0&size=20"))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting guardians data: {}", res)
-      })
+    this.http.get(environment.apiUrl.concat("guardians?page=0&size=20"))
+    .subscribe((res: any) => {
+      this.tableData = res
+      console.log("Getting guardians data: {}", res)
+    })
   }
 
-  addGuardian(request: any): any {
+  addOrganization(request: any): any {
     this.http.post(environment.apiUrl.concat("guardians"), request)
       .subscribe((res: any) => {
         var guardian = res
@@ -73,25 +72,11 @@ export class GuardiansComponent implements OnInit {
       })
   }
 
-  // Get guardians record to edit
-  editGuardians(data: any) {
-    //debugger
-
-  }
-
-
-  // Get guardians record to delete
-  deleteGuardians(data: any) {
-    //debugger
-
-  }
-
   onViewItem(record: any) {
     console.log("Viewing a guardian")
     this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'View',
-        FormInput: guardianForm
+      data: {action: 'View',
+        formInput: guardianForm
       },
     });
   }
@@ -100,34 +85,36 @@ export class GuardiansComponent implements OnInit {
     console.log("Adding a guardian")
     this.dialog.open(SchoolViewComponent, {
       data: {
-        action: 'Add',
-        FormInput: guardianForm
-      },
+        action: 'View', 
+        guardianData: record,
+        formInput: guardianForm
+      }, // Pass relevant data
     }).afterClosed().subscribe(result => {
-      console.log("Creation value from organization View:", result);
-      if (result.action === 'Add') {
-        this.addGuardian(result.data);
+      if (result) { // Check if dialog closed with a value
+        console.log("Creation value from Organization View:", result);
+        // Use the received value (result) here
+        if (result.action === 'Add'){
+          this.addOrganization(result.data);
+        }
       }
     });
-
   }
 
   onUpdateItem(record: any) {
     console.log("Updating a guardian")
-    this.dialog.open(SchoolViewComponent, {
+    this.dialog.open(SchoolViewComponent),{
       data: {
         action: 'Update',
-        FormInput: guardianForm
-      },
-    });
+        formInput: guardianForm
+      }
+    };
   }
 
   onDeleteItem(record: any) {
     console.log("Deleting a guardian")
     this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Delete',
-        FormInput: guardianForm
+      data: {action: 'Delete',
+        formInput: guardianForm
       },
     });
   }
@@ -136,11 +123,10 @@ export class GuardiansComponent implements OnInit {
   onFilterValue(record: any) {
     console.log("Filtering records of guardians: ", record);
     this.http.get(environment.apiUrl.concat("guardians?name.contains=" + record))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting guardians data: {}", res)
-      })
-
+    .subscribe((res: any) => {
+      this.tableData = res
+      console.log("Getting guardians data: {}", res)
+    })
   }
-
 }
+

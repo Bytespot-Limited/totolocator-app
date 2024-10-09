@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 
 
-import {DriverListingComponent} from "./drivers/driver-listing/driver-listing.component";
+import { DriversComponent } from './drivers/drivers.component';
 import {SchoolsComponent} from "./schools/schools.component";
 import {SchoolStuffComponent} from "./school-stuff/school-stuff.component";
 import {GuardiansComponent} from "./guardians/guardians.component";
@@ -80,7 +80,7 @@ export const AppsRoutes: Routes = [
       ,
       {
         path: 'drivers',
-        component: DriverListingComponent,
+        component: DriversComponent,
         data: {
           title: 'Drivers',
           urls: [
