@@ -46,6 +46,31 @@ export const organizationForm: IForm = {
       ]
     },
     {
+      "name": "logoImageUrl",
+      "label": "Logo Image",
+      "value": "",
+      "placeholder": "Upload your logo image",
+      "class": "col-md-6",
+      "type": "file",
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Logo image is required"
+        },
+        {
+          "validatorName": "fileType",
+          "pattern": "image/jpeg,image/png",
+          "message": "Only JPEG and PNG images are allowed"
+        },
+        {
+          "validatorName": "fileSize",
+          "pattern": "1048576",
+          "message": "Image size should not exceed 1MB"
+        }
+      ]
+    },
+    {
       "name": "phoneNumber",
       "label": "Phone Number",
       "value": "",
