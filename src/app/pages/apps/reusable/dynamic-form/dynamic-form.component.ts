@@ -54,6 +54,8 @@ export class DynamicFormComponent {
     this.dynamicFormGroup.reset();
   }
 
+
+  //Method to handle Date Time selection
   setBrowserTime(controlName: string) {
     const currentTime = new Date();
 
@@ -67,7 +69,30 @@ export class DynamicFormComponent {
     const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
     this.dynamicFormGroup.get(controlName)?.setValue(formattedDateTime);
-}
+  }
+
+  // Method to handle file selection
+  onFileSelected(event: Event, controlName: string) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!validTypes.includes(file.type)) {
+        alert('Please upload a valid image file (JPEG, JPG, PNG)');
+        return;
+      }
+      const maxSizeInMB = 5; // Example: 5 MB
+      if (file.size > maxSizeInMB * 1024 * 1024) {
+        alert(`File size must not exceed ${maxSizeInMB} MB`);
+        return;
+      }
+
+      this.dynamicFormGroup.get(controlName)?.setValue(file);
+    }
+  }
+
+
 
 
   getErrorMessage(control: FormControls): string {

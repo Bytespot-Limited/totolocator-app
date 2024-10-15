@@ -85,6 +85,22 @@ export const driverForm: IForm = {
           "message": "Email address is Required"
         }
       ]
-    }
+    },
+  //   {
+  //     "name": "fileUpload",
+  //     "label": "Upload Image",
+  //     "value": "",
+  //     "placeholder": "Choose an image...",
+  //     "class": "col-sm-12 d-flex align-items-center",
+  //     "type": "file",
+  //     "validators": [
+  //         {
+  //             "validatorName": "required",
+  //             "pattern": "",
+  //             "message": "Image file is required"
+  //         }
+  //     ]
+  // }
+  
   ]
 }
