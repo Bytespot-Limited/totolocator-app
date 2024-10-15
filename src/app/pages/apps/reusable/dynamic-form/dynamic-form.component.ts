@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {IForm} from "../../forms/interfaces/IForm";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
-import {FormControls} from "../../forms/interfaces/form-controls";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IForm } from "../../forms/interfaces/IForm";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
+import { FormControls } from "../../forms/interfaces/form-controls";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -17,7 +17,7 @@ export class DynamicFormComponent {
 
   constructor(private fb: FormBuilder) {
     console.log("Received form input:", this.form);
-    this.dynamicFormGroup = fb.group({}, {updateOn: 'submit'});
+    this.dynamicFormGroup = fb.group({}, { updateOn: 'submit' });
   }
 
   ngOnInit(): void {
@@ -54,16 +54,21 @@ export class DynamicFormComponent {
     this.dynamicFormGroup.reset();
   }
 
-   // Method to get and set the browser time in HH:MM format
-   setBrowserTime(controlName: string) {
+  setBrowserTime(controlName: string) {
     const currentTime = new Date();
-    const hours = currentTime.getHours().toString().padStart(2, '0');
-    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-    this.browserTime = `${hours}:${minutes}`;
 
-    // Set the form control value to the browser time
-    this.dynamicFormGroup.get(controlName)?.setValue(this.browserTime);
-  }
+    const year = currentTime.getFullYear();
+    const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentTime.getDate()).padStart(2, '0');
+    const hours = String(currentTime.getHours()).padStart(2, '0');
+    const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+    const seconds = '00';
+
+    const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+
+    this.dynamicFormGroup.get(controlName)?.setValue(formattedDateTime);
+}
+
 
   getErrorMessage(control: FormControls): string {
     const myFormControl = this.dynamicFormGroup.get(control.name);

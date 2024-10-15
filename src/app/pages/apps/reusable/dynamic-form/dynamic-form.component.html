@@ -65,13 +65,11 @@
                 </mat-form-field>
               </div>
 
-              <!-- Display time input -->
-              <div class="col-sm-12" *ngIf="control.type === 'time'">
+              <!-- Display date and time input -->
+              <div class="col-sm-12" *ngIf="control.type === 'datetime-local'">
                 <mat-form-field appearance="outline" class="w-100">
-                  <input matInput placeholder="{{control.placeholder}}" formControlName="{{control?.name}}" type="time"
-                    class="form-control" [value]="browserTime" 
-                  (focus)="setBrowserTime(control.name)" 
-                  />
+                  <input matInput placeholder="{{control.placeholder}}" formControlName="{{control?.name}}"
+                    type="datetime-local" class="form-control" (focus)="setBrowserTime(control.name)" />
                   <mat-icon matPrefix class="op-5">
                     <i-tabler name="clock" class="icon-20 d-flex"></i-tabler>
                   </mat-icon>
@@ -84,6 +82,7 @@
                   </mat-hint>
                 </mat-form-field>
               </div>
+
 
 
             </div>
