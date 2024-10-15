@@ -1,7 +1,8 @@
-import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { HttpClient } from "@angular/common/http";
+import { ActivatedRoute } from "@angular/router";
+import { environment } from 'environment';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class StudentTripComponent implements OnInit {
     id: 1,
     status: ''
   }
-  students: any[] = [];
+  students: any[];
   id: any;
 
   searchText: any;
@@ -37,11 +38,12 @@ export class StudentTripComponent implements OnInit {
 
   // Get students on the given trip
   getStudentsOnTrip(tripId: number) {
-    this.http.get("https://harmony-api-d3c63c482f2e.herokuapp.com/api/student-trips?tripId.equals=" + tripId + "&page=0&size=20")
-    .subscribe((res: any) => {
-      console.log("Getting students in the trip data: {}", res)
-      this.students = res;
-    })
+    // this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"))
+    this.http.get(environment.apiUrl.concat("student-trips/" + tripId))
+      .subscribe((res: any) => {
+        this.students = res.students; 
+        console.log("Getting students in the trip data: {}", res)
+      })
 
 
   }
@@ -75,7 +77,7 @@ export class StudentTripComponent implements OnInit {
 
   }
 
-// Update student trip i.e pickup of drop off
+  // Update student trip i.e pickup of drop off
   updateStudentOnTrip(tripId: number, status: string) {
     this.actionPojo = {
       id: tripId,
@@ -106,11 +108,11 @@ export class StudentTripComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Confirm') {
         console.log("Confirmed update of student trip.")
-        this.http.patch("http://localhost:8080/api/student-trips/" + this.actionPojo.id, this.actionPojo)
-        .subscribe((res: any) => {
-          console.log("Updated the student trip: {}", res);
-          this.getStudentsOnTrip(this.id)
-        })
+        this.http.patch(environment.apiUrl + this.actionPojo.id, this.actionPojo)
+          .subscribe((res: any) => {
+            console.log("Updated the student trip: {}", res);
+            this.getStudentsOnTrip(this.id)
+          })
       } else if (result.event === 'Cancel') {
         console.log("Cancel update of student trip.")
       }
@@ -138,11 +140,11 @@ export class DialogBoxComponent {
   }
 
   doAction(): void {
-    this.dialogRef.close({event: 'Confirm'});
+    this.dialogRef.close({ event: 'Confirm' });
   }
 
   closeDialog(): void {
-    this.dialogRef.close({event: 'Cancel'});
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
 }

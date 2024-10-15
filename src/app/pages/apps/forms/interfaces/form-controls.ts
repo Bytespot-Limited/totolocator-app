@@ -8,4 +8,5 @@ export interface FormControls {
   class: string;
   type: string;
   validators: Validators[];
+  options?: { label: string, value: string }[]; 
 }

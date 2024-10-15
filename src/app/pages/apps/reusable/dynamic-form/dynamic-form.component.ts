@@ -13,6 +13,7 @@ export class DynamicFormComponent {
 
   @Input() form!: IForm;
   dynamicFormGroup: FormGroup;
+  browserTime: string;
 
   constructor(private fb: FormBuilder) {
     console.log("Received form input:", this.form);
@@ -51,6 +52,17 @@ export class DynamicFormComponent {
   // Implement validation error message handling here
   resetForm() {
     this.dynamicFormGroup.reset();
+  }
+
+   // Method to get and set the browser time in HH:MM format
+   setBrowserTime(controlName: string) {
+    const currentTime = new Date();
+    const hours = currentTime.getHours().toString().padStart(2, '0');
+    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+    this.browserTime = `${hours}:${minutes}`;
+
+    // Set the form control value to the browser time
+    this.dynamicFormGroup.get(controlName)?.setValue(this.browserTime);
   }
 
   getErrorMessage(control: FormControls): string {
