@@ -60,13 +60,6 @@ export class OrganizationsComponent implements OnInit {
 
   }
 
-
-  // Get organizations record to delete
-  deleteOrgaization(data: any) {
-    //debugger
-
-  }
-
   onViewItem(record: any) {
     console.log("Viewing a organization")
     this.dialog.open(SchoolViewComponent, {
@@ -104,14 +97,33 @@ export class OrganizationsComponent implements OnInit {
   }
 
   onDeleteItem(record: any) {
-    console.log("Deleting a organization")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Delete',
-        formInput: organizationForm
-      },
+    console.log("Deleting an organisation");
+
+    const dialogRef = this.dialog.open(SchoolViewComponent, {
+        data: {
+            action: 'Delete',
+            local_data: record,
+            errorMessage: '' // Initialize errorMessage
+        },
     });
-  }
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result?.event === 'Delete') {
+            this.deleteOrganisation(record.id).subscribe(
+                response => {
+                    console.log('Organisation deleted successfully', response);
+                },
+                error => {
+                    console.error('Error deleting organisation', error);
+                    // Update the dialog data with the error message
+                    dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
+                    // Trigger change detection manually
+                    dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
+                }
+            );
+        }
+    });
+}
 
   // Filter records
   onFilterValue(record: any) {
@@ -125,6 +137,10 @@ export class OrganizationsComponent implements OnInit {
 
   onCreationValue(record: any) {
     console.log("Creating an organization: " + record)
+  }
+
+  deleteOrganisation(id: string) {
+    return this.http.delete(environment.apiUrl.concat(`organizations/${id}`));
   }
 
 
