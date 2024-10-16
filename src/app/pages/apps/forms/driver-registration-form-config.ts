@@ -45,6 +45,68 @@ export const driverForm: IForm = {
         }
       ]
     },
+    {
+      "name": "nationalId",
+      "label": "National Id Number",
+      "value": "",
+      "placeholder": "e.g. 12345678",
+      "class": "col-md-6",
+      "type": "text",
+      "validators": [
+        {
+          "validatorName": "pattern",
+          "pattern": "^[0-9]{8}$",  // Adjust according to the ID format
+          "message": "National ID number must be 8 digits long."
+        },
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "National ID number is required."
+        }
+      ]
+    },
+    
+    {
+      "name": "emailAddress",
+      "label": "Email",
+      "value": "",
+      "placeholder": "e.g admin@makinischools.com",
+      "class": "col-md-6",
+      "type": "text",
+      "validators": [
+        {
+          "validatorName": "pattern",
+          "pattern": "",
+          "message": "Email address should be 8-15 characters in uppercase"
+        },
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Email address is Required"
+        }
+      ]
+    },
+    {
+      "name": "dob",
+      "label": "Date of Birth",
+      "value": "",
+      "placeholder": "YYYY-MM-DD",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "date",
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Date of Birth is required."
+        },
+        // {
+        //   "validatorName": "minAge",
+        //   "minAge": 18,
+        //   "message": "You must be at least 18 years old."
+        // }
+      ]
+    },
+    
     // {
     //   "name": "phoneNumber",
     //   "label": "Phone Number",

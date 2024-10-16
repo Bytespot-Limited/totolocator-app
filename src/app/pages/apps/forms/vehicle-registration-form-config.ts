@@ -6,7 +6,7 @@ export const vehicleForm: IForm = {
   resetBtnTitle: 'Cancel',
   formControls: [
     {
-      "name": "name",
+      "name": "numberPlate",
       "label": "Vehicle Plate Number",
       "value": "",
       "placeholder": "e.g KDP 099Y",
@@ -16,7 +16,7 @@ export const vehicleForm: IForm = {
         {
           "validatorName": "pattern",
           "pattern": "^[a-zA-Z0-9\\s]+$",
-          "message": "Name should have only alphabet characters"
+          "message": "Number plate should have number and text only"
         },
         {
           "validatorName": "required",
@@ -67,9 +67,9 @@ export const vehicleForm: IForm = {
       "name": "creationDate",
       "label": "Date added",
       "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
+      "placeholder": "YYYY-MM-DD",
       "class": "col-sm-12 d-flex align-items-center",
-      "type": "datetime-local",
+      "type": "date",
       "validators": [
         {
           "validatorName": "required",

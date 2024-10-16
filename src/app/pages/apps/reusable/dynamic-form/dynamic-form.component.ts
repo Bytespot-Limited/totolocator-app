@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IForm } from "../../forms/interfaces/IForm";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { FormControls } from "../../forms/interfaces/form-controls";
 
@@ -10,10 +10,8 @@ import { FormControls } from "../../forms/interfaces/form-controls";
 })
 export class DynamicFormComponent {
   @Output() onCreationValue = new EventEmitter<any>();
-
   @Input() form!: IForm;
   dynamicFormGroup: FormGroup;
-  browserTime: string;
 
   constructor(private fb: FormBuilder) {
     console.log("Received form input:", this.form);
@@ -25,6 +23,8 @@ export class DynamicFormComponent {
       const formGroup: any = {};
       this.form.formControls.forEach((control: any) => {
         const controlValidators: any = [];
+
+        // Add validators based on the control definition
         if (control.validators) {
           control.validators.forEach((val: any) => {
             if (val.validatorName === 'required') controlValidators.push(Validators.required);
@@ -32,10 +32,15 @@ export class DynamicFormComponent {
             if (val.validatorName === 'minlength') controlValidators.push(Validators.minLength(val.minLength));
             if (val.validatorName === 'pattern') controlValidators.push(Validators.pattern(val.pattern));
             if (val.validatorName === 'maxlength') controlValidators.push(Validators.maxLength(val.maxLength));
+            if (val.validatorName === 'minAge' && val.minAge) {
+              controlValidators.push(this.minAgeValidator(val.minAge)); // Custom validator
+            }
           });
         }
+
         formGroup[control.name] = [control.value || '', controlValidators];
       });
+
       this.dynamicFormGroup = this.fb.group(formGroup);
     }
   }
@@ -48,26 +53,14 @@ export class DynamicFormComponent {
     }
   }
 
-
-  // Implement validation error message handling here
   resetForm() {
     this.dynamicFormGroup.reset();
   }
 
-
-  //Method to handle Date Time selection
+  // Method to handle Date Time selection
   setBrowserTime(controlName: string) {
     const currentTime = new Date();
-
-    const year = currentTime.getFullYear();
-    const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(currentTime.getDate()).padStart(2, '0');
-    const hours = String(currentTime.getHours()).padStart(2, '0');
-    const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-    const seconds = '00';
-
-    const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-
+    const formattedDateTime = currentTime.toISOString().slice(0, 16); // Adjust for "datetime-local" format
     this.dynamicFormGroup.get(controlName)?.setValue(formattedDateTime);
   }
 
@@ -75,34 +68,44 @@ export class DynamicFormComponent {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
-  
       const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
       if (!validTypes.includes(file.type)) {
         alert('Please upload a valid image file (JPEG, JPG, PNG)');
         return;
       }
-      
+
       const maxSizeInMB = 5; // Example: 5 MB
       if (file.size > maxSizeInMB * 1024 * 1024) {
         alert(`File size must not exceed ${maxSizeInMB} MB`);
         return;
       }
-  
-      // Instead of setting the file directly to the form control, you can store it in the form group
-      this.dynamicFormGroup.get(controlName)?.setValue(file.name); // Store the file name or a reference if needed
+
+      this.dynamicFormGroup.get(controlName)?.setValue(file.name);
       console.log('Selected file:', file.name);
     }
   }
-  
 
+  // Custom validator for minimum age
+  minAgeValidator(minAge: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) return null; // Don't validate if there's no value
+      const dateOfBirth = new Date(control.value);
+      const today = new Date();
+      const age = today.getFullYear() - dateOfBirth.getFullYear();
+      const isBirthdayPassed = today.getMonth() > dateOfBirth.getMonth() || 
+        (today.getMonth() === dateOfBirth.getMonth() && today.getDate() >= dateOfBirth.getDate());
+      const finalAge = isBirthdayPassed ? age : age - 1;
 
-
+      return finalAge < minAge ? { 'minAge': { value: control.value } } : null;
+    };
+  }
 
   getErrorMessage(control: FormControls): string {
     const myFormControl = this.dynamicFormGroup.get(control.name);
     let errorMessage = '';
-    control.validators.forEach((val) => {
 
+    control.validators.forEach((val) => {
       if (myFormControl?.hasError(val.validatorName as string)) {
         errorMessage = val.message as string;
       }
