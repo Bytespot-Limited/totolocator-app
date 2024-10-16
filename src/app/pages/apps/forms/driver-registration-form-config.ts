@@ -26,23 +26,23 @@ export const driverForm: IForm = {
       ]
     },
     {
-      "name": "phoneNumber",
-      "label": "Phone Number",
+      "name": "dob",
+      "label": "Date of Birth",
       "value": "",
-      "placeholder": "e.g. 0712345678",
-      "class": "col-md-6",
-      "type": "text",
+      "placeholder": "YYYY-MM-DD",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "datetime-local",
       "validators": [
-        {
-          "validatorName": "pattern",
-          "pattern": "^(\\+254|0)[6-9][0-9]{8}$",
-          "message": "Phone number must start with 0 or +254 and be 10 digits long."
-        },
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Phone number is required."
-        }
+          "message": "Date of Birth is required."
+        },
+        // {
+        //   "validatorName": "minAge",
+        //   "minAge": 18,
+        //   "message": "You must be at least 18 years old."
+        // }
       ]
     },
     {
@@ -65,7 +65,21 @@ export const driverForm: IForm = {
         }
       ]
     },
-    
+    {
+      "name": "profileImageUrl",
+      "label": "Upload Image",
+      "value": "",
+      "placeholder": "Choose an image...",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "file",
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Image file is required"
+        // }
+      ]
+    },
     {
       "name": "emailAddress",
       "label": "Email",
@@ -87,58 +101,22 @@ export const driverForm: IForm = {
       ]
     },
     {
-      "name": "dob",
-      "label": "Date of Birth",
+      "name": "phoneNumber",
+      "label": "Phone Number",
       "value": "",
-      "placeholder": "YYYY-MM-DD",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "date",
+      "placeholder": "e.g. 0712345678",
+      "class": "col-md-6",
+      "type": "text",
       "validators": [
         {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Date of Birth is required."
+          "validatorName": "pattern",
+          "pattern": "^(\\+254|0)[6-9][0-9]{8}$",
+          "message": "Phone number must start with 0 or +254 and be 10 digits long."
         },
-        // {
-        //   "validatorName": "minAge",
-        //   "minAge": 18,
-        //   "message": "You must be at least 18 years old."
-        // }
-      ]
-    },
-    
-    // {
-    //   "name": "phoneNumber",
-    //   "label": "Phone Number",
-    //   "value": "",
-    //   "placeholder": "+25470011233",
-    //   "class": "col-md-6",
-    //   "type": "text",
-    //   "validators": [
-    //     {
-    //       "validatorName": "pattern",
-    //       "pattern": "",
-    //       "message": "Phone number should be 8-15 characters in uppercase"
-    //     },
-    //     {
-    //       "validatorName": "required",
-    //       "pattern": "",
-    //       "message": "Phone number is Required"
-    //     }
-    //   ]
-    // },
-    {
-      "name": "fileUpload",
-      "label": "Upload Image",
-      "value": "",
-      "placeholder": "Choose an image...",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "file",
-      "validators": [
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Image file is required"
+          "message": "Phone number is required."
         }
       ]
     },
@@ -161,6 +139,29 @@ export const driverForm: IForm = {
         }
       ]
     },
+
+    // {
+    //   "name": "phoneNumber",
+    //   "label": "Phone Number",
+    //   "value": "",
+    //   "placeholder": "+25470011233",
+    //   "class": "col-md-6",
+    //   "type": "text",
+    //   "validators": [
+    //     {
+    //       "validatorName": "pattern",
+    //       "pattern": "",
+    //       "message": "Phone number should be 8-15 characters in uppercase"
+    //     },
+    //     {
+    //       "validatorName": "required",
+    //       "pattern": "",
+    //       "message": "Phone number is Required"
+    //     }
+    //   ]
+    // },
+
+   
     {
       "name": "entityStatus",
       "label": "Entity Status",
@@ -173,11 +174,11 @@ export const driverForm: IForm = {
         { "label": "Inactive", "value": "INACTIVE " }
       ],
       "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Entity status is Required"
-        }
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Entity status is Required"
+        // }
       ]
     },
 

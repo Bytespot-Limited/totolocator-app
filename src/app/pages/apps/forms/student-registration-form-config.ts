@@ -1,4 +1,4 @@
-import {IForm} from "./interfaces/IForm";
+import { IForm } from "./interfaces/IForm";
 
 export const studentForm: IForm = {
   formTitle: 'Student Form',
@@ -26,8 +26,65 @@ export const studentForm: IForm = {
       ]
     },
     {
-      "name": "location",
-      "label": "Location",
+      "name": "dob",
+      "label": "Date of Birth",
+      "value": "",
+      "placeholder": "YYYY-MM-DD",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "date",
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Date of Birth is required."
+        },
+        // {
+        //   "validatorName": "minAge",
+        //   "minAge": 18,
+        //   "message": "You must be at least 18 years old."
+        // }
+      ]
+    },
+    {
+      "name": "classLevel",
+      "label": "Class Level",
+      "value": "",
+      "placeholder": "Class Level",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [
+        { "label": "Grade 1", "value": "GRADE_1" },
+        { "label": "Grade 2", "value": "GRADE_2" },
+        { "label": "Grade 3", "value": "GRADE_3" },
+        { "label": "Grade 4", "value": "GRADE_4" },
+        { "label": "Grade 5", "value": "GRADE_5" }
+      ],
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Entity status is Required"
+        }
+      ]
+    },
+    {
+      "name": "profileImageUrl",
+      "label": "Profile Image",
+      "value": "",
+      "placeholder": "Choose an image...",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "file",
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Image file is required"
+        // }
+      ]
+    },
+    {
+      "name": "homeAddress",
+      "label": "Home Address",
       "value": "",
       "placeholder": "e.g Lavington, Nairobi",
       "class": "col-md-6",
@@ -36,55 +93,139 @@ export const studentForm: IForm = {
         {
           "validatorName": "pattern",
           "pattern": "^[a-zA-Z\\s]+$",
-          "message": "Location should be 8-15 characters in uppercase"
+          "message": "Home Address should be 8-15 characters in uppercase"
         },
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Location is Required"
+          "message": "Home Address is Required"
         }
       ]
     },
     {
-      "name": "phoneNumber",
-      "label": "Phone Number",
+      "name": "longitude",
+      "label": "Longitude",
       "value": "",
-      "placeholder": "+25470011233",
+      "placeholder": "e.g. -122.4194",
       "class": "col-md-6",
       "type": "text",
       "validators": [
         {
           "validatorName": "pattern",
-          "pattern": "",
-          "message": "Phone number should be 8-15 characters in uppercase"
+          "pattern": "^-?\\d{1,3}(\\.\\d+)?$",
+          "message": "Longitude must be a valid number between -180 and 180."
         },
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Longitude is required."
+        // }
+      ]
+    },
+    {
+      "name": "latitude",
+      "label": "Latitude",
+      "value": "",
+      "placeholder": "e.g. 37.7749",
+      "class": "col-md-6",
+      "type": "text",
+      "validators": [
+        {
+          "validatorName": "pattern",
+          "pattern": "^-?\\d{1,2}(\\.\\d+)?$",
+          "message": "Latitude must be a valid number between -90 and 90."
+        },
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Latitude is required."
+        // }
+      ]
+    },
+    {
+      "name": "billingStatus",
+      "label": "Billing Status",
+      "value": "",
+      "placeholder": "e.g. ACTIVE",
+      "class": "col-md-6",
+      "type": "select",
+      "options": [
+        { "value": "ACTIVE", "label": "Active" },
+        { "value": "OVERDUE", "label": "Overdue" }
+      ],
+      "validators": [
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Phone number is Required"
+          "message": "Billing status is required."
         }
+      ]
+    },
+    {
+      "name": "nextBillingCycle",
+      "label": "Next Billing Cycle",
+      "value": "",
+      "placeholder": "YYYY-MM-DD",
+      "class": "col-md-6",
+      "type": "date",
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Next billing cycle is required."
+        }
+      ]
+    },
+    {
+      "name": "entityStatus",
+      "label": "Entity Status",
+      "value": "",
+      "placeholder": "e.g. ACTIVE",
+      "class": "col-md-6",
+      "type": "select",  // Assuming a dropdown for enum values
+      "options": [
+        { "value": "ACTIVE", "label": "Active" },
+        { "value": "INACTIVE", "label": "Inactive" }
+      ],
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Entity status is required."
+        // }
       ]
     },
 
     {
-      "name": "emailAddress",
-      "label": "Email",
+      "name": "creationDate",
+      "label": "Creation Date",
       "value": "",
-      "placeholder": "e.g admin@makinischools.com",
+      "placeholder": "YYYY-MM-DDTHH:MM",
       "class": "col-md-6",
-      "type": "text",
+      "type": "datetime-local",
       "validators": [
-        {
-          "validatorName": "pattern",
-          "pattern": "",
-          "message": "Email address should be 8-15 characters in uppercase"
-        },
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Email address is Required"
-        }
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Creation date is required."
+        // }
+      ]
+    },
+    {
+      "name": "modifiedDate",
+      "label": "Modified Date",
+      "value": "",
+      "placeholder": "YYYY-MM-DDTHH:MM",
+      "class": "col-md-6",
+      "type": "datetime-local",
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Modified date is required."
+        // }
       ]
     }
+
   ]
 }

@@ -43,7 +43,7 @@ export class DriversComponent {
       });
   }
 
-  addStudent(request: any): any {
+  addDriver(request: any): any {
     this.http.post(environment.apiUrl.concat("drivers"), request)
       .subscribe((res: any) => {
         console.log("Added driver: {}", res);
@@ -70,8 +70,8 @@ export class DriversComponent {
       },
     }).afterClosed().subscribe(result => {
       if (result && result.action === 'Add') {
-        console.log("Creation value from Student View:", result);
-        this.addStudent(result.data);
+        console.log("Creation value from Driver View:", result);
+        this.addDriver(result.data);
       }
     });
   }

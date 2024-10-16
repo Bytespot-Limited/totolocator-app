@@ -137,9 +137,9 @@ export class StudentsComponent {
         action: 'View', 
         studentData: record,
         formInput: studentForm
-      }, // Pass relevant data
+      }, 
     }).afterClosed().subscribe(result => {
-      if (result) { // Check if dialog closed with a value
+      if (result) {
         console.log("Creation value from Student View:", result);
         // Use the received value (result) here
         if (result.action === 'Add'){
@@ -161,11 +161,30 @@ export class StudentsComponent {
 
   onDeleteItem(record: any) {
     console.log("Deleting a student")
-    this.dialog.open(SchoolViewComponent, {
+    const dialogRef = this.dialog.open(SchoolViewComponent, {
       data: {action: 'Delete',
         formInput: studentForm
       },
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.event === 'Delete') {
+          this.deleteStudent(record.id).subscribe(
+              response => {
+                  console.log('Vehicle deleted successfully', response);
+                  // Optionally, refresh the list or update the UI
+              },
+              error => {
+                  console.error('Error deleting vehicle', error);
+                  // Pass the error message back to the dialog
+                  dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
+              }
+          );
+      }
+  });
+  }
+
+  deleteStudent(id: string) {
+    return this.http.delete(environment.apiUrl.concat(`students/${id}`));
   }
 
   // Filter records
