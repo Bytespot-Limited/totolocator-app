@@ -71,26 +71,29 @@ export class DynamicFormComponent {
     this.dynamicFormGroup.get(controlName)?.setValue(formattedDateTime);
   }
 
-  // Method to handle file selection
   onFileSelected(event: Event, controlName: string) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
-
+  
       const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
       if (!validTypes.includes(file.type)) {
         alert('Please upload a valid image file (JPEG, JPG, PNG)');
         return;
       }
+      
       const maxSizeInMB = 5; // Example: 5 MB
       if (file.size > maxSizeInMB * 1024 * 1024) {
         alert(`File size must not exceed ${maxSizeInMB} MB`);
         return;
       }
-
-      this.dynamicFormGroup.get(controlName)?.setValue(file);
+  
+      // Instead of setting the file directly to the form control, you can store it in the form group
+      this.dynamicFormGroup.get(controlName)?.setValue(file.name); // Store the file name or a reference if needed
+      console.log('Selected file:', file.name);
     }
   }
+  
 
 
 
