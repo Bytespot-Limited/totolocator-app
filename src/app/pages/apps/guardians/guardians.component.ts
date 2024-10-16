@@ -63,7 +63,7 @@ export class GuardiansComponent {
     })
   }
 
-  addOrganization(request: any): any {
+  addGuardian(request: any): any {
     this.http.post(environment.apiUrl.concat("guardians"), request)
       .subscribe((res: any) => {
         var guardian = res
@@ -94,7 +94,7 @@ export class GuardiansComponent {
         console.log("Creation value from Organization View:", result);
         // Use the received value (result) here
         if (result.action === 'Add'){
-          this.addOrganization(result.data);
+          this.addGuardian(result.data);
         }
       }
     });
@@ -112,11 +112,31 @@ export class GuardiansComponent {
 
   onDeleteItem(record: any) {
     console.log("Deleting a guardian")
-    this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete',
-        formInput: guardianForm
-      },
+    const dialogRef = this.dialog.open(SchoolViewComponent, {
+      data: {
+        action: 'Delete',
+        local_data: record 
+      }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.event === 'Delete') {
+        this.deleteGuardian(record.id).subscribe(
+          response => {
+            console.log('Guardian deleted successfully', response);
+            // Optionally, refresh the list or update the UI
+          },
+          error => {
+            console.error('Error deleting guardian', error);
+            // Pass the error message back to the dialog
+            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
+          }
+        );
+      }
+    });
+  }
+  deleteGuardian(id: string) {
+    return this.http.delete(environment.apiUrl.concat(`guardians/${id}`));
   }
 
   // Filter records

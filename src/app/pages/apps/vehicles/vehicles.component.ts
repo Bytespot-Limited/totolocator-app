@@ -107,28 +107,28 @@ export class VehiclesComponent implements OnInit {
     console.log("Deleting a vehicle");
 
     const dialogRef = this.dialog.open(SchoolViewComponent, {
-        data: {
-            action: 'Delete',
-            local_data: record 
-        },
+      data: {
+        action: 'Delete',
+        local_data: record
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        if (result?.event === 'Delete') {
-            this.deleteVehicle(record.id).subscribe(
-                response => {
-                    console.log('Vehicle deleted successfully', response);
-                    // Optionally, refresh the list or update the UI
-                },
-                error => {
-                    console.error('Error deleting vehicle', error);
-                    // Pass the error message back to the dialog
-                    dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
-                }
-            );
-        }
+      if (result?.event === 'Delete') {
+        this.deleteVehicle(record.id).subscribe(
+          response => {
+            console.log('Vehicle deleted successfully', response);
+            // Optionally, refresh the list or update the UI
+          },
+          error => {
+            console.error('Error deleting vehicle', error);
+            // Pass the error message back to the dialog
+            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
+          }
+        );
+      }
     });
-}
+  }
 
   deleteVehicle(id: string) {
     return this.http.delete(environment.apiUrl.concat(`fleets/${id}`));
