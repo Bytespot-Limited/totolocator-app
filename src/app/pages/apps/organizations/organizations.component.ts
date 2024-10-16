@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {SchoolViewComponent} from '../schools/school-view/school-view.component';
-import {MatDialog} from '@angular/material/dialog';
-import {HttpClient} from '@angular/common/http';
-import {environment} from 'environment';
-import {organizationForm} from "../forms/institution-registration-form-config";
-import {IForm} from "../forms/interfaces/IForm";
-import {Observable} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { SchoolViewComponent } from '../schools/school-view/school-view.component';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'environment';
+import { organizationForm } from "../forms/institution-registration-form-config";
+import { IForm } from "../forms/interfaces/IForm";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-organizations',
@@ -100,30 +100,30 @@ export class OrganizationsComponent implements OnInit {
     console.log("Deleting an organisation");
 
     const dialogRef = this.dialog.open(SchoolViewComponent, {
-        data: {
-            action: 'Delete',
-            local_data: record,
-            errorMessage: '' // Initialize errorMessage
-        },
+      data: {
+        action: 'Delete',
+        local_data: record,
+        errorMessage: ''
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        if (result?.event === 'Delete') {
-            this.deleteOrganisation(record.id).subscribe(
-                response => {
-                    console.log('Organisation deleted successfully', response);
-                },
-                error => {
-                    console.error('Error deleting organisation', error);
-                    // Update the dialog data with the error message
-                    dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
-                    // Trigger change detection manually
-                    dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
-                }
-            );
-        }
+      if (result?.event === 'Delete') {
+        this.deleteOrganisation(record.id).subscribe(
+          response => {
+            console.log('Organisation deleted successfully', response);
+          },
+          error => {
+            console.error('Error deleting organisation', error);
+            // Update the dialog data with the error message
+            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
+            // Trigger change detection manually
+            dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
+          }
+        );
+      }
     });
-}
+  }
 
   // Filter records
   onFilterValue(record: any) {

@@ -62,12 +62,6 @@ export class SchoolsComponent implements OnInit {
   }
 
 
-  // Get school record to delete
-  deleteSchool(data: any) {
-    //debugger
-
-  }
-
   onViewItem(record: any) {
     console.log("Viewing a school")
     this.dialog.open(SchoolViewComponent, {
@@ -109,10 +103,28 @@ export class SchoolsComponent implements OnInit {
 
   onDeleteItem(record: any) {
     console.log("Deleting a school")
-    this.dialog.open(SchoolViewComponent, {
-      data: { action: 'Delete',
-        formInput: schoolForm
+    const dialogRef = this.dialog.open(SchoolViewComponent, {
+      data: { 
+        action: 'Delete',
+        local_data: record,
+        errorMessage: ''
        },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.event === 'Delete') {
+        this.deleteSchool(record.id).subscribe(
+          response => {
+            console.log('School deleted successfully', response);
+          },
+          error => {
+            console.error('Error deleting school', error);
+            // Update the dialog data with the error message
+            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
+            // Trigger change detection manually
+            dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
+          }
+        );
+      }
     });
   }
 
@@ -125,5 +137,11 @@ export class SchoolsComponent implements OnInit {
         console.log("Getting schools data: {}", res)
       })
   }
+
+    // Get school record to delete
+    deleteSchool(id: string) {
+      return this.http.delete(environment.apiUrl.concat(`schools/${id}`));
+  
+    }
 
 }

@@ -1,4 +1,4 @@
-import {IForm} from "./interfaces/IForm";
+import { IForm } from "./interfaces/IForm";
 
 export const organizationForm: IForm = {
   formTitle: 'Institution Form',
@@ -53,11 +53,11 @@ export const organizationForm: IForm = {
       "class": "col-md-6",
       "type": "file",
       "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Logo image is required"
-        },
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Logo image is required"
+        // },
         {
           "validatorName": "fileType",
           "pattern": "image/jpeg,image/png",
@@ -70,27 +70,6 @@ export const organizationForm: IForm = {
         }
       ]
     },
-    {
-      "name": "phoneNumber",
-      "label": "Phone Number",
-      "value": "",
-      "placeholder": "+25470011233",
-      "class": "col-md-6",
-      "type": "text",
-      "validators": [
-        {
-          "validatorName": "pattern",
-          "pattern": "",
-          "message": "Phone number should be 8-15 characters in uppercase"
-        },
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Phone number is Required"
-        }
-      ]
-    },
-
     {
       "name": "emailAddress",
       "label": "Email",
@@ -110,8 +89,76 @@ export const organizationForm: IForm = {
           "message": "Email address is Required"
         }
       ]
+    }, 
+    {
+      "name": "phoneNumber",
+      "label": "Phone Number",
+      "value": "",
+      "placeholder": "e.g. +254712345678",
+      "class": "col-md-6",
+      "type": "text",
+      "validators": [
+        {
+          "validatorName": "pattern",
+          "pattern": "^(\\+254|0)[6-9][0-9]{8}$",
+          "message": "Phone number must start with 0 or +254 and be 10 digits long."
+        },
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Phone number is required."
+        }
+      ]
+    },
+    {
+      "name": "entityStatus",
+      "label": "Entity Status",
+      "value": "",
+      "placeholder": "Select status",
+      "class": "col-md-6",
+      "type": "select",
+      "options": [
+        { "value": "ACTIVE", "label": "Active" },
+        { "value": "INACTIVE", "label": "Inactive" }
+      ],
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Entity status is required."
+        // }
+      ]
+    },
+    {
+      "name": "creationDate",
+      "label": "Creation Date",
+      "value": "",
+      "placeholder": "YYYY-MM-DDTHH:MM",
+      "class": "col-md-6",
+      "type": "datetime-local",
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Creation date is required."
+        // }
+      ]
+    },
+    {
+      "name": "modifiedDate",
+      "label": "Modified Date",
+      "value": "",
+      "placeholder": "YYYY-MM-DDTHH:MM",
+      "class": "col-md-6",
+      "type": "datetime-local",
+      "validators": [
+        // {
+        //   "validatorName": "required",
+        //   "pattern": "",
+        //   "message": "Modified date is required."
+        // }
+      ]
     }
-
 
   ]
 }
