@@ -31,7 +31,7 @@ export const driverForm: IForm = {
       "value": "",
       "placeholder": "YYYY-MM-DD",
       "class": "col-sm-12 d-flex align-items-center",
-      "type": "datetime-local",
+      "type": "date",
       "validators": [
         {
           "validatorName": "required",

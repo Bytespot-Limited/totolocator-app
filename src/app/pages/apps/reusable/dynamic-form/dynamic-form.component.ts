@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { IForm } from "../../forms/interfaces/IForm";
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
@@ -8,24 +8,25 @@ import { FormControls } from "../../forms/interfaces/form-controls";
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html'
 })
-export class DynamicFormComponent {
+export class DynamicFormComponent implements OnInit {
   @Output() onCreationValue = new EventEmitter<any>();
   @Input() form!: IForm;
+  @Input() readOnly: boolean = false;  // Uncommented and properly declared
   dynamicFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    console.log("Received form input:", this.form);
     this.dynamicFormGroup = fb.group({}, { updateOn: 'submit' });
   }
 
   ngOnInit(): void {
+    console.log("Received form input:", this.form);
     if (this.form?.formControls) {
       const formGroup: any = {};
       this.form.formControls.forEach((control: any) => {
         const controlValidators: any = [];
 
         // Add validators based on the control definition
-        if (control.validators) {
+        if (!this.readOnly && control.validators) {
           control.validators.forEach((val: any) => {
             if (val.validatorName === 'required') controlValidators.push(Validators.required);
             if (val.validatorName === 'email') controlValidators.push(Validators.email);
@@ -33,12 +34,15 @@ export class DynamicFormComponent {
             if (val.validatorName === 'pattern') controlValidators.push(Validators.pattern(val.pattern));
             if (val.validatorName === 'maxlength') controlValidators.push(Validators.maxLength(val.maxLength));
             if (val.validatorName === 'minAge' && val.minAge) {
-              controlValidators.push(this.minAgeValidator(val.minAge)); // Custom validator
+              controlValidators.push(this.minAgeValidator(val.minAge));
             }
           });
         }
 
-        formGroup[control.name] = [control.value || '', controlValidators];
+        formGroup[control.name] = [{
+          value: control.value || '',
+          disabled: this.readOnly
+        }, controlValidators];
       });
 
       this.dynamicFormGroup = this.fb.group(formGroup);
@@ -57,10 +61,9 @@ export class DynamicFormComponent {
     this.dynamicFormGroup.reset();
   }
 
-  // Method to handle Date Time selection
   setBrowserTime(controlName: string) {
     const currentTime = new Date();
-    const formattedDateTime = currentTime.toISOString().slice(0, 16); // Adjust for "datetime-local" format
+    const formattedDateTime = currentTime.toISOString().slice(0, 16);
     this.dynamicFormGroup.get(controlName)?.setValue(formattedDateTime);
   }
 
@@ -75,7 +78,7 @@ export class DynamicFormComponent {
         return;
       }
 
-      const maxSizeInMB = 5; // Example: 5 MB
+      const maxSizeInMB = 5;
       if (file.size > maxSizeInMB * 1024 * 1024) {
         alert(`File size must not exceed ${maxSizeInMB} MB`);
         return;
@@ -86,10 +89,9 @@ export class DynamicFormComponent {
     }
   }
 
-  // Custom validator for minimum age
   minAgeValidator(minAge: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      if (!control.value) return null; // Don't validate if there's no value
+      if (!control.value) return null;
       const dateOfBirth = new Date(control.value);
       const today = new Date();
       const age = today.getFullYear() - dateOfBirth.getFullYear();

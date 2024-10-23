@@ -12,8 +12,11 @@ export class SchoolViewComponent {
   formInput: IForm;
   action: string;
   local_data: any;
+  formData: any;
+  readOnly: boolean = false;
   selectedImage: any = '';
   joiningDate: any = '';
+  id?: string;
 
   constructor(
     public datePipe: DatePipe,
@@ -23,6 +26,7 @@ export class SchoolViewComponent {
     this.local_data = { ...data };
     this.action = this.local_data.action;
     this.formInput = this.local_data.formInput;
+    this.readOnly = this.local_data.readOnly || false;
 
     // Handle joining date
     if (this.local_data.DateOfJoining !== undefined) {
@@ -40,13 +44,16 @@ export class SchoolViewComponent {
   doAction(): void {
     if (this.action === 'Delete') {
       this.dialogRef.close({ event: 'Delete', data: this.local_data });
+    } else if (this.action === 'Update') {
+      // Use the stored form data
+      this.dialogRef.close({ action: 'Update', data: this.formData });
     } else {
       this.dialogRef.close({ event: this.action, data: this.local_data });
     }
   }
 
   closeDialog(): void {
-    this.dialogRef.close({ event: 'Cancel' });
+    this.dialogRef.close({ event: 'Close' });
   }
 
   // Handle file selection
@@ -66,6 +73,10 @@ export class SchoolViewComponent {
   }
 
   onCreationValue(event: any) {
-    this.dialogRef.close({ action: 'Add', data: event });
+    if (this.action === 'Add') {
+      this.dialogRef.close({ action: 'Add', data: event });
+    } else if (this.action === 'Update') {
+      this.dialogRef.close({ action: 'Update', data: event });
+    }
   }
 }

@@ -55,19 +55,30 @@ export class SchoolsComponent implements OnInit {
       })
   }
 
-  // Get school record to edit
-  editSchool(data: any) {
-    //debugger
-
+  updateSchool(id: string, request: any): void {  // Changed return type to void
+    this.http.put(environment.apiUrl.concat(`schools/${id}`), request)
+      .subscribe({
+        next: (res: any) => {
+          console.log("Updated school:", res);
+          this.getSchools(); // Refresh the list after successful update
+        },
+        error: (error: any) => {
+          console.error("Error updating school:", error);
+          // Handle error appropriately
+        }
+      });
   }
 
-
   onViewItem(record: any) {
-    console.log("Viewing a school")
+    console.log("Viewing a school");
+    // Prepare form with populated values
+    const populatedForm = this.prepareFormWithData(record);
+
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'View',
-        formInput: schoolForm
+        formInput: populatedForm,
+        readOnly: true 
       },
     });
   }
@@ -76,7 +87,7 @@ export class SchoolsComponent implements OnInit {
     console.log("Adding a school")
     this.dialog.open(SchoolViewComponent, {
       data: {
-        action: 'View', 
+        action: 'Add',
         schoolData: record,
         formInput: schoolForm
       }, // Pass relevant data
@@ -84,7 +95,7 @@ export class SchoolsComponent implements OnInit {
       if (result) { // Check if dialog closed with a value
         console.log("Creation value from School View:", result);
         // Use the received value (result) here
-        if (result.action === 'Add'){
+        if (result.action === 'Add') {
           this.addSchool(result.data);
         }
       }
@@ -92,23 +103,48 @@ export class SchoolsComponent implements OnInit {
   }
 
   onUpdateItem(record: any) {
-    console.log("Updating a school")
-    this.dialog.open(SchoolViewComponent),{
+    console.log("Updating a school");
+    const populatedForm = this.prepareFormWithData(record);
+
+    this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Update',
-        formInput: schoolForm
+        formInput: populatedForm,
+        id: record.id
+      },
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Update dialog result:", result);
+        if (result.action === 'Update') {
+          const updateData = {
+            ...result.data,
+            id: record.id  // Ensure ID is preserved
+          };
+          this.updateSchool(record.id, updateData);
+        }
       }
-    };
+    });
   }
+
+  // Helper method to populate form with existing data
+  private prepareFormWithData(record: any): IForm {
+    const populatedForm = { ...this.schoolForm };
+    populatedForm.formControls = populatedForm.formControls.map(control => ({
+      ...control,
+      value: record[control.name] ?? control.value
+    }));
+    return populatedForm;
+  }
+
 
   onDeleteItem(record: any) {
     console.log("Deleting a school")
     const dialogRef = this.dialog.open(SchoolViewComponent, {
-      data: { 
+      data: {
         action: 'Delete',
         local_data: record,
         errorMessage: ''
-       },
+      },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result?.event === 'Delete') {
@@ -138,10 +174,9 @@ export class SchoolsComponent implements OnInit {
       })
   }
 
-    // Get school record to delete
-    deleteSchool(id: string) {
-      return this.http.delete(environment.apiUrl.concat(`schools/${id}`));
-  
-    }
+  // Get school record to delete
+  deleteSchool(id: string) {
+    return this.http.delete(environment.apiUrl.concat(`schools/${id}`));
+  }
 
 }
