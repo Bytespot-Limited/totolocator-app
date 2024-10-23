@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {SchoolViewComponent} from "../schools/school-view/school-view.component";
-import {IForm} from "../forms/interfaces/IForm";
+import { Component } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { HttpClient } from "@angular/common/http";
+import { SchoolViewComponent } from "../schools/school-view/school-view.component";
+import { IForm } from "../forms/interfaces/IForm";
 import { studentForm } from '../forms/student-registration-form-config';
 import { environment } from 'environment';
 
@@ -106,10 +106,10 @@ export class StudentsComponent {
   // Fetch schools from the backend
   getStudents() {
     this.http.get(environment.apiUrl.concat("students?page=0&size=20"))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting students data: {}", res)
-    })
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting students data: {}", res)
+      })
   }
 
   addStudent(request: any): any {
@@ -121,11 +121,29 @@ export class StudentsComponent {
       })
   }
 
+  updateStudent(id: string, request: any): void {
+    this.http.put(environment.apiUrl.concat(`students/${id}`), request)
+      .subscribe({
+        next: (res: any) => {
+          console.log("Updated student:", res);
+          this.getStudents(); // Refresh the list after successful update
+        },
+        error: (error: any) => {
+          console.error("Error updating student:", error);
+          // Handle error appropriately
+        }
+      });
+  }
+
+
   onViewItem(record: any) {
-    console.log("Viewing a student")
+    console.log("Viewing a student");
+    const populatedForm = this.prepareFormWithData(record);
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'View',
-        formInput: studentForm
+      data: {
+        action: 'View',
+        formInput: populatedForm,
+        readOnly: true 
       },
     });
   }
@@ -134,15 +152,15 @@ export class StudentsComponent {
     console.log("Adding a student")
     this.dialog.open(SchoolViewComponent, {
       data: {
-        action: 'View', 
+        action: 'Add',
         studentData: record,
         formInput: studentForm
-      }, 
+      },
     }).afterClosed().subscribe(result => {
       if (result) {
         console.log("Creation value from Student View:", result);
         // Use the received value (result) here
-        if (result.action === 'Add'){
+        if (result.action === 'Add') {
           this.addStudent(result.data);
         }
       }
@@ -150,37 +168,62 @@ export class StudentsComponent {
   }
 
   onUpdateItem(record: any) {
-    console.log("Updating a student")
-    this.dialog.open(SchoolViewComponent),{
+    console.log("Updating a student");
+    const populatedForm = this.prepareFormWithData(record);
+
+    this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Update',
-        formInput: studentForm
+        formInput: populatedForm,
+        id: record.id
+      },
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Update dialog result:", result);
+        if (result.action === 'Update') {
+          const updateData = {
+            ...result.data,
+            id: record.id  // Ensure ID is preserved
+          };
+          this.updateStudent(record.id, updateData);
+        }
       }
-    };
+    });
+  }
+
+  // Helper method to populate form with existing data
+  private prepareFormWithData(record: any): IForm {
+    const populatedForm = { ...this.studentForm };
+    populatedForm.formControls = populatedForm.formControls.map(control => ({
+      ...control,
+      value: record[control.name] ?? control.value
+    }));
+    return populatedForm;
   }
 
   onDeleteItem(record: any) {
     console.log("Deleting a student")
     const dialogRef = this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete',
+      data: {
+        action: 'Delete',
         formInput: studentForm
       },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result?.event === 'Delete') {
-          this.deleteStudent(record.id).subscribe(
-              response => {
-                  console.log('Vehicle deleted successfully', response);
-                  // Optionally, refresh the list or update the UI
-              },
-              error => {
-                  console.error('Error deleting vehicle', error);
-                  // Pass the error message back to the dialog
-                  dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
-              }
-          );
+        this.deleteStudent(record.id).subscribe(
+          response => {
+            console.log('Vehicle deleted successfully', response);
+            // Optionally, refresh the list or update the UI
+          },
+          error => {
+            console.error('Error deleting vehicle', error);
+            // Pass the error message back to the dialog
+            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
+          }
+        );
       }
-  });
+    });
   }
 
   deleteStudent(id: string) {
@@ -191,10 +234,10 @@ export class StudentsComponent {
   onFilterValue(record: any) {
     console.log("Filtering records of students: ", record);
     this.http.get(environment.apiUrl.concat("students?name.contains=" + record))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting students data: {}", res)
-    })
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting students data: {}", res)
+      })
   }
 }
 

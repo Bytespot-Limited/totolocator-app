@@ -45,7 +45,7 @@ export class OrganizationsComponent implements OnInit {
       })
   }
 
-  createOrganization(request: any): any {
+  addOrganization(request: any): any {
     this.http.post(environment.apiUrl.concat("organizations"), request)
       .subscribe((res: any) => {
         var organization = res
@@ -54,18 +54,30 @@ export class OrganizationsComponent implements OnInit {
       })
   }
 
-  // Get organizations record to edit
-  editOrganizations(data: any) {
-    //debugger
-
+  updateOrganization(id: string, request: any): void {
+    this.http.put(environment.apiUrl.concat(`organizations/${id}`), request)
+      .subscribe({
+        next: (res: any) => {
+          console.log("Updated organizations:", res);
+          this.getOrganizations(); // Refresh the list after successful update
+        },
+        error: (error: any) => {
+          console.error("Error updating organization:", error);
+          // Handle error appropriately
+        }
+      });
   }
 
   onViewItem(record: any) {
-    console.log("Viewing a organization")
+    console.log("Viewing an organization");
+    // Prepare form with populated values
+    const populatedForm = this.prepareFormWithData(record);
+
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'View',
-        formInput: organizationForm
+        formInput: populatedForm,
+        readOnly: true
       },
     });
   }
@@ -75,25 +87,52 @@ export class OrganizationsComponent implements OnInit {
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Add',
+        organizationData: record,
         formInput: organizationForm
       }, // Pass relevant data
     }).afterClosed().subscribe(result => {
-      console.log("Creation value from organization View:", result);
-      // Create organization
-      if (result.action === 'Add') {
-        this.createOrganization(result.data);
+      if (result) {
+        console.log("Creation value from organization View:", result);
+        // Create organization
+        if (result.action === 'Add') {
+          this.addOrganization(result.data);
+        }
       }
     });
   }
 
   onUpdateItem(record: any) {
-    console.log("Updating a organization")
+    console.log("Updating an organization")
+    const populatedForm = this.prepareFormWithData(record);
+
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Update',
-        formInput: organizationForm
+        formInput: populatedForm,
+        id: record.id
       },
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Update dialog result:", result);
+        if (result.action === 'Update') {
+          const updateData = {
+            ...result.data,
+            id: record.id
+          };
+          this.updateOrganization(record.id, updateData);
+        }
+      }
     });
+  }
+
+  // Helper method to populate form with existing data
+  private prepareFormWithData(record: any): IForm {
+    const populatedForm = { ...this.organizationForm };
+    populatedForm.formControls = populatedForm.formControls.map(control => ({
+      ...control,
+      value: record[control.name] ?? control.value
+    }));
+    return populatedForm;
   }
 
   onDeleteItem(record: any) {
@@ -135,9 +174,9 @@ export class OrganizationsComponent implements OnInit {
       })
   }
 
-  onCreationValue(record: any) {
-    console.log("Creating an organization: " + record)
-  }
+  // onCreationValue(record: any) {
+  //   console.log("Creating an organization: " + record)
+  // }
 
   deleteOrganisation(id: string) {
     return this.http.delete(environment.apiUrl.concat(`organizations/${id}`));

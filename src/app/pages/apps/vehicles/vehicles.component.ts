@@ -64,12 +64,28 @@ export class VehiclesComponent implements OnInit {
       })
   }
 
+  updateVehicle(id: string, request: any): void {  
+    this.http.put(environment.apiUrl.concat(`fleets/${id}`), request)
+      .subscribe({
+        next: (res: any) => {
+          console.log("Updated vehicle:", res);
+          this.getVehicles(); // Refresh the list after successful update
+        },
+        error: (error: any) => {
+          console.error("Error updating vehicle:", error);
+          // Handle error appropriately
+        }
+      });
+  }
+
   onViewItem(record: any) {
-    console.log("Viewing a vehicle")
+    console.log("Viewing a vehicle");
+    const populatedForm = this.prepareFormWithData(record);
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'View',
-        formInput: vehicleForm
+        formInput: populatedForm,
+        readOnly: true 
       },
     });
   }
@@ -78,7 +94,7 @@ export class VehiclesComponent implements OnInit {
     console.log("Adding a vehicle")
     this.dialog.open(SchoolViewComponent, {
       data: {
-        action: 'View',
+        action: 'Add',
         vehicleData: record,
         formInput: vehicleForm
       }, // Pass relevant data
@@ -94,14 +110,39 @@ export class VehiclesComponent implements OnInit {
   }
 
   onUpdateItem(record: any) {
-    console.log("Updating a vehicle")
-    this.dialog.open(SchoolViewComponent), {
+    console.log("Updating a vehicle");
+    const populatedForm = this.prepareFormWithData(record);
+
+    this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Update',
-        formInput: vehicleForm
+        formInput: populatedForm,
+        id: record.id
+      },
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Update dialog result:", result);
+        if (result.action === 'Update') {
+          const updateData = {
+            ...result.data,
+            id: record.id  // Ensure ID is preserved
+          };
+          this.updateVehicle(record.id, updateData);
+        }
       }
-    };
+    });
   }
+
+  // Helper method to populate form with existing data
+  private prepareFormWithData(record: any): IForm {
+    const populatedForm = { ...this.vehicleForm };
+    populatedForm.formControls = populatedForm.formControls.map(control => ({
+      ...control,
+      value: record[control.name] ?? control.value
+    }));
+    return populatedForm;
+  }
+
 
   onDeleteItem(record: any) {
     console.log("Deleting a vehicle");

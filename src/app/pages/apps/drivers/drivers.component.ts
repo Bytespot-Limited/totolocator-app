@@ -27,7 +27,7 @@ export class DriversComponent {
   tableHeading: string = "Drivers";
   tableData: any[] = [];
 
-  constructor(public dialog: MatDialog, private http: HttpClient) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) { }
 
   // Lifecycle event to execute the API calls
   ngOnInit(): void {
@@ -46,16 +46,34 @@ export class DriversComponent {
   addDriver(request: any): any {
     this.http.post(environment.apiUrl.concat("drivers"), request)
       .subscribe((res: any) => {
+        var driver = res
         console.log("Added driver: {}", res);
+        return driver;
+      });
+  }
+
+  updateDriver(id: string, request: any): void {
+    this.http.put(environment.apiUrl.concat(`drivers/${id}`), request)
+      .subscribe({
+        next: (res: any) => {
+          console.log("Updated driver:", res);
+          this.getDrivers(); // Refresh the list after successful update
+        },
+        error: (error: any) => {
+          console.error("Error updating driver:", error);
+          // Handle error appropriately
+        }
       });
   }
 
   onViewItem(record: any) {
     console.log("Viewing a driver");
+    const populatedForm = this.prepareFormWithData(record);
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'View',
-        formInput: driverForm
+        formInput: populatedForm,
+        readOnly: true
       },
     });
   }
@@ -64,7 +82,7 @@ export class DriversComponent {
     console.log("Adding a driver");
     this.dialog.open(SchoolViewComponent, {
       data: {
-        action: 'View',
+        action: 'Add',
         driverData: record,
         formInput: driverForm
       },
@@ -78,12 +96,36 @@ export class DriversComponent {
 
   onUpdateItem(record: any) {
     console.log("Updating a driver");
+    const populatedForm = this.prepareFormWithData(record);
+
     this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Update',
-        formInput: driverForm
+        formInput: populatedForm,
+        id: record.id
+      },
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Update dialog result:", result);
+        if (result.action === 'Update') {
+          const updateData = {
+            ...result.data,
+            id: record.id  // Ensure ID is preserved
+          };
+          this.updateDriver(record.id, updateData);
+        }
       }
     });
+  }
+
+  // Helper method to populate form with existing data
+  private prepareFormWithData(record: any): IForm {
+    const populatedForm = { ...this.driverForm };
+    populatedForm.formControls = populatedForm.formControls.map(control => ({
+      ...control,
+      value: record[control.name] ?? control.value
+    }));
+    return populatedForm;
   }
 
   onDeleteItem(record: any) {

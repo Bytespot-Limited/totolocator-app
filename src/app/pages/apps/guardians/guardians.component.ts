@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {SchoolViewComponent} from "../schools/school-view/school-view.component";
-import {IForm} from "../forms/interfaces/IForm";
+import { Component } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { HttpClient } from "@angular/common/http";
+import { SchoolViewComponent } from "../schools/school-view/school-view.component";
+import { IForm } from "../forms/interfaces/IForm";
 import { guardianForm } from '../forms/guardian-registration-form-config';
 import { environment } from 'environment';
 
@@ -57,10 +57,10 @@ export class GuardiansComponent {
   // Fetch schools from the backend
   getGuardians() {
     this.http.get(environment.apiUrl.concat("guardians?page=0&size=20"))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting guardians data: {}", res)
-    })
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting guardians data: {}", res)
+      })
   }
 
   addGuardian(request: any): any {
@@ -72,11 +72,28 @@ export class GuardiansComponent {
       })
   }
 
+  updateGuardian(id: string, request: any): void {
+    this.http.put(environment.apiUrl.concat(`guardians/${id}`), request)
+      .subscribe({
+        next: (res: any) => {
+          console.log("Updated guardian:", res);
+          this.getGuardians(); // Refresh the list after successful update
+        },
+        error: (error: any) => {
+          console.error("Error updating guardian:", error);
+          // Handle error appropriately
+        }
+      });
+  }
+
   onViewItem(record: any) {
     console.log("Viewing a guardian")
+    const populatedForm = this.prepareFormWithData(record);
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'View',
-        formInput: guardianForm
+      data: {
+        action: 'View',
+        formInput: populatedForm,
+        readOnly: true
       },
     });
   }
@@ -85,7 +102,7 @@ export class GuardiansComponent {
     console.log("Adding a guardian")
     this.dialog.open(SchoolViewComponent, {
       data: {
-        action: 'View', 
+        action: 'Add',
         guardianData: record,
         formInput: guardianForm
       }, // Pass relevant data
@@ -93,7 +110,7 @@ export class GuardiansComponent {
       if (result) { // Check if dialog closed with a value
         console.log("Creation value from Organization View:", result);
         // Use the received value (result) here
-        if (result.action === 'Add'){
+        if (result.action === 'Add') {
           this.addGuardian(result.data);
         }
       }
@@ -101,21 +118,47 @@ export class GuardiansComponent {
   }
 
   onUpdateItem(record: any) {
-    console.log("Updating a guardian")
-    this.dialog.open(SchoolViewComponent),{
+    console.log("Updating a guardian");
+    const populatedForm = this.prepareFormWithData(record);
+
+    this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Update',
-        formInput: guardianForm
+        formInput: populatedForm,
+        id: record.id
+      },
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Update dialog result:", result);
+        if (result.action === 'Update') {
+          const updateData = {
+            ...result.data,
+            id: record.id  // Ensure ID is preserved
+          };
+          this.updateGuardian(record.id, updateData);
+        }
       }
-    };
+    });
   }
+
+  // Helper method to populate form with existing data
+  private prepareFormWithData(record: any): IForm {
+    const populatedForm = { ...this.guardianForm };
+    populatedForm.formControls = populatedForm.formControls.map(control => ({
+      ...control,
+      value: record[control.name] ?? control.value
+    }));
+    return populatedForm;
+  }
+
 
   onDeleteItem(record: any) {
     console.log("Deleting a guardian")
     const dialogRef = this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Delete',
-        local_data: record 
+        local_data: record,
+        errorMessage: ''
       }
     });
 
@@ -143,10 +186,10 @@ export class GuardiansComponent {
   onFilterValue(record: any) {
     console.log("Filtering records of guardians: ", record);
     this.http.get(environment.apiUrl.concat("guardians?name.contains=" + record))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting guardians data: {}", res)
-    })
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting guardians data: {}", res)
+      })
   }
 }
 

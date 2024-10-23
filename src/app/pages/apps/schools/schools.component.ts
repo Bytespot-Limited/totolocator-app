@@ -55,7 +55,7 @@ export class SchoolsComponent implements OnInit {
       })
   }
 
-  updateSchool(id: string, request: any): void {  // Changed return type to void
+  updateSchool(id: string, request: any): void {  
     this.http.put(environment.apiUrl.concat(`schools/${id}`), request)
       .subscribe({
         next: (res: any) => {
