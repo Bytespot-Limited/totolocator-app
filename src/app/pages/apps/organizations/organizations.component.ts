@@ -17,7 +17,7 @@ export class OrganizationsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
-    'logoImageUrl',
+    //'logoImageUrl',
     'location',
     'entityStatus',
     'action',

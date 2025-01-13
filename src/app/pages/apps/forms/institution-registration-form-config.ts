@@ -1,13 +1,13 @@
-import { IForm } from "./interfaces/IForm";
+import {IForm} from "./interfaces/IForm";
 
 export const organizationForm: IForm = {
-  formTitle: 'Institution Form',
+  formTitle: 'Organization',
   saveBtnTitle: 'Create Organization',
   resetBtnTitle: 'Cancel',
   formControls: [
     {
       "name": "name",
-      "label": "Organization Name",
+      "label": "Name",
       "value": "",
       "placeholder": "e.g Makini Schools",
       "class": "col-sm-12 d-flex align-items-center",
@@ -89,7 +89,7 @@ export const organizationForm: IForm = {
           "message": "Email address is Required"
         }
       ]
-    }, 
+    },
     {
       "name": "phoneNumber",
       "label": "Phone Number",
@@ -110,55 +110,58 @@ export const organizationForm: IForm = {
         }
       ]
     },
-    {
-      "name": "entityStatus",
-      "label": "Entity Status",
-      "value": "",
-      "placeholder": "Select status",
-      "class": "col-md-6",
-      "type": "select",
-      "options": [
-        { "value": "ACTIVE", "label": "Active" },
-        { "value": "INACTIVE", "label": "Inactive" }
-      ],
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Entity status is required."
-        // }
-      ]
-    },
-    {
-      "name": "creationDate",
-      "label": "Creation Date",
-      "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
-      "class": "col-md-6",
-      "type": "datetime-local",
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Creation date is required."
-        // }
-      ]
-    },
-    {
-      "name": "modifiedDate",
-      "label": "Modified Date",
-      "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
-      "class": "col-md-6",
-      "type": "datetime-local",
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Modified date is required."
-        // }
-      ]
-    }
+    /**
+     {
+     "name": "entityStatus",
+     "label": "Entity Status",
+     "value": "",
+     "placeholder": "Select status",
+     "class": "col-md-6",
+     "type": "select",
+     "options": [
+     { "value": "ACTIVE", "label": "Active" },
+     { "value": "INACTIVE", "label": "Inactive" }
+     ],
+     "validators": [
+     // {
+     //   "validatorName": "required",
+     //   "pattern": "",
+     //   "message": "Entity status is required."
+     // }
+     ]
+     }
+     ,
+     {
+     "name": "creationDate",
+     "label": "Creation Date",
+     "value": "",
+     "placeholder": "YYYY-MM-DDTHH:MM",
+     "class": "col-md-6",
+     "type": "datetime-local",
+     "validators": [
+     // {
+     //   "validatorName": "required",
+     //   "pattern": "",
+     //   "message": "Creation date is required."
+     // }
+     ]
+     },
+     {
+     "name": "modifiedDate",
+     "label": "Modified Date",
+     "value": "",
+     "placeholder": "YYYY-MM-DDTHH:MM",
+     "class": "col-md-6",
+     "type": "datetime-local",
+     "validators": [
+     // {
+     //   "validatorName": "required",
+     //   "pattern": "",
+     //   "message": "Modified date is required."
+     // }
+     ]
+     }
+     */
 
   ]
 }
