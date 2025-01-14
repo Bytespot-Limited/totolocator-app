@@ -1,6 +1,9 @@
-<h2 class="f-w-500 m-b-24" mat-dialog-title><strong>{{ action }} {{formInput.formTitle}}</strong></h2>
+<div *ngIf="action !== 'Delete' && action !== 'Notification'">
+  <h2 class="f-w-500 m-b-24" mat-dialog-title>
+    <strong>{{ action }} {{ formInput.formTitle }}</strong></h2>
+</div>
 
-<mat-dialog-content *ngIf="action !== 'Delete'; else deleteTemplate">
+<mat-dialog-content *ngIf="action !== 'Delete' && action !== 'Notification';">
   <app-dynamic-form
     [form]="formInput"
     [readOnly]="readOnly"
@@ -26,11 +29,13 @@
 <!--  </button>-->
 <!--</mat-dialog-actions>-->
 
-<ng-template #deleteTemplate>
+<mat-dialog-content *ngIf="action === 'Delete'">
   <div class="p-x-24">
-    <p>Are you sure you want to delete <span class="f-w-600">{{ local_data.Name }}</span>?</p>
+    <!--    <p>Are you sure you want to delete <span class="f-w-600">{{ local_data.Name }}</span>?</p>-->
     <div *ngIf="local_data.errorMessage" class="error-message text-danger">
-      {{ local_data.errorMessage }}
+      <!--      {{ local_data.errorMessage }}-->
+      <p><span class="f-w-600">{{ local_data.errorMessage }}</span>?</p>
+
     </div>
   </div>
 
@@ -42,4 +47,23 @@
       Cancel
     </button>
   </div>
-</ng-template>
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="action == 'Notification'">
+  <div class="p-x-24">
+    <div *ngIf="local_data.errorMessage" class="error-message text-danger">
+      <p><span class="f-w-600">{{ local_data.errorMessage }}</span></p>
+    </div>
+
+    <div *ngIf="local_data.message" class="success-message success">
+      <p><span class="f-w-600">{{ local_data.message }}</span></p>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="p-x-24 p-b-24">
+
+    <button mat-button (click)="closeDialog()" class="m-l-8"  mat-flat-button color="primary">
+      Close
+    </button>
+  </div>
+</mat-dialog-content>

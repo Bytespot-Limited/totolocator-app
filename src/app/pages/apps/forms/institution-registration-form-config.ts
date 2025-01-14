@@ -2,7 +2,7 @@ import {IForm} from "./interfaces/IForm";
 
 export const organizationForm: IForm = {
   formTitle: 'Organization',
-  saveBtnTitle: 'Create Organization',
+  saveBtnTitle: 'Save Organization',
   resetBtnTitle: 'Cancel',
   formControls: [
     {

@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { SchoolViewComponent } from '../schools/school-view/school-view.component';
-import { MatDialog } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environment';
-import { organizationForm } from "../forms/institution-registration-form-config";
-import { IForm } from "../forms/interfaces/IForm";
-import { Observable } from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {SchoolViewComponent} from '../schools/school-view/school-view.component';
+import {MatDialog} from '@angular/material/dialog';
+import {HttpClient} from '@angular/common/http';
+import {environment} from 'environment';
+import {organizationForm} from "../forms/institution-registration-form-config";
+import {IForm} from "../forms/interfaces/IForm";
 
 @Component({
   selector: 'app-organizations',
@@ -39,33 +38,68 @@ export class OrganizationsComponent implements OnInit {
   // Fetch schools from the backend
   getOrganizations() {
     this.http.get(environment.apiUrl.concat("organizations?page=0&size=20"))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting organizations data: {}", res)
-      })
+    .subscribe((res: any) => {
+      this.tableData = res
+      console.log("Getting organizations data: {}", res)
+    })
   }
 
   addOrganization(request: any): any {
     this.http.post(environment.apiUrl.concat("organizations"), request)
-      .subscribe((res: any) => {
-        var organization = res
-        console.log("Created organization: {}", res)
-        return organization;
-      })
+    .subscribe({
+    next: (res: any) => {
+      var organization = res
+      console.log("Created organization: {}", res)
+      const dialogRef = this.dialog.open(SchoolViewComponent, {
+        data: {
+          action: 'Notification',
+          local_data: res,
+          errorMessage: '',
+          message: 'Created organization successfully: '.concat(res.name)
+        },
+      });
+      return organization;
+    },
+    error: error => {
+      console.error("Error creating organization:", error);
+      // Handle error appropriately
+      const dialogRef = this.dialog.open(SchoolViewComponent, {
+        data: {
+          action: 'Notification',
+          local_data: error,
+          message: 'An error occurred creating the organization: '.concat(request.name),
+        },
+      });
+    }});
+
   }
 
   updateOrganization(id: string, request: any): void {
-    this.http.put(environment.apiUrl.concat(`organizations/${id}`), request)
-      .subscribe({
-        next: (res: any) => {
-          console.log("Updated organizations:", res);
-          this.getOrganizations(); // Refresh the list after successful update
-        },
-        error: (error: any) => {
-          console.error("Error updating organization:", error);
-          // Handle error appropriately
-        }
-      });
+    this.http.patch(environment.apiUrl.concat(`organizations/${id}`), request)
+    .subscribe({
+      next: (res: any) => {
+        const dialogRef = this.dialog.open(SchoolViewComponent, {
+          data: {
+            action: 'Notification',
+            local_data: res,
+            message: 'Updated organization successfully: '.concat(id),
+          },
+        });
+        console.log("Updated organizations:", res);
+        this.getOrganizations(); // Refresh the list after successful update
+      },
+      error: (error: any) => {
+        console.error("Error updating organization:", error);
+        // Handle error appropriately
+        const dialogRef = this.dialog.open(SchoolViewComponent, {
+          data: {
+            action: 'Notification',
+            local_data: error,
+            message: 'An error occurred updating the organization: '.concat(id),
+          },
+        });
+      }
+    });
   }
 
   onViewItem(record: any) {
@@ -127,7 +161,7 @@ export class OrganizationsComponent implements OnInit {
 
   // Helper method to populate form with existing data
   private prepareFormWithData(record: any): IForm {
-    const populatedForm = { ...this.organizationForm };
+    const populatedForm = {...this.organizationForm};
     populatedForm.formControls = populatedForm.formControls.map(control => ({
       ...control,
       value: record[control.name] ?? control.value
@@ -142,7 +176,8 @@ export class OrganizationsComponent implements OnInit {
       data: {
         action: 'Delete',
         local_data: record,
-        errorMessage: ''
+        errorMessage: 'Are you sure you want to delete the organization '.concat(record.name),
+        message: ''
       },
     });
 
@@ -151,13 +186,27 @@ export class OrganizationsComponent implements OnInit {
         this.deleteOrganisation(record.id).subscribe(
           response => {
             console.log('Organisation deleted successfully', response);
+            const dialogRef = this.dialog.open(SchoolViewComponent, {
+              data: {
+                action: 'Notification',
+                local_data: response,
+                message: 'Deleted organization successfully: '.concat(record.name),
+              },
+            });
           },
           error => {
             console.error('Error deleting organisation', error);
+            const dialogRef = this.dialog.open(SchoolViewComponent, {
+              data: {
+                action: 'Notification',
+                local_data: error,
+                message: 'An error occurred deleting organization: '.concat(record.name),
+              },
+            });
             // Update the dialog data with the error message
-            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
+            //dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
             // Trigger change detection manually
-            dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
+            //dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
           }
         );
       }
@@ -168,10 +217,10 @@ export class OrganizationsComponent implements OnInit {
   onFilterValue(record: any) {
     console.log("Filtering records of organizations: ", record);
     this.http.get(environment.apiUrl.concat("organizations?name.contains=" + record))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting organization data: {}", res)
-      })
+    .subscribe((res: any) => {
+      this.tableData = res
+      console.log("Getting organization data: {}", res)
+    })
   }
 
   // onCreationValue(record: any) {
