@@ -1,13 +1,13 @@
 import {IForm} from "./interfaces/IForm";
 
 export const schoolForm: IForm = {
-  formTitle: 'School Form',
-  saveBtnTitle: 'Add School',
+  formTitle: 'School',
+  saveBtnTitle: 'Save School',
   resetBtnTitle: 'Reset',
   formControls: [
     {
       "name": "name",
-      "label": "School Name",
+      "label": "Name",
       "value": "",
       "placeholder": "e.g Makini Schools",
       "class": "col-sm-12 d-flex align-items-center",
@@ -99,7 +99,8 @@ export const schoolForm: IForm = {
         //   "message": "Image file is required"
         // }
       ]
-    },
+    }
+    /*
     {
       "name": "entityStatus",
       "label": "Entity Status",
@@ -149,6 +150,7 @@ export const schoolForm: IForm = {
         }
       ]
     }
+      */
   ]
-  
+
 }

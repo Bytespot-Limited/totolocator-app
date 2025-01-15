@@ -5,6 +5,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from 'environment';
 import {organizationForm} from "../forms/institution-registration-form-config";
 import {IForm} from "../forms/interfaces/IForm";
+import {CrudActions} from "../reusable/CrudActions";
+import {EntityAction} from "../reusable/EntityAction";
 
 @Component({
   selector: 'app-organizations',
@@ -12,6 +14,7 @@ import {IForm} from "../forms/interfaces/IForm";
 })
 export class OrganizationsComponent implements OnInit {
   organizationForm = organizationForm as IForm;
+  crudActions: CrudActions;
 
   displayedColumns: string[] = [
     'id',
@@ -27,54 +30,59 @@ export class OrganizationsComponent implements OnInit {
 
 
   constructor(public dialog: MatDialog, private http: HttpClient) {
+    this.crudActions = new CrudActions(dialog, http);
   }
 
   // Lifecycle event to execute the api calls
   ngOnInit(): void {
     this.getOrganizations()
-    // this.tableData = employees
   }
 
   // Fetch schools from the backend
-  getOrganizations() {
-    this.http.get(environment.apiUrl.concat("organizations?page=0&size=20"))
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting organizations data: {}", res)
-    })
+  async getOrganizations() {
+    let entity: EntityAction = {
+      name: 'organizations',
+      id: '',
+      data: ''
+    };
+    this.tableData = await this.crudActions.getRecord(entity);
+    console.log("Received table data", this.tableData);
   }
 
   addOrganization(request: any): any {
     this.http.post(environment.apiUrl.concat("organizations"), request)
     .subscribe({
-    next: (res: any) => {
-      var organization = res
-      console.log("Created organization: {}", res)
-      const dialogRef = this.dialog.open(SchoolViewComponent, {
-        data: {
-          action: 'Notification',
-          local_data: res,
-          errorMessage: '',
-          message: 'Created organization successfully: '.concat(res.name)
-        },
-      });
-      return organization;
-    },
-    error: error => {
-      console.error("Error creating organization:", error);
-      // Handle error appropriately
-      const dialogRef = this.dialog.open(SchoolViewComponent, {
-        data: {
-          action: 'Notification',
-          local_data: error,
-          message: 'An error occurred creating the organization: '.concat(request.name),
-        },
-      });
-    }});
+      next: (res: any) => {
+        var organization = res
+        console.log("Created organization: {}", res)
+        const dialogRef = this.dialog.open(SchoolViewComponent, {
+          data: {
+            action: 'Notification',
+            local_data: res,
+            errorMessage: '',
+            message: 'Created organization successfully: '.concat(res.name)
+          },
+        });
+        return organization;
+      },
+      error: error => {
+        console.error("Error creating organization:", error);
+        // Handle error appropriately
+        const dialogRef = this.dialog.open(SchoolViewComponent, {
+          data: {
+            action: 'Notification',
+            local_data: error,
+            message: 'An error occurred creating the organization: '.concat(request.name),
+          },
+        });
+      }
+    });
 
   }
 
   updateOrganization(id: string, request: any): void {
+    this.getOrganizations(); // Refresh the list after successful update
+
     this.http.patch(environment.apiUrl.concat(`organizations/${id}`), request)
     .subscribe({
       next: (res: any) => {
