@@ -8,7 +8,8 @@ export const studentForm: IForm = {
     'id',
     'name',
     //'logoImageUrl',
-    'location',
+    'classLevel',
+    'billingStatus',
     'entityStatus',
     'action',
   ],
@@ -158,8 +159,8 @@ export const studentForm: IForm = {
       "class": "col-md-6",
       "type": "select",
       "options": [
-        { "value": "ACTIVE", "label": "Active" },
-        { "value": "OVERDUE", "label": "Overdue" }
+        { "value": "ACTIVE", "label": "ACTIVE" },
+        { "value": "OVERDUE", "label": "OVERDUE" }
       ],
       "validators": [
         {
@@ -183,57 +184,57 @@ export const studentForm: IForm = {
           "message": "Next billing cycle is required."
         }
       ]
-    },
-    {
-      "name": "entityStatus",
-      "label": "Entity Status",
-      "value": "",
-      "placeholder": "e.g. ACTIVE",
-      "class": "col-md-6",
-      "type": "select",  // Assuming a dropdown for enum values
-      "options": [
-        { "value": "ACTIVE", "label": "Active" },
-        { "value": "INACTIVE", "label": "Inactive" }
-      ],
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Entity status is required."
-        // }
-      ]
-    },
-
-    {
-      "name": "creationDate",
-      "label": "Creation Date",
-      "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
-      "class": "col-md-6",
-      "type": "datetime-local",
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Creation date is required."
-        // }
-      ]
-    },
-    {
-      "name": "modifiedDate",
-      "label": "Modified Date",
-      "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
-      "class": "col-md-6",
-      "type": "datetime-local",
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Modified date is required."
-        // }
-      ]
     }
+    // {
+    //   "name": "entityStatus",
+    //   "label": "Entity Status",
+    //   "value": "",
+    //   "placeholder": "e.g. ACTIVE",
+    //   "class": "col-md-6",
+    //   "type": "select",  // Assuming a dropdown for enum values
+    //   "options": [
+    //     { "value": "ACTIVE", "label": "Active" },
+    //     { "value": "INACTIVE", "label": "Inactive" }
+    //   ],
+    //   "validators": [
+    //     // {
+    //     //   "validatorName": "required",
+    //     //   "pattern": "",
+    //     //   "message": "Entity status is required."
+    //     // }
+    //   ]
+    // },
+    //
+    // {
+    //   "name": "creationDate",
+    //   "label": "Creation Date",
+    //   "value": "",
+    //   "placeholder": "YYYY-MM-DDTHH:MM",
+    //   "class": "col-md-6",
+    //   "type": "datetime-local",
+    //   "validators": [
+    //     // {
+    //     //   "validatorName": "required",
+    //     //   "pattern": "",
+    //     //   "message": "Creation date is required."
+    //     // }
+    //   ]
+    // },
+    // {
+    //   "name": "modifiedDate",
+    //   "label": "Modified Date",
+    //   "value": "",
+    //   "placeholder": "YYYY-MM-DDTHH:MM",
+    //   "class": "col-md-6",
+    //   "type": "datetime-local",
+    //   "validators": [
+    //     // {
+    //     //   "validatorName": "required",
+    //     //   "pattern": "",
+    //     //   "message": "Modified date is required."
+    //     // }
+    //   ]
+    // }
 
   ]
 }

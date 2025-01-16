@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { MatDialog } from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
-import { SchoolViewComponent } from "../schools/school-view/school-view.component";
-import { IForm } from "../forms/interfaces/IForm";
-import { studentForm } from '../forms/student-registration-form-config';
-import { environment } from 'environment';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {HttpClient} from "@angular/common/http";
+import {IForm} from "../forms/interfaces/IForm";
+import {studentForm} from '../forms/student-registration-form-config';
+import {CrudActions} from "../reusable/CrudActions";
+import {EntityAction} from "../reusable/EntityAction";
 
 
 /**
@@ -76,168 +76,104 @@ import { environment } from 'environment';
   selector: 'app-students',
   templateUrl: './students.component.html'
 })
-export class StudentsComponent {
-  studentForm = studentForm as IForm;
+export class StudentsComponent extends CrudActions implements OnInit {
+  recordForm = studentForm as IForm;
+  displayedColumns: string[];
+  tableHeading: string;
+  tableData: any[];
+  entityName: string = 'students';
 
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'profileImageUrl',
-    'classLevel',
-    'billingStatus',
-    'entityStatus',
-    'creationDate',
-    'action',
-  ];
-
-  tableHeading: string = "Students";
-  tableData: any[] = [];
-
-
-  constructor(public dialog: MatDialog, private http: HttpClient) {
+  constructor(http: HttpClient, dialog: MatDialog) {
+    super(dialog, http); // Pass dependencies to the parent class
+    this.displayedColumns = this.recordForm.displayColumns;
+    this.tableHeading = this.recordForm.formTitle;
   }
 
   // Lifecycle event to execute the api calls
   ngOnInit(): void {
-    this.getStudents()
-    // this.tableData = employees
+    this.getRecords()
   }
 
   // Fetch schools from the backend
-  getStudents() {
-    this.http.get(environment.apiUrl.concat("students?page=0&size=20"))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting students data: {}", res)
-      })
+  getRecords() {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: ''
+    };
+    this.getRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
-  addStudent(request: any): any {
-    this.http.post(environment.apiUrl.concat("students"), request)
-      .subscribe((res: any) => {
-        var student = res
-        console.log("Added student: {}", res)
-        return student;
-      })
-  }
-
-  updateStudent(id: string, request: any): void {
-    this.http.put(environment.apiUrl.concat(`students/${id}`), request)
-      .subscribe({
-        next: (res: any) => {
-          console.log("Updated student:", res);
-          this.getStudents(); // Refresh the list after successful update
-        },
-        error: (error: any) => {
-          console.error("Error updating student:", error);
-          // Handle error appropriately
-        }
-      });
-  }
-
-
+  /**
+   * Process the action to view a single  record
+   * @param record
+   */
   onViewItem(record: any) {
-    console.log("Viewing a student");
-    const populatedForm = this.prepareFormWithData(record);
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'View',
-        formInput: populatedForm,
-        readOnly: true 
-      },
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onViewRecord(entity, this.recordForm);
   }
 
+  /**
+   * Process the action to add a new record
+   * @param record
+   */
   onAddItem(record: any) {
-    console.log("Adding a student")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Add',
-        studentData: record,
-        formInput: studentForm
-      },
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Creation value from Student View:", result);
-        // Use the received value (result) here
-        if (result.action === 'Add') {
-          this.addStudent(result.data);
-        }
-      }
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onAddRecord(entity, this.recordForm);
   }
 
+
+  /**
+   * Handle action to update a record
+   * @param record
+   */
   onUpdateItem(record: any) {
-    console.log("Updating a student");
-    const populatedForm = this.prepareFormWithData(record);
-
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Update',
-        formInput: populatedForm,
-        id: record.id
-      },
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Update dialog result:", result);
-        if (result.action === 'Update') {
-          const updateData = {
-            ...result.data,
-            id: record.id  // Ensure ID is preserved
-          };
-          this.updateStudent(record.id, updateData);
-        }
-      }
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onUpdateRecord(entity, this.recordForm);
   }
 
-  // Helper method to populate form with existing data
-  private prepareFormWithData(record: any): IForm {
-    const populatedForm = { ...this.studentForm };
-    populatedForm.formControls = populatedForm.formControls.map(control => ({
-      ...control,
-      value: record[control.name] ?? control.value
-    }));
-    return populatedForm;
-  }
-
+  /**
+   * Handle action to delete a record
+   * @param record
+   */
   onDeleteItem(record: any) {
-    console.log("Deleting a student")
-    const dialogRef = this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Delete',
-        formInput: studentForm
-      },
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.event === 'Delete') {
-        this.deleteStudent(record.id).subscribe(
-          response => {
-            console.log('Vehicle deleted successfully', response);
-            // Optionally, refresh the list or update the UI
-          },
-          error => {
-            console.error('Error deleting vehicle', error);
-            // Pass the error message back to the dialog
-            dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the vehicle.';
-          }
-        );
-      }
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onDeleteRecord(entity);
   }
 
-  deleteStudent(id: string) {
-    return this.http.delete(environment.apiUrl.concat(`students/${id}`));
-  }
-
-  // Filter records
+  /**
+   * Handle action to filter records
+   * @param record
+   */
   onFilterValue(record: any) {
-    console.log("Filtering records of students: ", record);
-    this.http.get(environment.apiUrl.concat("students?name.contains=" + record))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting students data: {}", res)
-      })
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onFilterRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
+
 }
+
 

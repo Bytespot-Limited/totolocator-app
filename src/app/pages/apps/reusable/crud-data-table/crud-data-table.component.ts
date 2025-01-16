@@ -66,30 +66,6 @@ export class CrudDataTableComponent implements AfterViewInit {
     }
   }
 
-  addRowData(data: any) {
-    //
-    // // Dynamically create the component
-    // const factory = this.componentFactoryResolver.resolveComponentFactory(this.singleViewComponent);
-    // const componentRef: ComponentRef<any> = factory.create(this.viewContainerRef.injector);
-    //
-    // // Pass data to the component if needed
-    // // componentRef.instance.action = action;
-    // componentRef.instance.element = data;
-    //
-    // // Open the dialog
-    // this.dialog.open(componentRef.location.nativeElement);
-
-  }
-
-  updateRowData(data: any) {
-
-  }
-
-  deleteRowData(data: any) {
-
-  }
-
-
   // Search for a record
   applyFilter(filterString: any) {
     this.onFilterValue.emit(filterString.trim().toLowerCase());

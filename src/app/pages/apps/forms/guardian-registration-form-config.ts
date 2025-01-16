@@ -1,4 +1,4 @@
-import { IForm } from "./interfaces/IForm";
+import {IForm} from "./interfaces/IForm";
 
 export const guardianForm: IForm = {
   formTitle: 'Guardian',
@@ -7,8 +7,8 @@ export const guardianForm: IForm = {
   displayColumns: [
     'id',
     'name',
-    //'logoImageUrl',
-    'location',
+    'guardianType',
+    'phoneNumber',
     'entityStatus',
     'action',
   ],
@@ -17,7 +17,7 @@ export const guardianForm: IForm = {
       "name": "name",
       "label": "Name",
       "value": "",
-      "placeholder": "e.g. John Doe",
+      "placeholder": "e.g. MOTHER",
       "class": "col-md-6",
       "type": "text",
       "validators": [
@@ -91,18 +91,18 @@ export const guardianForm: IForm = {
       "class": "col-md-6",
       "type": "select",
       "options": [
-        { "value": "FATHER", "label": "Father" },
-        { "value": "MOTHER", "label": "Mother" },
-        { "value": "BROTHER", "label": "Brother" },
-        { "value": "SISTER", "label": "Sister" },
-        { "value": "GUARDIAN", "label": "Guardian" }
+        {"value": "FATHER", "label": "FATHER"},
+        {"value": "MOTHER", "label": "MOTHER"},
+        {"value": "BROTHER", "label": "BROTHER"},
+        {"value": "SISTER", "label": "SISTER"},
+        {"value": "GUARDIAN", "label": "GUARDIAN"}
       ],
       "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Guardian type is required."
-        // }
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Guardian type is required."
+        }
       ]
     },
     {
@@ -145,55 +145,55 @@ export const guardianForm: IForm = {
         }
       ]
     },
-    {
-      "name": "entityStatus",
-      "label": "Entity Status",
-      "value": "",
-      "placeholder": "Select status",
-      "class": "col-md-6",
-      "type": "select",
-      "options": [
-        { "value": "ACTIVE", "label": "Active" },
-        { "value": "INACTIVE", "label": "Inactive" }
-      ],
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Entity status is required."
-        // }
-      ]
-    },
-    {
-      "name": "creationDate",
-      "label": "Creation Date",
-      "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
-      "class": "col-md-6",
-      "type": "datetime-local",
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Creation date is required."
-        // }
-      ]
-    },
-    {
-      "name": "modifiedDate",
-      "label": "Modified Date",
-      "value": "",
-      "placeholder": "YYYY-MM-DDTHH:MM",
-      "class": "col-md-6",
-      "type": "datetime-local",
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Modified date is required."
-        // }
-      ]
-    }
+    // {
+    //   "name": "entityStatus",
+    //   "label": "Entity Status",
+    //   "value": "",
+    //   "placeholder": "Select status",
+    //   "class": "col-md-6",
+    //   "type": "select",
+    //   "options": [
+    //     {"value": "ACTIVE", "label": "Active"},
+    //     {"value": "INACTIVE", "label": "Inactive"}
+    //   ],
+    //   "validators": [
+    //     // {
+    //     //   "validatorName": "required",
+    //     //   "pattern": "",
+    //     //   "message": "Entity status is required."
+    //     // }
+    //   ]
+    // },
+    // {
+    //   "name": "creationDate",
+    //   "label": "Creation Date",
+    //   "value": "",
+    //   "placeholder": "YYYY-MM-DDTHH:MM",
+    //   "class": "col-md-6",
+    //   "type": "datetime-local",
+    //   "validators": [
+    //     // {
+    //     //   "validatorName": "required",
+    //     //   "pattern": "",
+    //     //   "message": "Creation date is required."
+    //     // }
+    //   ]
+    // },
+    // {
+    //   "name": "modifiedDate",
+    //   "label": "Modified Date",
+    //   "value": "",
+    //   "placeholder": "YYYY-MM-DDTHH:MM",
+    //   "class": "col-md-6",
+    //   "type": "datetime-local",
+    //   "validators": [
+    //     // {
+    //     //   "validatorName": "required",
+    //     //   "pattern": "",
+    //     //   "message": "Modified date is required."
+    //     // }
+    //   ]
+    // }
 
 
   ]
