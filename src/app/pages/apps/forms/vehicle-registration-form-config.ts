@@ -4,6 +4,14 @@ export const vehicleForm: IForm = {
   formTitle: 'Vehicle Form',
   saveBtnTitle: 'Add Vehicle',
   resetBtnTitle: 'Cancel',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "numberPlate",

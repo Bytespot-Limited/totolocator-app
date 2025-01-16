@@ -4,6 +4,14 @@ export const driverForm: IForm = {
   formTitle: 'Driver Form',
   saveBtnTitle: 'Add Driver',
   resetBtnTitle: 'Cancel',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "name",
@@ -161,7 +169,7 @@ export const driverForm: IForm = {
     //   ]
     // },
 
-   
+
     {
       "name": "entityStatus",
       "label": "Entity Status",

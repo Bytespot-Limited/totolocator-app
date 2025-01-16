@@ -4,6 +4,14 @@ export const studentForm: IForm = {
   formTitle: 'Student Form',
   saveBtnTitle: 'Add Student',
   resetBtnTitle: 'Cancel',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "name",

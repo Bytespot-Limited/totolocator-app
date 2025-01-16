@@ -1,9 +1,17 @@
 import { IForm } from "./interfaces/IForm";
 
 export const guardianForm: IForm = {
-  formTitle: 'Guardian Form',
+  formTitle: 'Guardian',
   saveBtnTitle: 'Add Guardian',
   resetBtnTitle: 'Cancel',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "name",

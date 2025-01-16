@@ -4,6 +4,14 @@ export const tripForm: IForm = {
   formTitle: 'Trip Form',
   saveBtnTitle: 'Add Trip',
   resetBtnTitle: 'Cancel',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "tripType",

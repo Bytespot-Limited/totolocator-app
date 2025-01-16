@@ -4,6 +4,14 @@ export const organizationForm: IForm = {
   formTitle: 'Organization Form',
   saveBtnTitle: 'Create Organization',
   resetBtnTitle: 'Cancel',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "name",

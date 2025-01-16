@@ -4,6 +4,14 @@ export const schoolForm: IForm = {
   formTitle: 'School',
   saveBtnTitle: 'Save School',
   resetBtnTitle: 'Reset',
+  displayColumns: [
+    'id',
+    'name',
+    //'logoImageUrl',
+    'location',
+    'entityStatus',
+    'action',
+  ],
   formControls: [
     {
       "name": "name",

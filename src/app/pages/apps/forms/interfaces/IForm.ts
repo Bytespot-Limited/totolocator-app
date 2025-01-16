@@ -5,5 +5,6 @@ export interface IForm {
   saveBtnTitle: string;
   resetBtnTitle: string;
   formControls: FormControls[];
+  displayColumns: string[];
 }
 
