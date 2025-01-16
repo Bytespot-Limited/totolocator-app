@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {EntityAction} from "./EntityAction";
 import {environment} from "../../../../../environment";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
+import {Observable} from "rxjs";
 
 export class CrudActions {
 
@@ -13,48 +14,45 @@ export class CrudActions {
    * Fetch records
    * @param entity
    */
-  async getRecord(entity: EntityAction): Promise<any> {
-    this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"))
-    .subscribe((res: any) => {
-      return res;
-    })
+  getRecord(entity: EntityAction): Observable<any> {
+    return this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"));
   }
+
 
   /**
    * Add a new record
    * @param entity
    */
-  addRecord(entity: EntityAction): any {
-    this.http.post(environment.apiUrl.concat(entity.name), entity.data)
-    .subscribe({
-      next: (res: any) => {
-        var record = res
-        console.log("Created {} : {}", entity.name, res)
-        const dialogRef = this.dialog.open(SchoolViewComponent, {
-          data: {
-            action: 'Notification',
-            local_data: res,
-            errorMessage: '',
-            message: 'Created '.concat(entity.name).concat(' successfully: ').concat(res.name)
-          },
-        });
-        return record;
-      },
-      error: error => {
-        console.error("Error creating {}: {}", entity.name, error);
-        // Handle error appropriately
-        const dialogRef = this.dialog.open(SchoolViewComponent, {
-          data: {
-            action: 'Notification',
-            local_data: error,
-            message: 'An error occurred creating the '.concat(entity.name),
-          },
-        });
-      }
-    });
-
+  addRecord(entity: EntityAction): Observable<any> {
+    return this.http.post(environment.apiUrl.concat(entity.name), entity.data)
   }
 
+  handleApiRecordResponse(
+    res: any,
+    entity: EntityAction,
+    dialogComponent: any
+  ): void {
+    this.dialog.open(dialogComponent, {
+      data: {
+        action: 'Notification',
+        local_data: res,
+        errorMessage: '',
+        message: 'Created '.concat(entity.name).concat(' successfully: ').concat(res.name),
+      },
+    });
+  }
+
+
+  handleApiRecordError(error: any, failureMessage: string, dialogComponent: any): void {
+    console.error('Error creating organization:', error);
+    this.dialog.open(dialogComponent, {
+      data: {
+        action: 'Notification',
+        local_data: error,
+        message: failureMessage,
+      },
+    });
+  }
 
   /**
    * Update a record
