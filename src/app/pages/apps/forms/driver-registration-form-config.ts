@@ -1,14 +1,14 @@
-import { IForm } from "./interfaces/IForm";
+import {IForm} from "./interfaces/IForm";
 
 export const driverForm: IForm = {
-  formTitle: 'Driver Form',
-  saveBtnTitle: 'Add Driver',
+  formTitle: 'Driver',
+  saveBtnTitle: 'Save Driver',
   resetBtnTitle: 'Cancel',
   displayColumns: [
     'id',
     'name',
     //'logoImageUrl',
-    'location',
+    'phoneNumber',
     'entityStatus',
     'action',
   ],
@@ -55,7 +55,7 @@ export const driverForm: IForm = {
     },
     {
       "name": "nationalId",
-      "label": "National Id Number",
+      "label": "National Id",
       "value": "",
       "placeholder": "e.g. 12345678",
       "class": "col-md-6",
@@ -136,8 +136,8 @@ export const driverForm: IForm = {
       "class": "col-sm-12 d-flex align-items-center",
       "type": "select",
       "options": [
-        { "label": "Assigned", "value": "ASSIGNED" },
-        { "label": "Unassigned", "value": "UNASSIGNED" }
+        {"label": "Assigned", "value": "ASSIGNED"},
+        {"label": "Unassigned", "value": "UNASSIGNED"}
       ],
       "validators": [
         {
@@ -146,49 +146,7 @@ export const driverForm: IForm = {
           "message": "Entity status is Required"
         }
       ]
-    },
-
-    // {
-    //   "name": "phoneNumber",
-    //   "label": "Phone Number",
-    //   "value": "",
-    //   "placeholder": "+25470011233",
-    //   "class": "col-md-6",
-    //   "type": "text",
-    //   "validators": [
-    //     {
-    //       "validatorName": "pattern",
-    //       "pattern": "",
-    //       "message": "Phone number should be 8-15 characters in uppercase"
-    //     },
-    //     {
-    //       "validatorName": "required",
-    //       "pattern": "",
-    //       "message": "Phone number is Required"
-    //     }
-    //   ]
-    // },
-
-
-    {
-      "name": "entityStatus",
-      "label": "Entity Status",
-      "value": "",
-      "placeholder": "Select Entity Status",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "select",
-      "options": [
-        { "label": "Active", "value": "ACTIVE" },
-        { "label": "Inactive", "value": "INACTIVE " }
-      ],
-      "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Entity status is Required"
-        // }
-      ]
-    },
+    }
 
   ]
 }

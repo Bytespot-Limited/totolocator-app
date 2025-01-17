@@ -1,94 +1,112 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
-import {SchoolViewComponent} from "../schools/school-view/school-view.component";
-import {Router} from "@angular/router";
+import {CrudActions} from "../reusable/CrudActions";
+import {IForm} from "../forms/interfaces/IForm";
+import {EntityAction} from "../reusable/EntityAction";
+import {terminalForm} from "../forms/terminals-form-config";
 
-/**
- *   {
- *     "id": 0,
- *     "devideId": "string",
- *     "phoneNumber": "string",
- *     "manufacturer": "string",
- *     "model": "string",
- *     "lastPing": "2023-12-02T14:43:21.421Z",
- *     "longitude": "string",
- *     "latitude": "string",
- *     "status": "ONLINE",
- *     "entityStatus": "ACTIVE",
- *     "creationDate": "2023-12-02T14:43:21.421Z",
- *     "modifiedDate": "2023-12-02T14:43:21.421Z"
- *   }
- */
 @Component({
   selector: 'app-terminals',
   templateUrl: './terminals.component.html'
 })
-export class TerminalsComponent {
-  displayedColumns: string[] = [
-    'devideId',
-    'status',
-    'phoneNumber',
-    'lastPing',
-    'entityStatus',
-    'creationDate',
-    'action',
-  ];
-  tableHeading: string = "Terminals";
-  tableData: any[] = [];
+export class TerminalsComponent extends CrudActions implements OnInit {
+  recordForm = terminalForm as IForm;
+  displayedColumns: string[];
+  tableHeading: string;
+  tableData: any[];
+  entityName: string = 'terminals';
 
-  constructor(public dialog: MatDialog, private http: HttpClient, private router: Router) {
+  constructor(http: HttpClient, dialog: MatDialog) {
+    super(dialog, http); // Pass dependencies to the parent class
+    this.displayedColumns = this.recordForm.displayColumns;
+    this.tableHeading = this.recordForm.formTitle;
   }
 
   // Lifecycle event to execute the api calls
   ngOnInit(): void {
-    this.getTerminals()
+    this.getRecords()
   }
 
   // Fetch schools from the backend
-  getTerminals() {
-    this.http.get("https://harmony-api-d3c63c482f2e.herokuapp.com/api/terminals?page=0&size=20")
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting school stuff data: {}", res)
-    })
-  }
-
-  onViewItem(record: any) {
-    console.log("Viewing a terminal: {}", record)
-    this.navigateToComponent(record.id)
-  }
-
-  onAddItem(record: any) {
-    console.log("Adding a school")
-    this.dialog.open(SchoolViewComponent);
-
-  }
-
-  onUpdateItem(record: any) {
-    console.log("Updating a school")
-    this.dialog.open(SchoolViewComponent);
-  }
-
-  onDeleteItem(record: any) {
-    console.log("Deleting a school")
-    this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete'},
+  getRecords() {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: ''
+    };
+    this.getRecord(entity).subscribe((response) => {
+      this.tableData = response
     });
   }
 
-  // Filter records
-  onFilterValue(record: any) {
-    console.log("Filtering records of terminals: ", record);
-    this.http.get("http://localhost:8080/api/terminals?devideId.contains=" + record)
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting terminals data: {}", res)
-    })
+  /**
+   * Process the action to view a single  record
+   * @param record
+   */
+  onViewItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onViewRecord(entity, this.recordForm);
   }
 
-  navigateToComponent(id: number) {
-    this.router.navigate(['apps/terminals', id]);
+  /**
+   * Process the action to add a new record
+   * @param record
+   */
+  onAddItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onAddRecord(entity, this.recordForm);
+  }
+
+
+  /**
+   * Handle action to update a record
+   * @param record
+   */
+  onUpdateItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onUpdateRecord(entity, this.recordForm);
+  }
+
+  /**
+   * Handle action to delete a record
+   * @param record
+   */
+  onDeleteItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onDeleteRecord(entity);
+  }
+
+  /**
+   * Handle action to filter records
+   * @param record
+   */
+  onFilterValue(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onFilterRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
 }
+

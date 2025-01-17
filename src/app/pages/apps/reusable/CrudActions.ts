@@ -143,13 +143,12 @@ export class CrudActions {
    * @param entity
    */
   onDeleteRecord(entity: EntityAction) {
-    console.log("Deleting an organisation");
 
     const dialogRef = this.dialog.open(SchoolViewComponent, {
       data: {
         action: 'Delete',
         local_data: entity,
-        errorMessage: 'Are you sure you want to delete the organization : '.concat(entity.data.name),
+        errorMessage: 'Are you sure you want to delete the '.concat(entity.name).concat(':').concat(entity.data.name),
         message: ''
       },
     });

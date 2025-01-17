@@ -1,14 +1,14 @@
-import { IForm } from "./interfaces/IForm";
+import {IForm} from "./interfaces/IForm";
 
 export const vehicleForm: IForm = {
-  formTitle: 'Vehicle Form',
-  saveBtnTitle: 'Add Vehicle',
+  formTitle: 'Vehicle',
+  saveBtnTitle: 'Save Vehicle',
   resetBtnTitle: 'Cancel',
   displayColumns: [
     'id',
-    'name',
+    'numberPlate',
     //'logoImageUrl',
-    'location',
+    'vehicleType',
     'entityStatus',
     'action',
   ],
@@ -41,48 +41,14 @@ export const vehicleForm: IForm = {
       "class": "col-sm-12 d-flex align-items-center",
       "type": "select",
       "options": [
-        { "label": "Bus", "value": "BUS" },
-        { "label": "Van", "value": "VAN" }
+        {"label": "Bus", "value": "BUS"},
+        {"label": "Van", "value": "VAN"}
       ],
       "validators": [
         {
           "validatorName": "required",
           "pattern": "",
           "message": "Entity status is Required"
-        }
-      ]
-    },
-    {
-      "name": "entityStatus",
-      "label": "Entity Status",
-      "value": "",
-      "placeholder": "Select Entity Status",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "select",
-      "options": [
-        { "label": "Active", "value": "ACTIVE" },
-        { "label": "Inactive", "value": "INACTIVE" }
-      ],
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Entity status is Required"
-        }
-      ]
-    },
-    {
-      "name": "creationDate",
-      "label": "Date added",
-      "value": "",
-      "placeholder": "YYYY-MM-DD",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "date",
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Start time is Required"
         }
       ]
     }
