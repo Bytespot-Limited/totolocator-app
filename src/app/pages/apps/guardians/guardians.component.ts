@@ -1,7 +1,13 @@
-import {Component} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {SchoolViewComponent} from "../schools/school-view/school-view.component";
+import {Component, OnInit} from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { HttpClient } from "@angular/common/http";
+import { SchoolViewComponent } from "../schools/school-view/school-view.component";
+import { IForm } from "../forms/interfaces/IForm";
+import { guardianForm } from '../forms/guardian-registration-form-config';
+import { environment } from 'environment';
+import {CrudActions} from "../reusable/CrudActions";
+import {organizationForm} from "../forms/institution-registration-form-config";
+import {EntityAction} from "../reusable/EntityAction";
 
 /**
  * {
@@ -24,74 +30,104 @@ import {SchoolViewComponent} from "../schools/school-view/school-view.component"
   selector: 'app-guardians',
   templateUrl: './guardians.component.html'
 })
-export class GuardiansComponent {
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'profileImageUrl',
-    'guardianType',
-    'phoneNumber',
-    'entityStatus',
-    'creationDate',
-    'action',
-  ];
+export class GuardiansComponent extends CrudActions implements OnInit {
+  recordForm = guardianForm as IForm;
+  displayedColumns: string[];
+  tableHeading: string;
+  tableData: any[];
+  entityName: string = 'guardians';
 
-  tableHeading: string = "Guardians";
-  tableData: any[] = [];
-
-
-  constructor(public dialog: MatDialog, private http: HttpClient) {
+  constructor(http: HttpClient, dialog: MatDialog) {
+    super(dialog, http); // Pass dependencies to the parent class
+    this.displayedColumns = this.recordForm.displayColumns;
+    this.tableHeading = this.recordForm.formTitle;
   }
 
   // Lifecycle event to execute the api calls
   ngOnInit(): void {
-    this.getGuardians()
-    // this.tableData = employees
+    this.getRecords()
   }
 
   // Fetch schools from the backend
-  getGuardians() {
-    this.http.get("http://localhost:8080/api/guardians?page=0&size=20")
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting guardians data: {}", res)
-    })
+  getRecords() {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: ''
+    };
+    this.getRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
+  /**
+   * Process the action to view a single  record
+   * @param record
+   */
   onViewItem(record: any) {
-    console.log("Viewing a school")
-    this.dialog.open(SchoolViewComponent, {
-      data: {action: 'View'},
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onViewRecord(entity, this.recordForm);
   }
 
+  /**
+   * Process the action to add a new record
+   * @param record
+   */
   onAddItem(record: any) {
-    console.log("Adding a school")
-    this.dialog.open(SchoolViewComponent);
-
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onAddRecord(entity, this.recordForm);
   }
 
+
+  /**
+   * Handle action to update a record
+   * @param record
+   */
   onUpdateItem(record: any) {
-    console.log("Updating a school")
-    this.dialog.open(SchoolViewComponent);
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onUpdateRecord(entity, this.recordForm);
   }
 
+  /**
+   * Handle action to delete a record
+   * @param record
+   */
   onDeleteItem(record: any) {
-    console.log("Deleting a school")
-    this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete'},
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onDeleteRecord(entity);
   }
 
-  // Filter records
+  /**
+   * Handle action to filter records
+   * @param record
+   */
   onFilterValue(record: any) {
-    console.log("Filtering records of guardians: ", record);
-    this.http.get("https://harmony-api-d3c63c482f2e.herokuapp.com/api/guardians?name.contains=" + record)
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting guardians data: {}", res)
-    })
-
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onFilterRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
 }
+
+

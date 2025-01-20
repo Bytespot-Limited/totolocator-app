@@ -1,8 +1,8 @@
 <div class="col-lg-12">
   <mat-card class="cardWithShadow theme-card">
-    <mat-card-header>
-      <mat-card-title class="m-b-0">{{ form.formTitle }}</mat-card-title>
-    </mat-card-header>
+<!--    <mat-card-header>-->
+<!--      <mat-card-title class="m-b-0">{{ form.formTitle }}</mat-card-title>-->
+<!--    </mat-card-header>-->
     <mat-card-content class="b-t-1">
       <form [formGroup]="dynamicFormGroup">
 
@@ -11,102 +11,111 @@
 
             <div *ngFor="let control of form.formControls" class="row">
 
-              <!-- Display this label if field is a text, email, password, number or date-->
-              <div *ngIf="['text', 'email', 'password', 'number', 'date'].includes(control.type)"
-                   [class]="control?.class">
-                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"
-                >{{ control.label }}
+              <!-- Display this label if field is a text, email, password, number, date, or select (dropdown)-->
+              <div *ngIf="['text', 'email', 'password', 'number', 'date', 'select'].includes(control.type)"
+                [class]="control?.class">
+                <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
+                  {{ control.label }}
                 </mat-label>
               </div>
 
-              <!--               Dsiplay if field is a date -->
-
-              <div class="col-sm-12">
+              <!-- Display date input -->
+              <div class="col-sm-12" *ngIf="control.type === 'date'">
                 <mat-form-field appearance="outline" class="w-100">
+                  <input matInput [matDatepicker]="birthpicker" placeholder="{{control.placeholder}}"
+                    formControlName="{{control?.name}}" />
+                  <mat-datepicker-toggle matIconSuffix [for]="birthpicker"></mat-datepicker-toggle>
+                  <mat-datepicker #birthpicker></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-                  <div *ngIf="['date'].includes(control.type);else otherFields"
-                       [class]="control?.class">
-                    <input matInput [matDatepicker]="birthpicker3"/>
-                    <mat-datepicker-toggle
-                      matIconSuffix
-                      [for]="birthpicker3"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #birthpicker3></mat-datepicker>
-                  </div>
-
-                  <ng-template #otherFields>
-                    <input matInput placeholder="{{control.placeholder}}"
-                           formControlName="{{control?.name}}"
-                           type="{{control?.type}}"
-                           class="form-control"/>
-
-                  </ng-template>
-
-
+              <!-- Display text, email, password, number input -->
+              <div class="col-sm-12" *ngIf="['text', 'email', 'password', 'number'].includes(control.type)">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="{{control.placeholder}}" formControlName="{{control?.name}}"
+                    type="{{control?.type}}" class="form-control" />
                   <mat-icon matPrefix class="op-5">
                     <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
                   </mat-icon>
 
                   <!-- Display the error message -->
-                  <mat-hint
-                    *ngIf="dynamicFormGroup.get(control.name)?.invalid"
-                    class="m-b-16 error-msg">
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid" class="m-b-16 error-msg">
                     <div class="text-error">
                       {{ getErrorMessage(control) }}
                     </div>
                   </mat-hint>
-
                 </mat-form-field>
+              </div>
+
+              <!-- Display dropdown (select) -->
+              <div class="col-sm-12" *ngIf="control.type === 'select'">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-select formControlName="{{control?.name}}" placeholder="{{control.placeholder}}">
+                    <mat-option *ngFor="let option of control.options" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+
+                  <!-- Display the error message -->
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid" class="m-b-16 error-msg">
+                    <div class="text-error">
+                      {{ getErrorMessage(control) }}
+                    </div>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <!-- Display date and time input -->
+              <div class="col-sm-12" *ngIf="control.type === 'datetime-local'">
+                <mat-form-field appearance="outline" class="w-100">
+                  <input matInput placeholder="{{control.placeholder}}" formControlName="{{control?.name}}"
+                    type="datetime-local" class="form-control" (focus)="setBrowserTime(control.name)" />
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="clock" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+
+                  <!-- Display the error message -->
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid" class="m-b-16 error-msg">
+                    <div class="text-error">
+                      {{ getErrorMessage(control) }}
+                    </div>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <!-- Display file upload input -->
+              <div class="col-sm-12" *ngIf="control.type === 'file'">
+                <div class="file-upload-container">
+                  <label>{{ control.label }}</label>
+                  <input type="file" accept=".jpeg,.jpg,.png" (change)="onFileSelected($event, control.name)"
+                    class="form-control" />
+                  <mat-icon class="op-5">
+                    <i-tabler name="upload" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+                </div>
+
+                <!-- Display the error message -->
+                <mat-hint
+                  *ngIf="dynamicFormGroup.get(control.name)?.invalid && dynamicFormGroup.get(control.name)?.touched"
+                  class="m-b-16 error-msg">
+                  <div class="text-error">
+                    {{ getErrorMessage(control) }}
+                  </div>
+                </mat-hint>
               </div>
 
             </div>
           </div>
         </div>
-        <!--        <div class="row">-->
-        <!--          <div class="col-sm-12 d-flex align-items-center">-->
-        <!--            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"-->
-        <!--            >Country-->
-        <!--            </mat-label>-->
-        <!--          </div>-->
-        <!--          <div class="col-sm-12">-->
-        <!--            <mat-form-field appearance="outline" class="w-100">-->
-        <!--              <mat-select value="1">-->
-        <!--                <mat-option value="1"></mat-option>-->
-        <!--                <mat-option value="in">India</mat-option>-->
-        <!--                <mat-option value="fr">France</mat-option>-->
-        <!--                <mat-option value="af">Africa</mat-option>-->
-        <!--              </mat-select>-->
-        <!--            </mat-form-field>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--        <div class="row">-->
-        <!--          <div class="col-sm-12 d-flex align-items-center">-->
-        <!--            <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16"-->
-        <!--            >Birth Date-->
-        <!--            </mat-label>-->
-        <!--          </div>-->
-        <!--          <div class="col-sm-12">-->
-        <!--            <mat-form-field appearance="outline" class="w-100">-->
-        <!--              <input matInput [matDatepicker]="birthpicker3"/>-->
-        <!--              <mat-datepicker-toggle-->
-        <!--                matIconSuffix-->
-        <!--                [for]="birthpicker3"-->
-        <!--              ></mat-datepicker-toggle>-->
-        <!--              <mat-datepicker #birthpicker3></mat-datepicker>-->
-        <!--            </mat-form-field>-->
-        <!--          </div>-->
-        <!--        </div>-->
 
         <div class="row justify-content-end">
           <div class="col-sm-12">
             <button (click)="onSubmit()" type="button" mat-flat-button color="primary">{{ form.saveBtnTitle }}</button>
             <button (click)="resetForm()" type="button" mat-flat-button color="warn"
-                    class="m-l-8">{{ form.resetBtnTitle }}
-            </button>
+              class="m-l-8">{{ form.resetBtnTitle }}</button>
           </div>
         </div>
       </form>
     </mat-card-content>
   </mat-card>
 </div>
-

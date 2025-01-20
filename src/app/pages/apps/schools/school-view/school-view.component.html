@@ -1,20 +1,69 @@
-<h2 class="f-w-500 m-b-24" mat-dialog-title><strong>{{ action }}</strong></h2>
-<mat-dialog-content
-  *ngIf="action !== 'Delete'; else elseTemplate"
-  style="max-width: 800px"
->
-  <app-dynamic-form [form]="formInput"
-                    (onCreationValue)="onCreationValue($event)"
-  ></app-dynamic-form>
-</mat-dialog-content>
-<ng-template #elseTemplate>
-  <div class="p-x-24">
-    <p>Sure to delete <span class="f-w-600">{{ local_data.Name }}</span> ?</p>
+<div *ngIf="action !== 'Delete' && action !== 'Notification'">
+  <h2 class="f-w-500 m-b-24" mat-dialog-title>
+    <strong>{{ action }} {{ formInput.formTitle }}</strong></h2>
+</div>
+
+<mat-dialog-content *ngIf="action !== 'Delete' && action !== 'Notification';">
+  <app-dynamic-form
+    [form]="formInput"
+    [readOnly]="readOnly"
+    (onCreationValue)="onCreationValue($event)">
+  </app-dynamic-form>
+
+  <div *ngIf="local_data.errorMessage" class="error-message text-danger">
+    {{ local_data.errorMessage }}
   </div>
+</mat-dialog-content>
+
+
+<!--<mat-dialog-actions *ngIf="action !== 'Delete'">-->
+<!--  <button mat-button (click)="closeDialog()">-->
+<!--    {{ readOnly ? 'Close' : 'Cancel' }}-->
+<!--  </button>-->
+<!--  <button-->
+<!--    *ngIf="!readOnly"-->
+<!--    mat-raised-button-->
+<!--    color="primary"-->
+<!--    (click)="doAction()">-->
+<!--    {{ action }}-->
+<!--  </button>-->
+<!--</mat-dialog-actions>-->
+
+<mat-dialog-content *ngIf="action === 'Delete'">
+  <div class="p-x-24">
+    <!--    <p>Are you sure you want to delete <span class="f-w-600">{{ local_data.Name }}</span>?</p>-->
+    <div *ngIf="local_data.errorMessage" class="error-message text-danger">
+      <!--      {{ local_data.errorMessage }}-->
+      <p><span class="f-w-600">{{ local_data.errorMessage }}</span>?</p>
+
+    </div>
+  </div>
+
   <div mat-dialog-actions class="p-x-24 p-b-24">
     <button mat-button (click)="doAction()" mat-flat-button color="warn">
       {{ action }}
     </button>
-    <button mat-button (click)="closeDialog()" class="m-l-8">Cancel</button>
+    <button mat-button (click)="closeDialog()" class="m-l-8">
+      Cancel
+    </button>
   </div>
-</ng-template>
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="action == 'Notification'">
+  <div class="p-x-24">
+    <div *ngIf="local_data.errorMessage" class="error-message text-danger">
+      <p><span class="f-w-600">{{ local_data.errorMessage }}</span></p>
+    </div>
+
+    <div *ngIf="local_data.message" class="success-message success">
+      <p><span class="f-w-600">{{ local_data.message }}</span></p>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="p-x-24 p-b-24">
+
+    <button mat-button (click)="closeDialog()" class="m-l-8"  mat-flat-button color="primary">
+      Close
+    </button>
+  </div>
+</mat-dialog-content>

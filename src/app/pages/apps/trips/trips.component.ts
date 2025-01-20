@@ -1,8 +1,11 @@
-import {Component} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {SchoolViewComponent} from "../schools/school-view/school-view.component";
-import {NavigationExtras, Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { HttpClient } from "@angular/common/http";
+import { SchoolViewComponent } from "../schools/school-view/school-view.component";
+import { NavigationExtras, Router } from "@angular/router";
+import { environment } from 'environment';
+import { IForm } from '../forms/interfaces/IForm';
+import { tripForm } from '../forms/trip-registration-form-config';
 
 /**
  * {
@@ -21,7 +24,9 @@ import {NavigationExtras, Router} from "@angular/router";
   selector: 'app-trips',
   templateUrl: './trips.component.html'
 })
-export class TripsComponent {
+export class TripsComponent implements OnInit {
+  tripForm = tripForm as IForm;
+
   displayedColumns: string[] = [
     'id',
     'tripType',
@@ -44,21 +49,44 @@ export class TripsComponent {
 
   // Fetch schools from the backend
   getTrips() {
-    this.http.get("https://harmony-api-d3c63c482f2e.herokuapp.com/api/trips?page=0&size=20")
-    .subscribe((res: any) => {
-      this.tableData = res
-      console.log("Getting school trips data: {}", res)
-    })
+    this.http.get(environment.apiUrl.concat("trips?page=0&size=20"))
+      .subscribe((res: any) => {
+        this.tableData = res
+        console.log("Getting school trips data: {}", res)
+      })
+  }
+
+  createTrip(request: any): any {
+    this.http.post(environment.apiUrl.concat("trips"), request)
+      .subscribe((res: any) => {
+        var trip = res
+        console.log("Created trip: {}", res)
+        return trip;
+      })
   }
 
   onViewItem(record: any) {
-    console.log("Viewing a school trip: {}", record)
+    console.log("Viewing a school trip: {}", record);
     this.navigateToComponent(record.id);
   }
 
   onAddItem(record: any) {
-    console.log("Adding a school")
-    this.dialog.open(SchoolViewComponent);
+    console.log("Adding a trip")
+    this.dialog.open(SchoolViewComponent, {
+      data: {
+        action: 'View',
+        tripData: record,
+        formInput: tripForm
+      }, // Pass relevant data
+    }).afterClosed().subscribe(result => {
+      if (result) { // Check if dialog closed with a value
+        console.log("Creation value from Trip View:", result);
+        // Use the received value (result) here
+        if (result.action === 'Add') {
+          this.createTrip(result.data);
+        }
+      }
+    });
 
   }
 
@@ -70,7 +98,7 @@ export class TripsComponent {
   onDeleteItem(record: any) {
     console.log("Deleting a school")
     this.dialog.open(SchoolViewComponent, {
-      data: {action: 'Delete'},
+      data: { action: 'Delete' },
     });
   }
 

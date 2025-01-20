@@ -1,131 +1,112 @@
 import {Component, OnInit} from '@angular/core';
-import {SchoolViewComponent} from '../schools/school-view/school-view.component';
 import {MatDialog} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
-import {environment} from 'environment';
-import {organizationForm} from "../forms/registration-form-config";
+import {organizationForm} from "../forms/institution-registration-form-config";
 import {IForm} from "../forms/interfaces/IForm";
-import {Observable} from "rxjs";
+import {CrudActions} from "../reusable/CrudActions";
+import {EntityAction} from "../reusable/EntityAction";
 
+// @ts-ignore
 @Component({
   selector: 'app-organizations',
   templateUrl: './organizations.component.html'
 })
-export class OrganizationsComponent implements OnInit {
-  organizationForm = organizationForm as IForm;
+export class OrganizationsComponent extends CrudActions implements OnInit {
+  recordForm = organizationForm as IForm;
+  displayedColumns: string[];
+  tableHeading: string;
+  tableData: any[];
+  entityName: string = 'organizations';
 
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'logoImageUrl',
-    'location',
-    'entityStatus',
-    'action',
-  ];
-
-  tableHeading: string = "Organizations";
-  tableData: any[] = [];
-
-
-  constructor(public dialog: MatDialog, private http: HttpClient) {
+  constructor(http: HttpClient, dialog: MatDialog) {
+    super(dialog, http); // Pass dependencies to the parent class
+    this.displayedColumns = this.recordForm.displayColumns;
+    this.tableHeading = this.recordForm.formTitle;
   }
 
   // Lifecycle event to execute the api calls
   ngOnInit(): void {
-    this.getOrganizations()
-    // this.tableData = employees
+    this.getRecords()
   }
 
   // Fetch schools from the backend
-  getOrganizations() {
-    this.http.get(environment.apiUrl.concat("organizations?page=0&size=20"))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting organizations data: {}", res)
-      })
+  getRecords() {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: ''
+    };
+    this.getRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
-  createOrganization(request: any): any {
-    this.http.post(environment.apiUrl.concat("organizations"), request)
-      .subscribe((res: any) => {
-        var organization = res
-        console.log("Created organization: {}", res)
-        return organization;
-      })
-  }
-
-  // Get organizations record to edit
-  editOrganizations(data: any) {
-    //debugger
-
-  }
-
-
-  // Get organizations record to delete
-  deleteOrgaization(data: any) {
-    //debugger
-
-  }
-
+  /**
+   * Process the action to view a single  record
+   * @param record
+   */
   onViewItem(record: any) {
-    console.log("Viewing a organization")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'View',
-        formInput: organizationForm
-      },
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onViewRecord(entity, this.recordForm);
   }
 
+  /**
+   * Process the action to add a new record
+   * @param record
+   */
   onAddItem(record: any) {
-    console.log("Adding an organization ...")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Add',
-        formInput: organizationForm
-      }, // Pass relevant data
-    }).afterClosed().subscribe(result => {
-      console.log("Creation value from organization View:", result);
-      // Create organization
-      if (result.action === 'Add') {
-        this.createOrganization(result.data);
-      }
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onAddRecord(entity, this.recordForm);
   }
 
+
+  /**
+   * Handle action to update a record
+   * @param record
+   */
   onUpdateItem(record: any) {
-    console.log("Updating a organization")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Update',
-        formInput: organizationForm
-      },
-    });
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onUpdateRecord(entity, this.recordForm);
   }
 
+  /**
+   * Handle action to delete a record
+   * @param record
+   */
   onDeleteItem(record: any) {
-    console.log("Deleting a organization")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'Delete',
-        formInput: organizationForm
-      },
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onDeleteRecord(entity);
+  }
+
+  /**
+   * Handle action to filter records
+   * @param record
+   */
+  onFilterValue(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onFilterRecord(entity).subscribe((response) => {
+      this.tableData = response
     });
   }
-
-  // Filter records
-  onFilterValue(record: any) {
-    console.log("Filtering records of organizations: ", record);
-    this.http.get(environment.apiUrl.concat("organizations?name.contains=" + record))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting organization data: {}", res)
-      })
-  }
-
-  onCreationValue(record: any) {
-    console.log("Creating an organization: " + record)
-  }
-
 
 }

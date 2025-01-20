@@ -1,35 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { SchoolViewComponent } from "../schools/school-view/school-view.component";
 import { IForm } from "../forms/interfaces/IForm";
-import { vehicleForm } from '../forms/vehicle-registration-form-config';
+import { driverForm } from '../forms/driver-registration-form-config';
 import { environment } from 'environment';
 import {CrudActions} from "../reusable/CrudActions";
 import {organizationForm} from "../forms/institution-registration-form-config";
 import {EntityAction} from "../reusable/EntityAction";
 
-
-/**
- *  {
- *     "id": 0,
- *     "numberPlate": "string",
- *     "vehicleType": "BUS",
- *     "entityStatus": "ACTIVE",
- *     "creationDate": "2023-12-02T14:26:59.956Z",
- */
-
-
 @Component({
-  selector: 'app-vehicles',
-  templateUrl: './vehicles.component.html'
+  selector: 'app-drivers',
+  templateUrl: './drivers.component.html'
 })
-export class VehiclesComponent extends CrudActions implements OnInit {
-  recordForm = vehicleForm as IForm;
+export class DriversComponent extends CrudActions implements OnInit {
+  recordForm = driverForm as IForm;
   displayedColumns: string[];
   tableHeading: string;
   tableData: any[];
-  entityName: string = 'fleets';
+  entityName: string = 'drivers';
 
   constructor(http: HttpClient, dialog: MatDialog) {
     super(dialog, http); // Pass dependencies to the parent class
@@ -123,5 +112,4 @@ export class VehiclesComponent extends CrudActions implements OnInit {
   }
 
 }
-
 
