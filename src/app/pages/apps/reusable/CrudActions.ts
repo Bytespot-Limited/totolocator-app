@@ -1,5 +1,5 @@
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {EntityAction} from "./EntityAction";
 import {environment} from "../../../../../environment";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
@@ -7,6 +7,10 @@ import {Observable} from "rxjs";
 import {IForm} from "../forms/interfaces/IForm";
 
 export class CrudActions {
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  })
 
   constructor(public dialog: MatDialog, private http: HttpClient) {
   }
@@ -33,7 +37,9 @@ export class CrudActions {
    * @param entity
    */
   getRecord(entity: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"));
+    return this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"), {
+      headers: this.headers
+    });
   }
 
 
@@ -56,16 +62,16 @@ export class CrudActions {
         this.addRecord(record).subscribe({
           next: (res) => {
             this.handleApiRecordResponse(
-              res,
-              record,
-              SchoolViewComponent
+                res,
+                record,
+                SchoolViewComponent
             );
           },
           error: (error) => {
             this.handleApiRecordError(
-              error,
-              record,
-              SchoolViewComponent
+                error,
+                record,
+                SchoolViewComponent
             );
           },
         });
@@ -111,16 +117,16 @@ export class CrudActions {
           this.updateRecord(record).subscribe({
             next: (res) => {
               this.handleApiRecordResponse(
-                res,
-                record,
-                SchoolViewComponent
+                  res,
+                  record,
+                  SchoolViewComponent
               );
             },
             error: (error) => {
               this.handleApiRecordError(
-                error,
-                record,
-                SchoolViewComponent
+                  error,
+                  record,
+                  SchoolViewComponent
               );
             },
           });
@@ -156,30 +162,30 @@ export class CrudActions {
     dialogRef.afterClosed().subscribe(result => {
       if (result?.event === 'Delete') {
         this.deleteRecord(entity).subscribe(
-          response => {
-            console.log('Record deleted successfully', response);
-            const dialogRef = this.dialog.open(SchoolViewComponent, {
-              data: {
-                action: 'Notification',
-                local_data: response,
-                message: 'Deleted record successfully: '.concat(entity.data.name),
-              },
-            });
-          },
-          error => {
-            console.error('Error deleting record', error);
-            const dialogRef = this.dialog.open(SchoolViewComponent, {
-              data: {
-                action: 'Notification',
-                local_data: error,
-                message: 'An error occurred deleting organization: '.concat(entity.id),
-              },
-            });
-            // Update the dialog data with the error message
-            //dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
-            // Trigger change detection manually
-            //dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
-          }
+            response => {
+              console.log('Record deleted successfully', response);
+              const dialogRef = this.dialog.open(SchoolViewComponent, {
+                data: {
+                  action: 'Notification',
+                  local_data: response,
+                  message: 'Deleted record successfully: '.concat(entity.data.name),
+                },
+              });
+            },
+            error => {
+              console.error('Error deleting record', error);
+              const dialogRef = this.dialog.open(SchoolViewComponent, {
+                data: {
+                  action: 'Notification',
+                  local_data: error,
+                  message: 'An error occurred deleting organization: '.concat(entity.id),
+                },
+              });
+              // Update the dialog data with the error message
+              //dialogRef.componentInstance.local_data.errorMessage = error.error?.message || 'An error occurred while deleting the organisation.';
+              // Trigger change detection manually
+              //dialogRef.componentInstance.dialogRef.updateSize(); // Optional: adjust dialog size if necessary
+            }
         );
       }
     });
@@ -210,9 +216,9 @@ export class CrudActions {
    * @param dialogComponent
    */
   handleApiRecordResponse(
-    res: any,
-    entity: EntityAction,
-    dialogComponent: any
+      res: any,
+      entity: EntityAction,
+      dialogComponent: any
   ): void {
     this.dialog.open(dialogComponent, {
       data: {

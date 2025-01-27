@@ -16,11 +16,11 @@ export const AuthenticationRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'boxed-forgot-pwd',
+        path: 'forgot-pwd',
         component: AppBoxedForgotPasswordComponent,
       },
       {
-        path: 'boxed-login',
+        path: 'login',
         component: AppBoxedLoginComponent,
       },
       {
