@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
-import { ActivatedRoute } from "@angular/router";
-import { environment } from 'environment';
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {HttpClient} from "@angular/common/http";
+import {ActivatedRoute} from "@angular/router";
+import {environment} from 'environment';
 
 
 @Component({
@@ -16,9 +16,6 @@ export class StudentTripComponent implements OnInit {
   }
   students: any[];
   id: any;
-
-  searchText: any;
-
 
   constructor(
     public dialog: MatDialog,
@@ -38,27 +35,28 @@ export class StudentTripComponent implements OnInit {
 
   // Get students on the given trip
   getStudentsOnTrip(tripId: number) {
-    // this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"))
-    this.http.get(environment.apiUrl.concat("student-trips/" + tripId))
-      .subscribe((res: any) => {
-        this.students = res.students; 
-        console.log("Getting students in the trip data: {}", res)
-      })
+    this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"))
+    .subscribe((res: any) => {
+      this.students = res;
+      console.log("Getting students in the trip data: {}", res)
+    })
 
 
   }
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    //this.students = this.filter(filterValue);
+
+    this.http.get(environment.apiUrl.concat("student-trips").concat("?student_name.contains=" + filterValue))
+    .subscribe(res => {
+      //this.students = res;
+
+    });
   }
 
   filter(v: string): void {
-    // return this.contactService
-    // .getContacts()
-    // .filter(
-    //   (x) => x.contactname.toLowerCase().indexOf(v.toLowerCase()) !== -1
-    // );
+
+
   }
 
   // Process the incoming user action
@@ -108,11 +106,29 @@ export class StudentTripComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Confirm') {
         console.log("Confirmed update of student trip.")
-        this.http.patch(environment.apiUrl + this.actionPojo.id, this.actionPojo)
-          .subscribe((res: any) => {
-            console.log("Updated the student trip: {}", res);
+        this.http.patch(environment.apiUrl + "student-trips/" + this.actionPojo.id, this.actionPojo)
+        .subscribe({
+          next: (res) => {
+            this.dialog.open(DialogBoxComponent, {
+              data: {
+                cancel: true,
+                title: 'Success',
+                question: 'Student has been off-boarded'
+              },
+            });
             this.getStudentsOnTrip(this.id)
-          })
+
+          },
+          error: (error) => {
+            this.dialog.open(DialogBoxComponent, {
+              data: {
+                cancel: true,
+                title: 'Error',
+                question: 'An error occurred off-boarding the student. Please try again'
+              },
+            });
+          },
+        });
       } else if (result.event === 'Cancel') {
         console.log("Cancel update of student trip.")
       }
@@ -126,25 +142,25 @@ export class StudentTripComponent implements OnInit {
   templateUrl: './dialog-box.component.html'
 })
 export class DialogBoxComponent {
-
   title: string;
   action: string;
-
+  cancel: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    console.log('Received dialog data: ', data)
 
   }
 
   doAction(): void {
-    this.dialogRef.close({ event: 'Confirm' });
+    this.dialogRef.close({event: 'Confirm'});
   }
 
   closeDialog(): void {
-    this.dialogRef.close({ event: 'Cancel' });
+    this.dialogRef.close({event: 'Cancel'});
   }
 
 }

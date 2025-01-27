@@ -1,15 +1,12 @@
 import {IForm} from "./interfaces/IForm";
 
 export const tripForm: IForm = {
-  formTitle: 'Trip Form',
-  saveBtnTitle: 'Add Trip',
+  formTitle: 'Trip',
+  saveBtnTitle: 'Save Trip',
   resetBtnTitle: 'Cancel',
   displayColumns: [
     'id',
-    'name',
-    //'logoImageUrl',
-    'location',
-    'entityStatus',
+    'tripType',
     'action',
   ],
   formControls: [
@@ -21,9 +18,9 @@ export const tripForm: IForm = {
       "class": "col-sm-12 d-flex align-items-center",
       "type": "select",
       "options": [
-        { "label": "Dropoff", "value": "DROPOFF" },
-        { "label": "Field Trip", "value": "FIELDTRIP" },
-        { "label": "Pickup", "value": "PICKUP" }
+        {"label": "Dropoff", "value": "DROPOFF"},
+        {"label": "Field Trip", "value": "FIELDTRIP"},
+        {"label": "Pickup", "value": "PICKUP"}
       ],
       "validators": [
         {
@@ -32,60 +29,60 @@ export const tripForm: IForm = {
           "message": "Trip type is Required"
         }
       ]
-    },
-    {
-      "name": "tripStatus",
-      "label": "Trip Status",
-      "value": "",
-      "placeholder": "Select Trip Status",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "select",
-      "options": [
-        { "label": "Completed", "value": "COMPLETED" },
-        { "label": "Ongoing", "value": "ONGOING" },
-        { "label": "Started", "value": "STARTED" }
-      ],
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Trip status is Required"
-        }
-      ]
-    },
-    {
-      "name": "entityStatus",
-      "label": "Entity Status",
-      "value": "",
-      "placeholder": "Select Entity Status",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "select",
-      "options": [
-        { "label": "Active", "value": "ACTIVE" },
-        { "label": "Inactive", "value": "INACTIVE" }
-      ],
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Entity status is Required"
-        }
-      ]
-    },
-    {
-      "name": "startTime",
-      "label": "Start Time",
-      "value": "",
-      "placeholder": "HH:MM",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "time",
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Start time is Required"
-        }
-      ]
     }
+    // {
+    //   "name": "tripStatus",
+    //   "label": "Trip Status",
+    //   "value": "",
+    //   "placeholder": "Select Trip Status",
+    //   "class": "col-sm-12 d-flex align-items-center",
+    //   "type": "select",
+    //   "options": [
+    //     { "label": "Completed", "value": "COMPLETED" },
+    //     { "label": "Ongoing", "value": "ONGOING" },
+    //     { "label": "Started", "value": "STARTED" }
+    //   ],
+    //   "validators": [
+    //     {
+    //       "validatorName": "required",
+    //       "pattern": "",
+    //       "message": "Trip status is Required"
+    //     }
+    //   ]
+    // },
+    // {
+    //   "name": "entityStatus",
+    //   "label": "Entity Status",
+    //   "value": "",
+    //   "placeholder": "Select Entity Status",
+    //   "class": "col-sm-12 d-flex align-items-center",
+    //   "type": "select",
+    //   "options": [
+    //     { "label": "Active", "value": "ACTIVE" },
+    //     { "label": "Inactive", "value": "INACTIVE" }
+    //   ],
+    //   "validators": [
+    //     {
+    //       "validatorName": "required",
+    //       "pattern": "",
+    //       "message": "Entity status is Required"
+    //     }
+    //   ]
+    // },
+    // {
+    //   "name": "startTime",
+    //   "label": "Start Time",
+    //   "value": "",
+    //   "placeholder": "HH:MM",
+    //   "class": "col-sm-12 d-flex align-items-center",
+    //   "type": "time",
+    //   "validators": [
+    //     {
+    //       "validatorName": "required",
+    //       "pattern": "",
+    //       "message": "Start time is Required"
+    //     }
+    //   ]
+    // }
   ]
 }

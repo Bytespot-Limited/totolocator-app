@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
-import { SchoolViewComponent } from "../schools/school-view/school-view.component";
-import { NavigationExtras, Router } from "@angular/router";
-import { environment } from 'environment';
-import { IForm } from '../forms/interfaces/IForm';
-import { tripForm } from '../forms/trip-registration-form-config';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
+import {IForm} from '../forms/interfaces/IForm';
+import {tripForm} from '../forms/trip-registration-form-config';
+import {CrudActions} from "../reusable/CrudActions";
+import {EntityAction} from "../reusable/EntityAction";
 
 /**
  * {
@@ -24,86 +24,105 @@ import { tripForm } from '../forms/trip-registration-form-config';
   selector: 'app-trips',
   templateUrl: './trips.component.html'
 })
-export class TripsComponent implements OnInit {
-  tripForm = tripForm as IForm;
+export class TripsComponent extends CrudActions implements OnInit {
+  recordForm = tripForm as IForm;
+  displayedColumns: string[];
+  tableHeading: string;
+  tableData: any[];
+  entityName: string = 'trips';
 
-  displayedColumns: string[] = [
-    'id',
-    'tripType',
-    'tripStatus',
-    'startTime',
-    'endTime',
-    'action',
-  ];
-  tableHeading: string = "Trips";
-  tableData: any[] = [];
-
-  constructor(public dialog: MatDialog, private http: HttpClient, private router: Router) {
+  constructor(http: HttpClient, dialog: MatDialog, private router: Router) {
+    super(dialog, http); // Pass dependencies to the parent class
+    this.displayedColumns = this.recordForm.displayColumns;
+    this.tableHeading = this.recordForm.formTitle;
   }
 
   // Lifecycle event to execute the api calls
   ngOnInit(): void {
-    this.getTrips()
-    // this.tableData = employees
+    this.getRecords()
   }
 
   // Fetch schools from the backend
-  getTrips() {
-    this.http.get(environment.apiUrl.concat("trips?page=0&size=20"))
-      .subscribe((res: any) => {
-        this.tableData = res
-        console.log("Getting school trips data: {}", res)
-      })
+  getRecords() {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: ''
+    };
+    this.getRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
-  createTrip(request: any): any {
-    this.http.post(environment.apiUrl.concat("trips"), request)
-      .subscribe((res: any) => {
-        var trip = res
-        console.log("Created trip: {}", res)
-        return trip;
-      })
-  }
-
+  /**
+   * Process the action to view a single  record
+   * @param record
+   */
   onViewItem(record: any) {
-    console.log("Viewing a school trip: {}", record);
     this.navigateToComponent(record.id);
   }
 
-  onAddItem(record: any) {
-    console.log("Adding a trip")
-    this.dialog.open(SchoolViewComponent, {
-      data: {
-        action: 'View',
-        tripData: record,
-        formInput: tripForm
-      }, // Pass relevant data
-    }).afterClosed().subscribe(result => {
-      if (result) { // Check if dialog closed with a value
-        console.log("Creation value from Trip View:", result);
-        // Use the received value (result) here
-        if (result.action === 'Add') {
-          this.createTrip(result.data);
-        }
-      }
-    });
-
-  }
-
-  onUpdateItem(record: any) {
-    console.log("Updating a school")
-    this.dialog.open(SchoolViewComponent);
-  }
-
-  onDeleteItem(record: any) {
-    console.log("Deleting a school")
-    this.dialog.open(SchoolViewComponent, {
-      data: { action: 'Delete' },
-    });
-  }
-
+  /**
+   * Navigate to the view page to see a list of students
+   * @param id
+   */
   navigateToComponent(id: number) {
     this.router.navigate(['apps/trips/students', id]);
+  }
+
+  /**
+   * Process the action to add a new record
+   * @param record
+   */
+  onAddItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onAddRecord(entity, this.recordForm);
+  }
+
+
+  /**
+   * Handle action to update a record
+   * @param record
+   */
+  onUpdateItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onUpdateRecord(entity, this.recordForm);
+  }
+
+  /**
+   * Handle action to delete a record
+   * @param record
+   */
+  onDeleteItem(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: record.id,
+      data: record
+    };
+    this.onDeleteRecord(entity);
+  }
+
+  /**
+   * Handle action to filter records
+   * @param record
+   */
+  onFilterValue(record: any) {
+    let entity: EntityAction = {
+      name: this.entityName,
+      id: '',
+      data: record
+    };
+    this.onFilterRecord(entity).subscribe((response) => {
+      this.tableData = response
+    });
   }
 
 }
