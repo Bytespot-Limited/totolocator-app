@@ -12,6 +12,8 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
   terminalId: any;
   map: any;
   marker: any;
+  studentMarker: any;
+
   terminal: any;
   vehicle: any;
 
@@ -74,6 +76,27 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
 
     this.map = L.map('map').setView([Number(this.terminal.latitude), Number(this.terminal.longitude)], 15); // Set initial coordinates and zoom level
 
+    const getMarkers = (): L.Marker[] => {
+      return [
+        new L.Marker(new L.LatLng(43.5121264, 16.4700729), {
+          icon: new L.Icon({
+            iconSize: [50, 41],
+            iconAnchor: [13, 41],
+            iconUrl: 'assets/blue-marker.svg',
+          }),
+          title: 'Workspace'
+        } as L.MarkerOptions),
+        new L.Marker(new L.LatLng(43.5074826, 16.4390046), {
+          icon: new L.Icon({
+            iconSize: [50, 41],
+            iconAnchor: [13, 41],
+            iconUrl: 'assets/red-marker.svg',
+          }),
+          title: 'Riva'
+        } as L.MarkerOptions),
+      ] as L.Marker[];
+    };
+
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
@@ -81,6 +104,13 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
     this.marker = L.marker([Number(this.terminal.latitude), Number(this.terminal.longitude)], {icon: busIcon}).addTo(this.map)
     .bindPopup("Driver: John Mwangi.<br>Vehicle: KDH 722E")
     .openPopup();
+
+    this.studentMarker = L.marker([Number(-1.2509837), Number(36.783291)], {icon: busIcon}).addTo(this.map)
+    .bindPopup("Driver: John Mwangi.<br>Vehicle: KDH 722E")
+    .openPopup();
+    L.polyline([L.latLng(this.terminal.latitude,this.terminal.longitude),
+    L.latLng(-1.2509837, 36.783291)], { color: '#0d9148'})
+    .addTo(this.map);
 
     // Set up the interval to refresh the map every 5 seconds
     setInterval(() => {
@@ -98,7 +128,7 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
    * Fetch terminal information
    * @param id
    */
-   fetchTerminalInfo(id: number) {
+  fetchTerminalInfo(id: number) {
     this.http.get("http://localhost:8080/api/terminals/" + id)
     .subscribe((res: any) => {
       console.log("Getting terminal information: {}", res)

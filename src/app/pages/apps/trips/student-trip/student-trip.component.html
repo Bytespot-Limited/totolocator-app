@@ -44,6 +44,9 @@
            <button disabled="true"  *ngIf="student.status == 'DROPPED_OFF'" mat-flat-button class="m-r-8" color="disabled">
             Dropped Off
           </button>
+          <button  (click)="actionStudentTrip('direction', student)" *ngIf="student.status == 'PENDING'" mat-flat-button class="m-r-8" color="accent">
+            Direction
+          </button>
         </div>
         <div class="m-t-20">
           <span class="f-s-14">

@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from 'environment';
 
 
@@ -20,7 +20,8 @@ export class StudentTripComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -70,9 +71,17 @@ export class StudentTripComponent implements OnInit {
       console.log("Dropping of student: ", record.student.name)
       this.updateStudentOnTrip(record.id, 'DROPPED_OFF');
 
+    } else if (action === 'direction') {
+      console.log("Get direction of student: ", record)
+      this.navigateToComponent(record.id);
     }
 
 
+  }
+
+  navigateToComponent(id: number) {
+    this.router.navigate(['apps/trip-tracker', id]
+    );
   }
 
   // Update student trip i.e pickup of drop off
