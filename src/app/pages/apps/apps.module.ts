@@ -46,6 +46,7 @@ import {
 import { TerminalViewComponent } from './terminals/terminal-view/terminal-view.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
 import {DynamicFormComponent} from "./reusable/dynamic-form/dynamic-form.component";
+import {TripViewerComponent} from "./trips/trip-viewer/trip-viewer.component";
 
 @NgModule({
   imports: [
@@ -77,6 +78,7 @@ import {DynamicFormComponent} from "./reusable/dynamic-form/dynamic-form.compone
     CrudFormComponent,
     SchoolViewComponent,
     TripsComponent,
+    TripViewerComponent,
     TerminalsComponent,
     StudentsComponent,
     InvoicesComponent,

@@ -147,7 +147,7 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
     .subscribe((res: any) => {
       console.log("Getting vehicle information: {}", res)
       this.vehicle = res[0];
-      this.initMap();
+      //this.initMap();
     })
   }
 
