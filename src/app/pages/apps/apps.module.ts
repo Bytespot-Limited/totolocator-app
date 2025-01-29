@@ -47,9 +47,11 @@ import { TerminalViewComponent } from './terminals/terminal-view/terminal-view.c
 import { OrganizationsComponent } from './organizations/organizations.component';
 import {DynamicFormComponent} from "./reusable/dynamic-form/dynamic-form.component";
 import {TripViewerComponent} from "./trips/trip-viewer/trip-viewer.component";
+import {GoogleMapsModule} from "@angular/google-maps";
 
 @NgModule({
   imports: [
+    GoogleMapsModule,
     CommonModule,
     RouterModule.forChild(AppsRoutes),
     MaterialModule,

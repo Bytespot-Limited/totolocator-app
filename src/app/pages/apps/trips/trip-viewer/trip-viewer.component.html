@@ -1,5 +1,23 @@
-<div class="container">
-  <h1>Trip Viewer</h1>
-  <div id="map" class="map-container"></div>
+<!-- map.component.html -->
+<div class="map-container">
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div class="eta-display">
+    {{ loading ? 'Loading ETA...' : 'Estimated Time Arrival: ' + eta }}
+  </div>
+
+  <google-map
+    [center]="center"
+    [zoom]="zoom"
+    [options]="options"
+    (mapInitialized)="calculateETA()"
+  >
+    <map-marker
+      [position]="busLocation"
+      [options]="busMarkerOptions"
+    ></map-marker>
+    <map-marker
+      [position]="homeLocation"
+      [options]="homeMarkerOptions"
+    ></map-marker>
+  </google-map>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk78IBulZVCNl2SGPDSExuDX2poBlrZIA&libraries=places"></script>
