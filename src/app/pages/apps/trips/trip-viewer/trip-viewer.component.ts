@@ -69,7 +69,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculateETA(): void {
+  protected calculateETA(): void {
     if (!this.map?.googleMap) return;
 
     const service = new google.maps.DistanceMatrixService();

@@ -62,20 +62,16 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "totolocator:build"
-          },
           "configurations": {
             "production": {
-              "browserTarget": "totolocator:build:production"
+              "buildTarget": "totolocator:build:production"
             },
             "development": {
-              "browserTarget": "totolocator:build:development"
+              "buildTarget": "totolocator:build:development"
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
+        },        "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "totolocator:build"
