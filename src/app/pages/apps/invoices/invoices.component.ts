@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
 import {CrudActions} from "../reusable/CrudActions";
 import {organizationForm} from "../forms/institution-registration-form-config";

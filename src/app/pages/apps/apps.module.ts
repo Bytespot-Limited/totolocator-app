@@ -9,7 +9,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 // icons
@@ -49,50 +49,43 @@ import {DynamicFormComponent} from "./reusable/dynamic-form/dynamic-form.compone
 import {TripViewerComponent} from "./trips/trip-viewer/trip-viewer.component";
 import {GoogleMapsModule} from "@angular/google-maps";
 
-@NgModule({
-  imports: [
-    GoogleMapsModule,
-    CommonModule,
-    RouterModule.forChild(AppsRoutes),
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxPermissionsModule.forRoot(),
-    NgApexchartsModule,
-    TablerIconsModule.pick(TablerIcons),
-    DragDropModule,
-    NgxPaginationModule,
-    HttpClientModule,
-    AngularEditorModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    MatNativeDateModule,
-    NgScrollbarModule,
-  ],
-  exports: [TablerIconsModule],
-  declarations: [
-    DriversComponent,
-    OrganizationsComponent,
-    SchoolsComponent,
-    CrudDataTableComponent,
-    CrudFormComponent,
-    SchoolViewComponent,
-    TripsComponent,
-    TripViewerComponent,
-    TerminalsComponent,
-    StudentsComponent,
-    InvoicesComponent,
-    NotificationsComponent,
-    VehiclesComponent,
-    SchoolStuffComponent,
-    GuardiansComponent,
-    StudentTripComponent,
-    TerminalViewComponent,
-    DialogBoxComponent,
-    DynamicFormComponent
-  ],
-  providers: [DatePipe],
-})
+@NgModule({ exports: [TablerIconsModule],
+    declarations: [
+        DriversComponent,
+        OrganizationsComponent,
+        SchoolsComponent,
+        CrudDataTableComponent,
+        CrudFormComponent,
+        SchoolViewComponent,
+        TripsComponent,
+        TripViewerComponent,
+        TerminalsComponent,
+        StudentsComponent,
+        InvoicesComponent,
+        NotificationsComponent,
+        VehiclesComponent,
+        SchoolStuffComponent,
+        GuardiansComponent,
+        StudentTripComponent,
+        TerminalViewComponent,
+        DialogBoxComponent,
+        DynamicFormComponent
+    ], imports: [GoogleMapsModule,
+        CommonModule,
+        RouterModule.forChild(AppsRoutes),
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPermissionsModule.forRoot(),
+        NgApexchartsModule,
+        TablerIconsModule.pick(TablerIcons),
+        DragDropModule,
+        NgxPaginationModule,
+        AngularEditorModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        MatNativeDateModule,
+        NgScrollbarModule], providers: [DatePipe, provideHttpClient(withInterceptorsFromDi())] })
 export class AppsModule {}

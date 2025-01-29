@@ -1,5 +1,5 @@
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {EntityAction} from "./EntityAction";
 import {environment} from "../../../../../environment";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";

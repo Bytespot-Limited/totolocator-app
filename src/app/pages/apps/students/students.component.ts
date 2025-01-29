@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {IForm} from "../forms/interfaces/IForm";
 import {studentForm} from '../forms/student-registration-form-config';
 import {CrudActions} from "../reusable/CrudActions";

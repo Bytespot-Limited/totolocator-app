@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {IForm} from '../forms/interfaces/IForm';
 import {schoolForm} from '../forms/school-registration-form-config';
