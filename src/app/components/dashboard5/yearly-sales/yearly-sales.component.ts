@@ -27,10 +27,9 @@ export interface yearlySalesChart {
 }
 
 @Component({
-  selector: 'app-yearly-sales',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './yearly-sales.component.html',
+    selector: 'app-yearly-sales',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './yearly-sales.component.html'
 })
 export class AppYearlySalesComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

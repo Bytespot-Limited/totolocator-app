@@ -48,10 +48,9 @@ const PRODUCT_SALES: productsalesData[] = [
 ];
 
 @Component({
-  selector: 'app-product-sales',
-  standalone: true,
-  imports:[MaterialModule, TablerIconsModule],
-  templateUrl: './product-sales.component.html',
+    selector: 'app-product-sales',
+    imports: [MaterialModule, TablerIconsModule],
+    templateUrl: './product-sales.component.html'
 })
 export class AppProductSalesComponent {
   // table 1

@@ -33,8 +33,9 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-area',
-  templateUrl: './area.component.html',
+    selector: 'app-area',
+    templateUrl: './area.component.html',
+    standalone: false
 })
 export class AppAreaChartComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

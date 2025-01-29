@@ -26,8 +26,9 @@ import {schoolStuffForm} from "../forms/school-stuff-form-config";
  */
 
 @Component({
-  selector: 'app-school-stuff',
-  templateUrl: './school-stuff.component.html'
+    selector: 'app-school-stuff',
+    templateUrl: './school-stuff.component.html',
+    standalone: false
 })
 export class SchoolStuffComponent extends CrudActions implements OnInit {
   recordForm =  schoolStuffForm as IForm;

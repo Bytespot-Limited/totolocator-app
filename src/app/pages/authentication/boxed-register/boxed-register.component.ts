@@ -4,8 +4,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-boxed-register',
-  templateUrl: './boxed-register.component.html',
+    selector: 'app-boxed-register',
+    templateUrl: './boxed-register.component.html',
+    standalone: false
 })
 export class AppBoxedRegisterComponent {
   options = this.settings.getOptions();

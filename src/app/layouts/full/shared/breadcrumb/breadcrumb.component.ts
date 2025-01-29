@@ -39,11 +39,10 @@ export interface breadcrumbOption {
 
 
 @Component({
-  selector: 'app-breadcrumb',
-  standalone: true,
-  imports:[NgApexchartsModule, RouterModule, NgIf, NgForOf],
-  templateUrl: './breadcrumb.component.html',
-  styleUrls: [],
+    selector: 'app-breadcrumb',
+    imports: [NgApexchartsModule, RouterModule, NgIf, NgForOf],
+    templateUrl: './breadcrumb.component.html',
+    styleUrls: []
 })
 export class AppBreadcrumbComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

@@ -10,10 +10,9 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-horizontal-nav-item',
-  standalone: true,
-  imports:[MaterialModule, TablerIconsModule, CommonModule],
-  templateUrl: './nav-item.component.html',
+    selector: 'app-horizontal-nav-item',
+    imports: [MaterialModule, TablerIconsModule, CommonModule],
+    templateUrl: './nav-item.component.html'
 })
 export class AppHorizontalNavItemComponent implements OnInit {
   @Input() depth: any;

@@ -8,8 +8,9 @@ import {terminalForm} from "../forms/terminals-form-config";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-terminals',
-  templateUrl: './terminals.component.html'
+    selector: 'app-terminals',
+    templateUrl: './terminals.component.html',
+    standalone: false
 })
 export class TerminalsComponent extends CrudActions implements OnInit {
   recordForm = terminalForm as IForm;

@@ -5,11 +5,10 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-blank',
-  standalone: true,
-  imports: [RouterModule, CommonModule],
-  templateUrl: './blank.component.html',
-  styleUrls: [],
+    selector: 'app-blank',
+    imports: [RouterModule, CommonModule],
+    templateUrl: './blank.component.html',
+    styleUrls: []
 })
 export class BlankComponent {
   private htmlElement!: HTMLHtmlElement;

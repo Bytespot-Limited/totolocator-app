@@ -27,10 +27,9 @@ export interface piechart {
 }
 
 @Component({
-  selector: 'app-pie-cards',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './pie-cards.component.html',
+    selector: 'app-pie-cards',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './pie-cards.component.html'
 })
 export class AppPieCardsComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

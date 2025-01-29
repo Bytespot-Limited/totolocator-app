@@ -200,8 +200,9 @@ const BASIC_DATA: Element[] = [
 
 
 @Component({
-  selector: 'app-basic-table',
-  templateUrl: './basic-table.component.html',
+    selector: 'app-basic-table',
+    templateUrl: './basic-table.component.html',
+    standalone: false
 })
 export class AppBasicTableComponent implements OnInit {
 

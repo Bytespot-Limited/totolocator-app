@@ -34,10 +34,9 @@ export interface inexpuchartOptions {
 }
 
 @Component({
-  selector: 'app-bandwidth-usage',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './bandwidth-usage.component.html',
+    selector: 'app-bandwidth-usage',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './bandwidth-usage.component.html'
 })
 export class AppBandwidthUsageComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

@@ -6,8 +6,9 @@ import {environment} from 'environment';
 
 
 @Component({
-  selector: 'app-student-trip',
-  templateUrl: './student-trip.component.html'
+    selector: 'app-student-trip',
+    templateUrl: './student-trip.component.html',
+    standalone: false
 })
 export class StudentTripComponent implements OnInit {
   actionPojo = {
@@ -147,8 +148,9 @@ export class StudentTripComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-dialog-box',
-  templateUrl: './dialog-box.component.html'
+    selector: 'app-dialog-box',
+    templateUrl: './dialog-box.component.html',
+    standalone: false
 })
 export class DialogBoxComponent {
   title: string;

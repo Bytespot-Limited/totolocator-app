@@ -13,10 +13,9 @@ interface stats {
 }
 
 @Component({
-  selector: 'app-recent-transactions',
-  standalone: true,
-  imports: [MaterialModule, TablerIconsModule, NgFor, NgIf],
-  templateUrl: './recent-transactions.component.html',
+    selector: 'app-recent-transactions',
+    imports: [MaterialModule, TablerIconsModule, NgFor, NgIf],
+    templateUrl: './recent-transactions.component.html'
 })
 export class AppRecentTransactionsComponent {
   constructor() {}

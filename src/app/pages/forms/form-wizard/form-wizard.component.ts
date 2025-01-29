@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-form-wizard',
-  templateUrl: './form-wizard.component.html',
+    selector: 'app-form-wizard',
+    templateUrl: './form-wizard.component.html',
+    standalone: false
 })
 export class AppFormWizardComponent {
   firstFormGroup = this._formBuilder.group({

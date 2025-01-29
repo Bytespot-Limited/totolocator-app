@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-row-context-table',
-  templateUrl: './row-context-table.component.html',
+    selector: 'app-row-context-table',
+    templateUrl: './row-context-table.component.html',
+    standalone: false
 })
 export class AppRowContextTableComponent implements OnInit {
 

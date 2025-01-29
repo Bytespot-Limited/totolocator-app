@@ -80,8 +80,9 @@ import {EntityAction} from "../reusable/EntityAction";
  *   }
  */
 @Component({
-  selector: 'app-invoices',
-  templateUrl: './invoices.component.html'
+    selector: 'app-invoices',
+    templateUrl: './invoices.component.html',
+    standalone: false
 })
 export class InvoicesComponent extends CrudActions implements OnInit {
   recordForm = organizationForm as IForm;

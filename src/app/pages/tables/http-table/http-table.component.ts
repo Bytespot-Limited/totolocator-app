@@ -6,9 +6,10 @@ import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-http-table',
-  templateUrl: './http-table.component.html',
-  styleUrls: ['./http-table.component.scss']
+    selector: 'app-http-table',
+    templateUrl: './http-table.component.html',
+    styleUrls: ['./http-table.component.scss'],
+    standalone: false
 })
 export class AppHttpTableComponent {
 

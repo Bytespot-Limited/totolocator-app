@@ -4,8 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { IForm } from "../../forms/interfaces/IForm";
 
 @Component({
-  selector: 'app-school-view',
-  templateUrl: './school-view.component.html',
+    selector: 'app-school-view',
+    templateUrl: './school-view.component.html',
+    standalone: false
 })
 export class SchoolViewComponent {
   @Output() creationValueEvent = new EventEmitter<any>();

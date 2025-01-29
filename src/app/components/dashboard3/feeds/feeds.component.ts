@@ -12,10 +12,9 @@ interface msgs {
 }
 
 @Component({
-  selector: 'app-feeds',
-  standalone: true,
-  imports:[NgScrollbarModule, MaterialModule, TablerIconsModule, NgFor],
-  templateUrl: './feeds.component.html',
+    selector: 'app-feeds',
+    imports: [NgScrollbarModule, MaterialModule, TablerIconsModule, NgFor],
+    templateUrl: './feeds.component.html'
 })
 export class AppFeedsComponent {
   

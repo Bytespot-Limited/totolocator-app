@@ -70,8 +70,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-selection-table',
-  templateUrl: './selection-table.component.html',
+    selector: 'app-selection-table',
+    templateUrl: './selection-table.component.html',
+    standalone: false
 })
 export class AppSelectionTableComponent implements OnInit {
   displayedColumns: string[] = ['select', 'assigned', 'name', 'priority', 'budget'];

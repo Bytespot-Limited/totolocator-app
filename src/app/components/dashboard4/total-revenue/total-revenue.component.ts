@@ -25,10 +25,9 @@ export interface totalrevenueChart {
   plotOptions: ApexPlotOptions | any;
 }
 @Component({
-  selector: 'app-total-revenue',
-  standalone: true,
-  imports:[NgApexchartsModule, MaterialModule],
-  templateUrl: './total-revenue.component.html',
+    selector: 'app-total-revenue',
+    imports: [NgApexchartsModule, MaterialModule],
+    templateUrl: './total-revenue.component.html'
 })
 export class AppTotalRevenueComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

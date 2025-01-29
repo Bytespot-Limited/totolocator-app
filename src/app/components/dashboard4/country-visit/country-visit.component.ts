@@ -17,17 +17,16 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-country-visit',
-  standalone: true,
-  // imports:[TablerIconsModule, MaterialModule ],
-  imports: [
-    TablerIconsModule,
-    MaterialModule,
-    DxVectorMapModule,
-    DxButtonModule,
-  ],
-  providers: [Service],
-  templateUrl: './country-visit.component.html',
+    selector: 'app-country-visit',
+    // imports:[TablerIconsModule, MaterialModule ],
+    imports: [
+        TablerIconsModule,
+        MaterialModule,
+        DxVectorMapModule,
+        DxButtonModule,
+    ],
+    providers: [Service],
+    templateUrl: './country-visit.component.html'
 })
 export class AppCountryVisitsComponent {
   @ViewChild(DxVectorMapComponent, { static: false })

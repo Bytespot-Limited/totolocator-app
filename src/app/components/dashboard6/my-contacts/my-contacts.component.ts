@@ -10,10 +10,9 @@ interface msgs {
 }
 
 @Component({
-  selector: 'app-my-contacts',
-  standalone: true,
-  imports: [MaterialModule, NgForOf],
-  templateUrl: './my-contacts.component.html',
+    selector: 'app-my-contacts',
+    imports: [MaterialModule, NgForOf],
+    templateUrl: './my-contacts.component.html'
 })
 export class AppMyContactsComponent {
   // This is for Mymessages

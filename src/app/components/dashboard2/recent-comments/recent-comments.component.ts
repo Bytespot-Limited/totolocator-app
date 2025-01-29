@@ -15,10 +15,9 @@ interface comments {
 }
 
 @Component({
-  selector: 'app-recent-comments',
-  standalone: true,
-  imports:[MaterialModule, TablerIconsModule, RouterModule, NgFor],
-  templateUrl: './recent-comments.component.html',
+    selector: 'app-recent-comments',
+    imports: [MaterialModule, TablerIconsModule, RouterModule, NgFor],
+    templateUrl: './recent-comments.component.html'
 })
 export class AppRecentCommentsComponent {
   comments: comments[] = [

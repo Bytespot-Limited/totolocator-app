@@ -27,10 +27,9 @@ export interface predictionChart {
 }
 
 @Component({
-  selector: 'app-sales-prediction',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './sales-prediction.component.html',
+    selector: 'app-sales-prediction',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './sales-prediction.component.html'
 })
 export class AppSalesPredictionComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

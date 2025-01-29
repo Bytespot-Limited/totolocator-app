@@ -5,8 +5,9 @@ import { HttpClient } from "@angular/common/http";
 
 
 @Component({
-  selector: 'app-terminal-view',
-  templateUrl: './terminal-view.component.html'
+    selector: 'app-terminal-view',
+    templateUrl: './terminal-view.component.html',
+    standalone: false
 })
 export class TerminalViewComponent implements AfterViewInit, OnInit {
   terminalId: any;

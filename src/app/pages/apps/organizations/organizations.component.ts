@@ -8,8 +8,9 @@ import {EntityAction} from "../reusable/EntityAction";
 
 // @ts-ignore
 @Component({
-  selector: 'app-organizations',
-  templateUrl: './organizations.component.html'
+    selector: 'app-organizations',
+    templateUrl: './organizations.component.html',
+    standalone: false
 })
 export class OrganizationsComponent extends CrudActions implements OnInit {
   recordForm = organizationForm as IForm;

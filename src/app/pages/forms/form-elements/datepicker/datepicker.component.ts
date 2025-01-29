@@ -38,16 +38,17 @@ export class FiveDayRangeSelectionStrategy<D>
 }
 
 @Component({
-  selector: 'app-datepicker',
-  templateUrl: './datepicker.component.html',
-  styleUrls: ['datepicker.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
-      useClass: FiveDayRangeSelectionStrategy,
-    },
-  ],
+    selector: 'app-datepicker',
+    templateUrl: './datepicker.component.html',
+    styleUrls: ['datepicker.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+            useClass: FiveDayRangeSelectionStrategy,
+        },
+    ],
+    standalone: false
 })
 export class AppDatepickerComponent {
   // inline

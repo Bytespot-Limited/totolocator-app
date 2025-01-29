@@ -5,8 +5,9 @@ import { HttpClient } from "@angular/common/http";
 import { FormControls } from "../../forms/interfaces/form-controls";
 
 @Component({
-  selector: 'app-dynamic-form',
-  templateUrl: './dynamic-form.component.html'
+    selector: 'app-dynamic-form',
+    templateUrl: './dynamic-form.component.html',
+    standalone: false
 })
 export class DynamicFormComponent implements OnInit {
   @Output() onCreationValue = new EventEmitter<any>();

@@ -4,8 +4,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-side-register',
-  templateUrl: './side-register.component.html',
+    selector: 'app-side-register',
+    templateUrl: './side-register.component.html',
+    standalone: false
 })
 export class AppSideRegisterComponent {
   options = this.settings.getOptions();

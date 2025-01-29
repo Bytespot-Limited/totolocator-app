@@ -26,25 +26,24 @@ const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
 const MONITOR_VIEW = 'screen and (min-width: 1024px)';
 const BELOWMONITOR = 'screen and (max-width: 1023px)';
 @Component({
-  selector: 'app-full',
-  templateUrl: './full.component.html',
-  standalone: true,
-  imports: [
-    NgScrollbarModule,
-    HeaderComponent,
-    AppHorizontalHeaderComponent,
-    AppHorizontalSidebarComponent,
-    SidebarComponent,
-    AppBreadcrumbComponent,
-    AppSearchDialogComponent,
-    CustomizerComponent,
-    MaterialModule,
-    RouterModule,
-    CommonModule,
-    AppNavItemComponent,
-  ],
-  styleUrls: [],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-full',
+    templateUrl: './full.component.html',
+    imports: [
+        NgScrollbarModule,
+        HeaderComponent,
+        AppHorizontalHeaderComponent,
+        AppHorizontalSidebarComponent,
+        SidebarComponent,
+        AppBreadcrumbComponent,
+        AppSearchDialogComponent,
+        CustomizerComponent,
+        MaterialModule,
+        RouterModule,
+        CommonModule,
+        AppNavItemComponent,
+    ],
+    styleUrls: [],
+    encapsulation: ViewEncapsulation.None
 })
 export class FullComponent implements OnInit {
   navItems = navItems;

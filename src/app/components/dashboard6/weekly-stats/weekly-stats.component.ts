@@ -45,10 +45,9 @@ interface stats {
 }
 
 @Component({
-  selector: 'app-weekly-stats',
-  standalone: true,
-  imports:[NgApexchartsModule, TablerIconsModule, MatIconModule, MaterialModule, NgFor],
-  templateUrl: './weekly-stats.component.html',
+    selector: 'app-weekly-stats',
+    imports: [NgApexchartsModule, TablerIconsModule, MatIconModule, MaterialModule, NgFor],
+    templateUrl: './weekly-stats.component.html'
 })
 export class AppWeeklyStatsComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

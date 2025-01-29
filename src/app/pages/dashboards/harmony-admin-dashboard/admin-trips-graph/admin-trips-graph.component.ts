@@ -34,10 +34,9 @@ export interface salesChart {
 }
 
 @Component({
-  selector: 'app-admin-trips-graph',
-  standalone: true,
-  imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
-  templateUrl: './admin-trips-graph.component.html',
+    selector: 'app-admin-trips-graph',
+    imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
+    templateUrl: './admin-trips-graph.component.html'
 })
 export class AdminTripsGraphComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

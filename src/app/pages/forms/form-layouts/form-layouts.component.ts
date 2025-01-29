@@ -5,8 +5,9 @@ interface Food {
 }
 
 @Component({
-  selector: 'app-form-layouts',
-  templateUrl: './form-layouts.component.html',
+    selector: 'app-form-layouts',
+    templateUrl: './form-layouts.component.html',
+    standalone: false
 })
 export class AppFormLayoutsComponent {
   constructor() {}

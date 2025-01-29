@@ -18,10 +18,9 @@ interface todos {
 }
 
 @Component({
-  selector: 'app-todo-list',
-  standalone: true,
-  imports:[MaterialModule, TablerIconsModule, CommonModule],
-  templateUrl: './todo-list.component.html',
+    selector: 'app-todo-list',
+    imports: [MaterialModule, TablerIconsModule, CommonModule],
+    templateUrl: './todo-list.component.html'
 })
 export class AppTodoListComponent {
   constructor() {}

@@ -73,8 +73,9 @@ import {EntityAction} from "../reusable/EntityAction";
  */
 
 @Component({
-  selector: 'app-students',
-  templateUrl: './students.component.html'
+    selector: 'app-students',
+    templateUrl: './students.component.html',
+    standalone: false
 })
 export class StudentsComponent extends CrudActions implements OnInit {
   recordForm = studentForm as IForm;

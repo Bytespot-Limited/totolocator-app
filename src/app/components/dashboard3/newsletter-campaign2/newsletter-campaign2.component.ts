@@ -29,10 +29,9 @@ export interface newschartOptions {
 }
 
 @Component({
-  selector: 'app-newsletter-campaign2',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './newsletter-campaign2.component.html',
+    selector: 'app-newsletter-campaign2',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './newsletter-campaign2.component.html'
 })
 export class AppNewsletterCampaign2Component {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

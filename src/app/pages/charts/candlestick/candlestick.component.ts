@@ -33,8 +33,9 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-candlestick',
-  templateUrl: './candlestick.component.html',
+    selector: 'app-candlestick',
+    templateUrl: './candlestick.component.html',
+    standalone: false
 })
 export class AppCandlestickChartComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

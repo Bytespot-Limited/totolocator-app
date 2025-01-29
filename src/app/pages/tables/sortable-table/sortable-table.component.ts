@@ -61,8 +61,9 @@ const ELEMENT_DATA: Element[] = [
 ];
 
 @Component({
-  selector: 'app-sortable-table',
-  templateUrl: './sortable-table.component.html',
+    selector: 'app-sortable-table',
+    templateUrl: './sortable-table.component.html',
+    standalone: false
 })
 export class AppSortableTableComponent implements OnInit {
   constructor() {}

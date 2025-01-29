@@ -15,8 +15,9 @@ import {SchoolViewComponent} from "../schools/school-view/school-view.component"
  *   }
  */
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html'
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    standalone: false
 })
 export class NotificationsComponent {
   displayedColumns: string[] = [

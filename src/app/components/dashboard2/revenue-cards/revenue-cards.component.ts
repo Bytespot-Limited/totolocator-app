@@ -12,10 +12,9 @@ interface topcards {
 }
 
 @Component({
-  selector: 'app-revenue-cards',
-  standalone: true,
-  imports: [MaterialModule, TablerIconsModule, NgFor],
-  templateUrl: './revenue-cards.component.html',
+    selector: 'app-revenue-cards',
+    imports: [MaterialModule, TablerIconsModule, NgFor],
+    templateUrl: './revenue-cards.component.html'
 })
 export class AppRevenueCardsComponent {
   topcards: topcards[] = [

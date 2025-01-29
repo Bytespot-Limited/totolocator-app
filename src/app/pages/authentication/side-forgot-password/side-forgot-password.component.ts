@@ -4,8 +4,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-side-forgot-password',
-  templateUrl: './side-forgot-password.component.html',
+    selector: 'app-side-forgot-password',
+    templateUrl: './side-forgot-password.component.html',
+    standalone: false
 })
 export class AppSideForgotPasswordComponent {
   options = this.settings.getOptions();

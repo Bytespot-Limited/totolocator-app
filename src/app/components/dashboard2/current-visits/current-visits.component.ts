@@ -19,17 +19,15 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-current-visits',
-  standalone: true,
-  imports: [
-    TablerIconsModule,
-    MaterialModule,
-    
-    DxVectorMapModule,
-    DxButtonModule,
-  ],
-  providers: [Service],
-  templateUrl: './current-visits.component.html',
+    selector: 'app-current-visits',
+    imports: [
+        TablerIconsModule,
+        MaterialModule,
+        DxVectorMapModule,
+        DxButtonModule,
+    ],
+    providers: [Service],
+    templateUrl: './current-visits.component.html'
 })
 export class AppCurrentVisitsComponent {
   @ViewChild(DxVectorMapComponent, { static: false })

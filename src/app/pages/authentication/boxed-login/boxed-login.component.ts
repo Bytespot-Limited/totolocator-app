@@ -9,8 +9,9 @@ import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
-  selector: 'app-boxed-login',
-  templateUrl: './boxed-login.component.html',
+    selector: 'app-boxed-login',
+    templateUrl: './boxed-login.component.html',
+    standalone: false
 })
 export class AppBoxedLoginComponent {
   loginResponse: LoginResponse;

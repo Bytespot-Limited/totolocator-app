@@ -63,10 +63,9 @@ const PROJECT_DATA: projectsData[] = [
 ];
 
 @Component({
-  selector: 'app-project-data',
-  standalone: true,
-  imports:[CommonModule, MaterialModule, TablerIconsModule],
-  templateUrl: './project-data.component.html',
+    selector: 'app-project-data',
+    imports: [CommonModule, MaterialModule, TablerIconsModule],
+    templateUrl: './project-data.component.html'
 })
 export class AppProjectDataComponent {
 

@@ -27,10 +27,9 @@ export interface visitorChart {
 }
 
 @Component({
-  selector: 'app-visitors',
-  standalone: true,
-  imports:[NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './visitors.component.html',
+    selector: 'app-visitors',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './visitors.component.html'
 })
 export class AppVisitorsComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

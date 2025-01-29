@@ -7,9 +7,10 @@ export interface Transaction {
 }
 
 @Component({
-  selector: 'app-multi-header-footer-table',
-  templateUrl: './multi-header-footer-table.component.html',
-  styleUrls: ['./multi-header-footer-table.component.scss']
+    selector: 'app-multi-header-footer-table',
+    templateUrl: './multi-header-footer-table.component.html',
+    styleUrls: ['./multi-header-footer-table.component.scss'],
+    standalone: false
 })
 export class AppMultiHeaderFooterTableComponent implements OnInit {
 

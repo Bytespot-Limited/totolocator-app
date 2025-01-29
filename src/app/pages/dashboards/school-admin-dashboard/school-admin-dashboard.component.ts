@@ -46,8 +46,9 @@ export interface salesChart {
 
 
 @Component({
-  selector: 'app-school-admin-dashboard',
-  templateUrl: './school-admin-dashboard.component.html',
+    selector: 'app-school-admin-dashboard',
+    templateUrl: './school-admin-dashboard.component.html',
+    standalone: false
 })
 export class SchoolAdminDashboardComponent {
   // Creating data to feed into the student activity graph

@@ -4,9 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 
 @Component({
-  selector: 'app-order-tracking-map',
-  templateUrl: './trip-viewer.component.html',
-  styleUrls: ['./trip-viewer.component.css']
+    selector: 'app-order-tracking-map',
+    templateUrl: './trip-viewer.component.html',
+    styleUrls: ['./trip-viewer.component.css'],
+    standalone: false
 })
 export class TripViewerComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;

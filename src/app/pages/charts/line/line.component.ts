@@ -32,8 +32,9 @@ export type ChartOptions = {
   labels: string[];
 };
 @Component({
-  selector: 'app-line',
-  templateUrl: './line.component.html',
+    selector: 'app-line',
+    templateUrl: './line.component.html',
+    standalone: false
 })
 export class AppLineChartComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

@@ -61,10 +61,9 @@ interface month {
   }
 
 @Component({
-  selector: 'app-product-performance2',
-  standalone: true,
-  imports:[MaterialModule, CommonModule],
-  templateUrl: './product-performance2.component.html',
+    selector: 'app-product-performance2',
+    imports: [MaterialModule, CommonModule],
+    templateUrl: './product-performance2.component.html'
 })
 export class AppProductPerformance2Component implements OnInit {
     months: month[] = [

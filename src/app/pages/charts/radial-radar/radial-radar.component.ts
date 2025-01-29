@@ -33,8 +33,9 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-radial-radar',
-  templateUrl: './radial-radar.component.html',
+    selector: 'app-radial-radar',
+    templateUrl: './radial-radar.component.html',
+    standalone: false
 })
 export class AppRadialRadarChartComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

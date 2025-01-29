@@ -29,8 +29,9 @@ export interface State {
 }
 
 @Component({
-  selector: 'app-autocomplete',
-  templateUrl: './autocomplete.component.html',
+    selector: 'app-autocomplete',
+    templateUrl: './autocomplete.component.html',
+    standalone: false
 })
 export class AppAutocompleteComponent implements OnInit {
   // first option

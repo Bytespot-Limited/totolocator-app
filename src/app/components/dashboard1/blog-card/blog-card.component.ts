@@ -3,10 +3,9 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-blog-card',
-  standalone: true,
-  imports:[TablerIconsModule, MaterialModule],
-  templateUrl: './blog-card.component.html',
+    selector: 'app-blog-card',
+    imports: [TablerIconsModule, MaterialModule],
+    templateUrl: './blog-card.component.html'
 })
 export class AppBlogCardComponent {
   constructor() {}

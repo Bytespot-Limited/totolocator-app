@@ -11,10 +11,9 @@ interface msgs {
 }
 
 @Component({
-  selector: 'app-favourite-contacts',
-  standalone: true,
-  imports: [NgScrollbarModule, MaterialModule, NgFor],
-  templateUrl: './favourite-contacts.component.html',
+    selector: 'app-favourite-contacts',
+    imports: [NgScrollbarModule, MaterialModule, NgFor],
+    templateUrl: './favourite-contacts.component.html'
 })
 export class AppFavouriteContactsComponent {
   // This is for Mymessages

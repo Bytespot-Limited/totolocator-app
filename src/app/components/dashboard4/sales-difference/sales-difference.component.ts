@@ -26,10 +26,9 @@ export interface differenceChart {
   plotOptions: ApexPlotOptions | any;
 }
 @Component({
-  selector: 'app-sales-difference',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './sales-difference.component.html',
+    selector: 'app-sales-difference',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './sales-difference.component.html'
 })
 export class AppSalesDifferenceComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

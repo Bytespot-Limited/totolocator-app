@@ -189,8 +189,9 @@ const PRODUCT_DATA: Element[] = [
 ];
 
 @Component({
-  selector: 'app-pagination-table',
-  templateUrl: './pagination-table.component.html',
+    selector: 'app-pagination-table',
+    templateUrl: './pagination-table.component.html',
+    standalone: false
 })
 export class AppPaginationTableComponent  {
 

@@ -21,8 +21,9 @@ import {EntityAction} from "../reusable/EntityAction";
  */
 
 @Component({
-  selector: 'app-trips',
-  templateUrl: './trips.component.html'
+    selector: 'app-trips',
+    templateUrl: './trips.component.html',
+    standalone: false
 })
 export class TripsComponent extends CrudActions implements OnInit {
   recordForm = tripForm as IForm;

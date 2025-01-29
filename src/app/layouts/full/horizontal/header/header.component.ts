@@ -33,10 +33,9 @@ interface profiledd {
 }
 
 @Component({
-  selector: 'app-search-dialog',
-  standalone: true,
-  imports: [MaterialModule, RouterModule, TablerIconsModule, FormsModule, NgForOf],
-  templateUrl: 'search-dialog.component.html',
+    selector: 'app-search-dialog',
+    imports: [MaterialModule, RouterModule, TablerIconsModule, FormsModule, NgForOf],
+    templateUrl: 'search-dialog.component.html'
 })
 export class AppHorizontalSearchDialogComponent {
   searchText: string = '';
@@ -51,10 +50,9 @@ export class AppHorizontalSearchDialogComponent {
 
 
 @Component({
-  selector: 'app-horizontal-header',
-  standalone: true,
-  imports: [MaterialModule, RouterModule, TablerIconsModule, BrandingComponent, NgFor, NgIf, AppHorizontalSearchDialogComponent],
-  templateUrl: './header.component.html',
+    selector: 'app-horizontal-header',
+    imports: [MaterialModule, RouterModule, TablerIconsModule, BrandingComponent, NgFor, NgIf, AppHorizontalSearchDialogComponent],
+    templateUrl: './header.component.html'
 })
 export class AppHorizontalHeaderComponent {
   @Input() showToggle = true;
