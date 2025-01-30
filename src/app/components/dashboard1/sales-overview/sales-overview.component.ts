@@ -34,10 +34,9 @@ export interface salesChart {
 }
 
 @Component({
-  selector: 'app-sales-overview',
-  standalone: true,
-  imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
-  templateUrl: './sales-overview.component.html',
+    selector: 'app-sales-overview',
+    imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
+    templateUrl: './sales-overview.component.html'
 })
 export class AppSalesOverviewComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

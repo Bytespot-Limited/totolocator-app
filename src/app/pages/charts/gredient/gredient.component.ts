@@ -32,8 +32,9 @@ export type ChartOptions = {
   labels: string[];
 };
 @Component({
-  selector: 'app-gredient',
-  templateUrl: './gredient.component.html',
+    selector: 'app-gredient',
+    templateUrl: './gredient.component.html',
+    standalone: false
 })
 export class AppGredientChartComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

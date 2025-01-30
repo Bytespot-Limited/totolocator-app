@@ -10,16 +10,15 @@ import { AppNavItemComponent } from './nav-item/nav-item.component';
 
 
 @Component({
-  selector: 'app-sidebar', 
-  standalone: true,
-  imports: [
-    NgScrollbarModule,
-    TablerIconsModule,
-    MaterialModule,
-    RouterModule,
-    AppNavItemComponent, CommonModule
-  ],
-  templateUrl: './sidebar.component.html',
+    selector: 'app-sidebar',
+    imports: [
+        NgScrollbarModule,
+        TablerIconsModule,
+        MaterialModule,
+        RouterModule,
+        AppNavItemComponent, CommonModule
+    ],
+    templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
   navopt = this.navService.showClass;

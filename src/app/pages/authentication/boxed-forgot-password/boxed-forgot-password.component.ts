@@ -4,8 +4,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-boxed-forgot-password',
-  templateUrl: './boxed-forgot-password.component.html',
+    selector: 'app-boxed-forgot-password',
+    templateUrl: './boxed-forgot-password.component.html',
+    standalone: false
 })
 export class AppBoxedForgotPasswordComponent {
   options = this.settings.getOptions();

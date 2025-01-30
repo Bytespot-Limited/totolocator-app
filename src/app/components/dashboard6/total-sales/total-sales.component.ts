@@ -39,10 +39,9 @@ interface month {
 }
 
 @Component({
-  selector: 'app-total-sales',
-  standalone: true,
-  imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
-  templateUrl: './total-sales.component.html',
+    selector: 'app-total-sales',
+    imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
+    templateUrl: './total-sales.component.html'
 })
 export class AppTotalSalesComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

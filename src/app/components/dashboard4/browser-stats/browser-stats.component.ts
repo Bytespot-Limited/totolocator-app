@@ -11,10 +11,9 @@ interface browers {
 }
 
 @Component({
-  selector: 'app-browser-stats',
-  standalone: true,
-  imports:[MaterialModule, NgFor],
-  templateUrl: './browser-stats.component.html',
+    selector: 'app-browser-stats',
+    imports: [MaterialModule, NgFor],
+    templateUrl: './browser-stats.component.html'
 })
 export class AppBrowserStatsComponent {
   browers: browers[] = [

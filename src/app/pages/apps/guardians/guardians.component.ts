@@ -27,8 +27,9 @@ import {EntityAction} from "../reusable/EntityAction";
  */
 
 @Component({
-  selector: 'app-guardians',
-  templateUrl: './guardians.component.html'
+    selector: 'app-guardians',
+    templateUrl: './guardians.component.html',
+    standalone: false
 })
 export class GuardiansComponent extends CrudActions implements OnInit {
   recordForm = guardianForm as IForm;

@@ -13,12 +13,11 @@ import { MaterialModule } from 'src/app/material.module';
 import { CoreService } from 'src/app/services/core.service';
 
 @Component({
-  selector: 'app-customizer',
-  standalone: true,
-  imports: [NgScrollbarModule, TablerIconsModule, MaterialModule, FormsModule, NgIf],
-  templateUrl: './customizer.component.html',
-  styleUrls: ['./customizer.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-customizer',
+    imports: [NgScrollbarModule, TablerIconsModule, MaterialModule, FormsModule, NgIf],
+    templateUrl: './customizer.component.html',
+    styleUrls: ['./customizer.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class CustomizerComponent {
   @Output() optionsChange = new EventEmitter<AppSettings>();

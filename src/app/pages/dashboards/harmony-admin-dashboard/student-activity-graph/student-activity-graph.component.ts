@@ -29,10 +29,9 @@ export interface newsletterchartOption {
 }
 
 @Component({
-  selector: 'app-student-activity-graph',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './student-activity-graph.component.html',
+    selector: 'app-student-activity-graph',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './student-activity-graph.component.html'
 })
 export class StudentActivityGraphComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

@@ -73,9 +73,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
   },
 ];
 @Component({
-  selector: 'app-sticky-header-footer-table',
-  templateUrl: './sticky-header-footer-table.component.html',
-  styleUrls: ['./sticky-header-footer-table.component.scss'],
+    selector: 'app-sticky-header-footer-table',
+    templateUrl: './sticky-header-footer-table.component.html',
+    styleUrls: ['./sticky-header-footer-table.component.scss'],
+    standalone: false
 })
 export class AppStickyHeaderFooterTableComponent implements OnInit {
   // Fixed header

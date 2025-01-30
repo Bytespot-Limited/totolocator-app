@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-form-horizontal',
-  templateUrl: './form-horizontal.component.html',
+    selector: 'app-form-horizontal',
+    templateUrl: './form-horizontal.component.html',
+    standalone: false
 })
 export class AppFormHorizontalComponent {
   constructor() {}

@@ -38,10 +38,9 @@ interface month {
 }
 
 @Component({
-  selector: 'app-revenue-updates',
-  standalone: true,
-  imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
-  templateUrl: './revenue-updates.component.html',
+    selector: 'app-revenue-updates',
+    imports: [NgApexchartsModule, TablerIconsModule, MaterialModule],
+    templateUrl: './revenue-updates.component.html'
 })
 export class AppRevenueUpdatesComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

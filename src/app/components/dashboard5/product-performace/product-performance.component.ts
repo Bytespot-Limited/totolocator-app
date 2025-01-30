@@ -27,10 +27,9 @@ export interface performanceChart {
 }
 
 @Component({
-  selector: 'app-product-performance',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './product-performance.component.html',
+    selector: 'app-product-performance',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './product-performance.component.html'
 })
 export class AppProductPerformanceComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

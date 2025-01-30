@@ -27,10 +27,9 @@ export interface sparkchart {
 }
 
 @Component({
-  selector: 'app-sparkline-cards',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './sparkline-cards.component.html',
+    selector: 'app-sparkline-cards',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './sparkline-cards.component.html'
 })
 export class AppSparklineCardsComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

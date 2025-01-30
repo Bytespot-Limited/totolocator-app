@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {IForm} from '../forms/interfaces/IForm';
 import {schoolForm} from '../forms/school-registration-form-config';
@@ -8,8 +8,9 @@ import {EntityAction} from "../reusable/EntityAction";
 
 
 @Component({
-  selector: 'app-schools',
-  templateUrl: './schools.component.html',
+    selector: 'app-schools',
+    templateUrl: './schools.component.html',
+    standalone: false
 })
 export class SchoolsComponent extends CrudActions implements OnInit {
   recordForm = schoolForm as IForm;

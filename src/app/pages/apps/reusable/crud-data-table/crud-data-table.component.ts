@@ -19,8 +19,9 @@ export interface DisplayColumns {
 }
 
 @Component({
-  selector: 'app-crud-data-table',
-  templateUrl: './crud-data-table.component.html',
+    selector: 'app-crud-data-table',
+    templateUrl: './crud-data-table.component.html',
+    standalone: false
 })
 export class CrudDataTableComponent implements AfterViewInit {
   // Methods used to pass data from the parent to the child component

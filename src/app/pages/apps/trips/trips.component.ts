@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Router} from "@angular/router";
 import {IForm} from '../forms/interfaces/IForm';
 import {tripForm} from '../forms/trip-registration-form-config';
@@ -21,8 +21,9 @@ import {EntityAction} from "../reusable/EntityAction";
  */
 
 @Component({
-  selector: 'app-trips',
-  templateUrl: './trips.component.html'
+    selector: 'app-trips',
+    templateUrl: './trips.component.html',
+    standalone: false
 })
 export class TripsComponent extends CrudActions implements OnInit {
   recordForm = tripForm as IForm;

@@ -1,0 +1,78 @@
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk78IBulZVCNl2SGPDSExuDX2poBlrZIA&libraries=places"></script>
+<!-- map.component.html -->
+
+<div class="row">
+
+  <div class="col-lg-6">
+    <mat-card class="cardWithShadow">
+      <mat-card-content>
+        <google-map
+            [center]="center"
+            [zoom]="zoom"
+            [options]="options"
+            (mapInitialized)="onMapReady($event)"
+        >
+          <map-marker
+              [position]="busLocation"
+              [options]="busMarkerOptions"
+          ></map-marker>
+          <map-marker
+              [position]="homeLocation"
+              [options]="homeMarkerOptions"
+          ></map-marker>
+        </google-map>
+
+      </mat-card-content>
+
+
+    </mat-card>
+
+
+  </div>
+
+  <div class="col-lg-6">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-b-30">
+        <mat-card-title>Trip Details</mat-card-title>
+        <div>
+          <div *ngIf="error" class="error">{{ error }}</div>
+          <div>
+            <span class="eta-label">ETA: </span>
+            <span class="eta-value">{{ eta }}</span>
+          </div>
+          <div>
+            <span class="label">Distance: </span>
+            <span class="value">{{ distance }}</span>
+          </div>
+          <div>
+            <div>
+              <span class="label">Start: </span>
+              <span class="value">{{ startLocation }}</span>
+            </div>
+            <div>
+              <span class="label">Destination: </span>
+              <span class="value">{{ destination }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-content class="p-t-30 b-t-1">
+        <mat-card-title>Bus Details</mat-card-title>
+        <div>
+          <div class="detail-item">
+            <span class="label">Plate No: </span>
+            <span class="value">{{ busPlateNo }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Driver: </span>
+            <span class="value">{{ driverName }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+

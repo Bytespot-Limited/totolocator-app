@@ -3,10 +3,9 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-weather-card',
-  standalone: true,
-  imports:[TablerIconsModule, MaterialModule],
-  templateUrl: './weather-card.component.html',
+    selector: 'app-weather-card',
+    imports: [TablerIconsModule, MaterialModule],
+    templateUrl: './weather-card.component.html'
 })
 export class AppWeatherCardComponent {
   constructor() {}

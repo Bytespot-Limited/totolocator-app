@@ -133,10 +133,9 @@ const employees = [
 ];
 
 @Component({
-  selector: 'app-employee-list',
-  standalone: true,
-  imports: [AppEmployeeDialogComponent, CommonModule, MaterialModule, TablerIconsModule, FormsModule],
-  templateUrl: './employee-list.component.html',
+    selector: 'app-employee-list',
+    imports: [AppEmployeeDialogComponent, CommonModule, MaterialModule, TablerIconsModule, FormsModule],
+    templateUrl: './employee-list.component.html'
 })
 export class AppEmployeeListComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> =

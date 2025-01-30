@@ -21,8 +21,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-dynamic-table',
-  templateUrl: './dynamic-table.component.html',
+    selector: 'app-dynamic-table',
+    templateUrl: './dynamic-table.component.html',
+    standalone: false
 })
 export class AppDynamicTableComponent implements OnInit {
 

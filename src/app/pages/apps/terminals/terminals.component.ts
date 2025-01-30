@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {CrudActions} from "../reusable/CrudActions";
 import {IForm} from "../forms/interfaces/IForm";
 import {EntityAction} from "../reusable/EntityAction";
 import {terminalForm} from "../forms/terminals-form-config";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-terminals',
-  templateUrl: './terminals.component.html'
+    selector: 'app-terminals',
+    templateUrl: './terminals.component.html',
+    standalone: false
 })
 export class TerminalsComponent extends CrudActions implements OnInit {
   recordForm = terminalForm as IForm;
@@ -17,7 +19,7 @@ export class TerminalsComponent extends CrudActions implements OnInit {
   tableData: any[];
   entityName: string = 'terminals';
 
-  constructor(http: HttpClient, dialog: MatDialog) {
+  constructor(http: HttpClient, dialog: MatDialog, private router: Router) {
     super(dialog, http); // Pass dependencies to the parent class
     this.displayedColumns = this.recordForm.displayColumns;
     this.tableHeading = this.recordForm.formTitle;
@@ -50,7 +52,8 @@ export class TerminalsComponent extends CrudActions implements OnInit {
       id: '',
       data: record
     };
-    this.onViewRecord(entity, this.recordForm);
+    this.navigateToComponent(record.id)
+    //this.onViewRecord(entity, this.recordForm);
   }
 
   /**
@@ -106,6 +109,10 @@ export class TerminalsComponent extends CrudActions implements OnInit {
     this.onFilterRecord(entity).subscribe((response) => {
       this.tableData = response
     });
+  }
+
+  navigateToComponent(id: number) {
+    this.router.navigate(['apps/terminals', id]);
   }
 
 }

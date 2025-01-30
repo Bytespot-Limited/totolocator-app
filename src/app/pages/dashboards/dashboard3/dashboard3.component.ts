@@ -15,23 +15,22 @@ import {
 } from 'src/app/components';
 
 @Component({
-  selector: 'app-dashboard3',
-  standalone: true,
-  imports: [
-    AppPieCardsComponent,
-    AppSalesOverview2Component,
-    AppCurrentVisitsComponent,
-    AppProjectDataComponent,
-    AppProfileCardComponent,
-    AppBandwidthUsageComponent,
-    AppDownloadCountComponent,
-    AppFavouriteContactsComponent,
-    AppFeedsComponent,
-    AppRecentCommentsComponent,
-    AppTodoListComponent,
-    AppNewsletterCampaign2Component
-  ],
-  templateUrl: './dashboard3.component.html',
+    selector: 'app-dashboard3',
+    imports: [
+        AppPieCardsComponent,
+        AppSalesOverview2Component,
+        AppCurrentVisitsComponent,
+        AppProjectDataComponent,
+        AppProfileCardComponent,
+        AppBandwidthUsageComponent,
+        AppDownloadCountComponent,
+        AppFavouriteContactsComponent,
+        AppFeedsComponent,
+        AppRecentCommentsComponent,
+        AppTodoListComponent,
+        AppNewsletterCampaign2Component
+    ],
+    templateUrl: './dashboard3.component.html'
 })
 export class AppDashboard3Component {
   constructor() {}

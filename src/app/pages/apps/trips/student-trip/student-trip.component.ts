@@ -1,13 +1,14 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from 'environment';
 
 
 @Component({
-  selector: 'app-student-trip',
-  templateUrl: './student-trip.component.html'
+    selector: 'app-student-trip',
+    templateUrl: './student-trip.component.html',
+    standalone: false
 })
 export class StudentTripComponent implements OnInit {
   actionPojo = {
@@ -20,7 +21,8 @@ export class StudentTripComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -70,9 +72,17 @@ export class StudentTripComponent implements OnInit {
       console.log("Dropping of student: ", record.student.name)
       this.updateStudentOnTrip(record.id, 'DROPPED_OFF');
 
+    } else if (action === 'direction') {
+      console.log("Get direction of student: ", record)
+      this.navigateToComponent(record.id);
     }
 
 
+  }
+
+  navigateToComponent(id: number) {
+    this.router.navigate(['apps/trip-tracker', id]
+    );
   }
 
   // Update student trip i.e pickup of drop off
@@ -138,8 +148,9 @@ export class StudentTripComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-dialog-box',
-  templateUrl: './dialog-box.component.html'
+    selector: 'app-dialog-box',
+    templateUrl: './dialog-box.component.html',
+    standalone: false
 })
 export class DialogBoxComponent {
   title: string;

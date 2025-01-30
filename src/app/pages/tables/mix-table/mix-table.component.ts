@@ -46,8 +46,9 @@ const NAMES = [
 ];
 
 @Component({
-  selector: 'app-mix-table',
-  templateUrl: './mix-table.component.html',
+    selector: 'app-mix-table',
+    templateUrl: './mix-table.component.html',
+    standalone: false
 })
 export class AppMixTableComponent {
 

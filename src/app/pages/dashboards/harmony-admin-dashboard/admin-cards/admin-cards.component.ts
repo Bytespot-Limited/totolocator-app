@@ -30,10 +30,9 @@ export interface piechart {
 }
 
 @Component({
-  selector: 'app-admin-cards',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule, NgForOf],
-  templateUrl: './admin-cards.component.html',
+    selector: 'app-admin-cards',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule, NgForOf],
+    templateUrl: './admin-cards.component.html'
 })
 export class AdminCardsComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

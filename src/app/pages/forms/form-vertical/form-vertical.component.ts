@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-form-vertical',
-  templateUrl: './form-vertical.component.html',
+    selector: 'app-form-vertical',
+    templateUrl: './form-vertical.component.html',
+    standalone: false
 })
 export class AppFormVerticalComponent {
   constructor() {}

@@ -39,8 +39,9 @@ export interface salesChart {
 
 
 @Component({
-  selector: 'app-driver-dashboard',
-  templateUrl: './driver-dashboard.component.html',
+    selector: 'app-driver-dashboard',
+    templateUrl: './driver-dashboard.component.html',
+    standalone: false
 })
 export class DriverDashboardComponent {
   // Creating data to feed into the student activity graph

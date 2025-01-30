@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
 
 /**
@@ -15,8 +15,9 @@ import {SchoolViewComponent} from "../schools/school-view/school-view.component"
  *   }
  */
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html'
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    standalone: false
 })
 export class NotificationsComponent {
   displayedColumns: string[] = [

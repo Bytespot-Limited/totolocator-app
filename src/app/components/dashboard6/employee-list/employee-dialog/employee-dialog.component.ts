@@ -11,10 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-employee-dialog',
-  standalone: true,
-  imports: [TablerIconsModule, FormsModule, MaterialModule, NgIf],
-  templateUrl: './employee-dialog.component.html',
+    selector: 'app-employee-dialog',
+    imports: [TablerIconsModule, FormsModule, MaterialModule, NgIf],
+    templateUrl: './employee-dialog.component.html'
 })
 export class AppEmployeeDialogComponent {
   action: string;

@@ -40,10 +40,9 @@ interface profiledd {
 }
 
 @Component({
-  selector: 'search-dialog',
-  standalone: true,
-  imports: [RouterModule, MaterialModule, TablerIconsModule, FormsModule, NgForOf],
-  templateUrl: 'search-dialog.component.html',
+    selector: 'search-dialog',
+    imports: [RouterModule, MaterialModule, TablerIconsModule, FormsModule, NgForOf],
+    templateUrl: 'search-dialog.component.html'
 })
 export class AppSearchDialogComponent {
   searchText: string = '';
@@ -59,11 +58,10 @@ export class AppSearchDialogComponent {
 
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [RouterModule, NgScrollbarModule, TablerIconsModule, MaterialModule, BrandingComponent, NgFor, NgIf, AppSearchDialogComponent ],
-  templateUrl: './header.component.html',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-header',
+    imports: [RouterModule, NgScrollbarModule, TablerIconsModule, MaterialModule, BrandingComponent, NgFor, NgIf, AppSearchDialogComponent],
+    templateUrl: './header.component.html',
+    encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
   @Input() showToggle = true;

@@ -10,8 +10,9 @@ import {organizationForm} from "../forms/institution-registration-form-config";
 import {EntityAction} from "../reusable/EntityAction";
 
 @Component({
-  selector: 'app-drivers',
-  templateUrl: './drivers.component.html'
+    selector: 'app-drivers',
+    templateUrl: './drivers.component.html',
+    standalone: false
 })
 export class DriversComponent extends CrudActions implements OnInit {
   recordForm = driverForm as IForm;

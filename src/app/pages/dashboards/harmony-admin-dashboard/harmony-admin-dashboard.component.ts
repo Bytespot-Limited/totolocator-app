@@ -46,8 +46,9 @@ export interface salesChart {
 
 
 @Component({
-  selector: 'app-harmony-admin-dashboard',
-  templateUrl: './harmony-admin-dashboard.component.html',
+    selector: 'app-harmony-admin-dashboard',
+    templateUrl: './harmony-admin-dashboard.component.html',
+    standalone: false
 })
 export class HarmonyAdminDashboardComponent {
   // Creating data to feed into the student activity graph

@@ -33,8 +33,9 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-doughnut-pie',
-  templateUrl: './doughnut-pie.component.html',
+    selector: 'app-doughnut-pie',
+    templateUrl: './doughnut-pie.component.html',
+    standalone: false
 })
 export class AppDoughnutpieChartComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

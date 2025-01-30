@@ -34,10 +34,9 @@ export interface customersOptions {
 }
 
 @Component({
-  selector: 'app-customers',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './customers.component.html',
+    selector: 'app-customers',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './customers.component.html'
 })
 export class AppCustomersComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

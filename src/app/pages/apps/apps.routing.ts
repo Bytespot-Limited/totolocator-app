@@ -14,6 +14,7 @@ import {NotificationsComponent} from "./notifications/notifications.component";
 import {StudentTripComponent} from "./trips/student-trip/student-trip.component";
 import {TerminalViewComponent} from "./terminals/terminal-view/terminal-view.component";
 import { OrganizationsComponent } from './organizations/organizations.component';
+import {TripViewerComponent} from "./trips/trip-viewer/trip-viewer.component";
 
 export const AppsRoutes: Routes = [
   {
@@ -121,6 +122,17 @@ export const AppsRoutes: Routes = [
           urls: [
             {title: 'Dashboard', url: '/dashboards/dashboard1'},
             {title: 'Students in Trip'},
+          ],
+        },
+      },
+      {
+        path: 'trip-tracker/:id',
+        component: TripViewerComponent,
+        data: {
+          title: 'Terminal Info',
+          urls: [
+            {title: 'Dashboard', url: '/dashboards/dashboard1'},
+            {title: 'Trip Information'},
           ],
         },
       },

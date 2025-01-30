@@ -15,12 +15,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": ["apexcharts", "jszip", "devexpress-diagram", "devexpress-gantt", "devextreme-quill", "bezier-easing"],
-            "outputPath": "dist/totolocator",
+            "outputPath": {
+              "base": "dist/totolocator"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -31,7 +32,8 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -50,9 +52,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -64,18 +64,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "totolocator:build:production"
+              "buildTarget": "totolocator:build:production"
             },
             "development": {
-              "browserTarget": "totolocator:build:development"
+              "buildTarget": "totolocator:build:development"
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
+        },        "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "totolocator:build"
+            "buildTarget": "totolocator:build"
           }
         },
         "test": {

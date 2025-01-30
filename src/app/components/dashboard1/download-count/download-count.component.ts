@@ -34,10 +34,9 @@ export interface chartOption {
 }
 
 @Component({
-  selector: 'app-download-count',
-  standalone: true,
-  imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
-  templateUrl: './download-count.component.html',
+    selector: 'app-download-count',
+    imports: [NgApexchartsModule, MaterialModule, TablerIconsModule],
+    templateUrl: './download-count.component.html'
 })
 export class AppDownloadCountComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {organizationForm} from "../forms/institution-registration-form-config";
 import {IForm} from "../forms/interfaces/IForm";
 import {CrudActions} from "../reusable/CrudActions";
@@ -8,8 +8,9 @@ import {EntityAction} from "../reusable/EntityAction";
 
 // @ts-ignore
 @Component({
-  selector: 'app-organizations',
-  templateUrl: './organizations.component.html'
+    selector: 'app-organizations',
+    templateUrl: './organizations.component.html',
+    standalone: false
 })
 export class OrganizationsComponent extends CrudActions implements OnInit {
   recordForm = organizationForm as IForm;

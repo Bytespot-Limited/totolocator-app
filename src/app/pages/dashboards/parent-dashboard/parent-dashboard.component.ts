@@ -46,8 +46,9 @@ export interface salesChart {
 }
 
 @Component({
-  selector: 'app-parent-dashboard',
-  templateUrl: './parent-dashboard.component.html',
+    selector: 'app-parent-dashboard',
+    templateUrl: './parent-dashboard.component.html',
+    standalone: false
 })
 export class ParentDashboardComponent {
   // Creating data to feed into the student activity graph

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {IForm} from "../forms/interfaces/IForm";
 import {studentForm} from '../forms/student-registration-form-config';
 import {CrudActions} from "../reusable/CrudActions";
@@ -73,8 +73,9 @@ import {EntityAction} from "../reusable/EntityAction";
  */
 
 @Component({
-  selector: 'app-students',
-  templateUrl: './students.component.html'
+    selector: 'app-students',
+    templateUrl: './students.component.html',
+    standalone: false
 })
 export class StudentsComponent extends CrudActions implements OnInit {
   recordForm = studentForm as IForm;

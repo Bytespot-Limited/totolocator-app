@@ -2,15 +2,16 @@ import {Component} from '@angular/core';
 import {CoreService} from 'src/app/services/core.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {environment} from "../../../../../environment";
 import {LoginErrorResponse, LoginResponse} from "./LoginResponse";
 import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
-  selector: 'app-boxed-login',
-  templateUrl: './boxed-login.component.html',
+    selector: 'app-boxed-login',
+    templateUrl: './boxed-login.component.html',
+    standalone: false
 })
 export class AppBoxedLoginComponent {
   loginResponse: LoginResponse;

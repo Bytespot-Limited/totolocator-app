@@ -4,8 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormInput } from './FormInput';
 
 @Component({
-  selector: 'app-crud-form',
-  templateUrl: './crud-form.component.html'
+    selector: 'app-crud-form',
+    templateUrl: './crud-form.component.html',
+    standalone: false
 })
 export class CrudFormComponent {
   // Methods used to pass data from the parent to the child component

@@ -4,8 +4,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-side-login',
-  templateUrl: './side-login.component.html',
+    selector: 'app-side-login',
+    templateUrl: './side-login.component.html',
+    standalone: false
 })
 export class AppSideLoginComponent {
   options = this.settings.getOptions();

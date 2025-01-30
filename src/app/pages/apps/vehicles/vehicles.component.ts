@@ -21,8 +21,9 @@ import {EntityAction} from "../reusable/EntityAction";
 
 
 @Component({
-  selector: 'app-vehicles',
-  templateUrl: './vehicles.component.html'
+    selector: 'app-vehicles',
+    templateUrl: './vehicles.component.html',
+    standalone: false
 })
 export class VehiclesComponent extends CrudActions implements OnInit {
   recordForm = vehicleForm as IForm;

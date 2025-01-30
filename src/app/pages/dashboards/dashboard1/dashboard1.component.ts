@@ -14,22 +14,21 @@ import {
 } from 'src/app/components';
 
 @Component({
-  selector: 'app-dashboard1',
-  standalone: true,
-  imports: [
-    AppTopCardsComponent,
-    AppSalesOverviewComponent,
-    AppSalesOurVisitorsComponent,
-    AppBlogCardComponent,
-    AppNewsletterCampaignComponent,
-    AppBandwidthUsageComponent,
-    AppDownloadCountComponent,
-    AppWeatherCardComponent,
-    AppProfileCardComponent,
-    AppMyContactsComponent,
-    AppActivityTimelineComponent,
-  ],
-  templateUrl: './dashboard1.component.html',
+    selector: 'app-dashboard1',
+    imports: [
+        AppTopCardsComponent,
+        AppSalesOverviewComponent,
+        AppSalesOurVisitorsComponent,
+        AppBlogCardComponent,
+        AppNewsletterCampaignComponent,
+        AppBandwidthUsageComponent,
+        AppDownloadCountComponent,
+        AppWeatherCardComponent,
+        AppProfileCardComponent,
+        AppMyContactsComponent,
+        AppActivityTimelineComponent,
+    ],
+    templateUrl: './dashboard1.component.html'
 })
 export class AppDashboard1Component {
   constructor() {}
