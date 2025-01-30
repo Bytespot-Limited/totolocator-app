@@ -1,18 +1,26 @@
 // map.component.ts
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { GoogleMap, MapMarker } from '@angular/google-maps';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {GoogleMap} from '@angular/google-maps';
 
 @Component({
-    selector: 'app-order-tracking-map',
-    templateUrl: './trip-viewer.component.html',
-    styleUrls: ['./trip-viewer.component.css'],
-    standalone: false
+  selector: 'trip-viewer-map',
+  templateUrl: './trip-viewer.component.html',
+  styleUrls: ['./trip-viewer.component.css'],
+  standalone: false
 })
 export class TripViewerComponent implements OnInit, OnDestroy {
-  @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
+  @ViewChild(GoogleMap, {static: false}) map!: GoogleMap;
 
-  busLocation: google.maps.LatLngLiteral = { lat: -1.2316069, lng: 36.6672981 };
+  // map.component.ts
+  startLocation = 'Andaa School';
+  destination = 'Lily\'s home';
+  distance = '8.5 km';
+  busPlateNo = 'KDD 188P';
+  driverName = 'John Doe';
+
+
+  busLocation: google.maps.LatLngLiteral = {lat: -1.2316069, lng: 36.6672981};
   homeLocation: google.maps.LatLngLiteral = {
     lat: -1.2402458,
     lng: 36.6924413
@@ -39,7 +47,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
       url: 'https://maps.gstatic.com/mapfiles/ms2/micons/bus.png',
       scaledSize: new google.maps.Size(20, 20)
     },
-    label: 'School Bus'
+    //label: this.busPlateNo
   };
 
   homeMarkerOptions: google.maps.MarkerOptions = {
@@ -47,10 +55,11 @@ export class TripViewerComponent implements OnInit, OnDestroy {
       url: 'https://maps.gstatic.com/mapfiles/ms2/micons/homegardenbusiness.png',
       scaledSize: new google.maps.Size(20, 20)
     },
-    label: 'Home'
+    //label: 'Home'
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit(): void {
     this.directionsRenderer = new google.maps.DirectionsRenderer();
@@ -63,7 +72,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   async updateLocationAndETA(): Promise<void> {
     try {
       //const busData = await this.http.get<any>('/api/bus-location').toPromise();
-      const busData = { lat: -1.2316069, lng: 36.6672981 };
+      const busData = {lat: -1.2316069, lng: 36.6672981};
 
       this.busLocation = busData;
       await this.calculateRouteAndETA();
