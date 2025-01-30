@@ -12,14 +12,15 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 export class TripViewerComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
 
-  busLocation: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  busLocation: google.maps.LatLngLiteral = { lat: -1.2316069, lng: 36.6672981 };
   homeLocation: google.maps.LatLngLiteral = {
-    lat: 0,
-    lng: 1
+    lat: -1.2402458,
+    lng: 36.6924413
   };
   eta: string = 'Calculating...';
   loading: boolean = true;
   error: string = '';
+  directionsRenderer: google.maps.DirectionsRenderer | null = null;
   private updateInterval: any;
 
   // Map configuration
@@ -36,7 +37,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   busMarkerOptions: google.maps.MarkerOptions = {
     icon: {
       url: 'https://maps.gstatic.com/mapfiles/ms2/micons/bus.png',
-      scaledSize: new google.maps.Size(40, 40)
+      scaledSize: new google.maps.Size(20, 20)
     },
     label: 'School Bus'
   };
@@ -44,7 +45,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   homeMarkerOptions: google.maps.MarkerOptions = {
     icon: {
       url: 'https://maps.gstatic.com/mapfiles/ms2/micons/homegardenbusiness.png',
-      scaledSize: new google.maps.Size(40, 40)
+      scaledSize: new google.maps.Size(20, 20)
     },
     label: 'Home'
   };
@@ -52,6 +53,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.directionsRenderer = new google.maps.DirectionsRenderer();
     this.updateLocationAndETA();
     this.updateInterval = setInterval(() => {
       this.updateLocationAndETA();
@@ -60,9 +62,11 @@ export class TripViewerComponent implements OnInit, OnDestroy {
 
   async updateLocationAndETA(): Promise<void> {
     try {
-      const busData = await this.http.get<any>('/api/bus-location').toPromise();
-      this.busLocation = busData.location;
-      this.calculateETA();
+      //const busData = await this.http.get<any>('/api/bus-location').toPromise();
+      const busData = { lat: -1.2316069, lng: 36.6672981 };
+
+      this.busLocation = busData;
+      await this.calculateRouteAndETA();
       this.loading = false;
     } catch (err) {
       this.error = 'Failed to update location';
@@ -70,24 +74,45 @@ export class TripViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected calculateETA(): void {
-    if (!this.map?.googleMap) return;
+  private async calculateRouteAndETA(): Promise<void> {
+    return new Promise((resolve) => {
+      const directionsService = new google.maps.DirectionsService();
 
-    const service = new google.maps.DistanceMatrixService();
-    service.getDistanceMatrix({
-      origins: [this.busLocation],
-      destinations: [this.homeLocation],
-      travelMode: google.maps.TravelMode.DRIVING,
-    }, (response, status) => {
-      if (status === 'OK' && response) {
-        this.eta = response.rows[0].elements[0].duration?.text || 'Calculating...';
-      }
+      const request: google.maps.DirectionsRequest = {
+        origin: this.busLocation,
+        destination: this.homeLocation,
+        travelMode: google.maps.TravelMode.DRIVING
+      };
+
+      directionsService.route(request, (response, status) => {
+        if (status === 'OK' && response) {
+          if (this.directionsRenderer) {
+            this.directionsRenderer.setDirections(response);
+            const route = response.routes[0];
+            if (route && route.legs[0]) {
+              this.eta = route.legs[0].duration?.text || 'Calculating...';
+            }
+          }
+        } else {
+          this.error = 'Failed to calculate route';
+        }
+        resolve();
+      });
     });
+  }
+
+  onMapReady(map: google.maps.Map): void {
+    if (this.directionsRenderer) {
+      this.directionsRenderer.setMap(map);
+    }
   }
 
   ngOnDestroy(): void {
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
+    }
+    if (this.directionsRenderer) {
+      this.directionsRenderer.setMap(null);
     }
   }
 }

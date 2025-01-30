@@ -7,18 +7,18 @@
   </div>
 
   <google-map
-    [center]="center"
-    [zoom]="zoom"
-    [options]="options"
-    (mapInitialized)="calculateETA()"
+      [center]="center"
+      [zoom]="zoom"
+      [options]="options"
+      (mapInitialized)="onMapReady($event)"
   >
     <map-marker
-      [position]="busLocation"
-      [options]="busMarkerOptions"
+        [position]="busLocation"
+        [options]="busMarkerOptions"
     ></map-marker>
     <map-marker
-      [position]="homeLocation"
-      [options]="homeMarkerOptions"
+        [position]="homeLocation"
+        [options]="homeMarkerOptions"
     ></map-marker>
   </google-map>
 </div>
