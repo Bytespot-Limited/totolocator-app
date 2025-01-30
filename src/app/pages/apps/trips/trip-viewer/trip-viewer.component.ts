@@ -20,7 +20,8 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   driverName = 'John Doe';
 
 
-  busLocation: google.maps.LatLngLiteral = {lat: -1.2316069, lng: 36.6672981};
+  schoolLocation: google.maps.LatLngLiteral = {lat: -1.2316069, lng: 36.6672981};
+  busLocation: google.maps.LatLngLiteral = {lat: -1.2295427532464205, lng: 36.681729255778706};
   homeLocation: google.maps.LatLngLiteral = {
     lat: -1.2402458,
     lng: 36.6924413
@@ -42,18 +43,25 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   };
 
   // Marker options
+  schoolMarkerOptions: google.maps.MarkerOptions = {
+    icon: {
+      url: '/assets/images/profile/school_8074788.png',
+      scaledSize: new google.maps.Size(40, 40)
+    },
+    //label: this.busPlateNo
+  };
   busMarkerOptions: google.maps.MarkerOptions = {
     icon: {
-      url: 'https://maps.gstatic.com/mapfiles/ms2/micons/bus.png',
-      scaledSize: new google.maps.Size(20, 20)
+      url: '/assets/images/profile/school-bus_6767283.png',
+      scaledSize: new google.maps.Size(40, 40)
     },
     //label: this.busPlateNo
   };
 
   homeMarkerOptions: google.maps.MarkerOptions = {
     icon: {
-      url: 'https://maps.gstatic.com/mapfiles/ms2/micons/homegardenbusiness.png',
-      scaledSize: new google.maps.Size(20, 20)
+      url: '/assets/images/profile/home_738873.png',
+      scaledSize: new google.maps.Size(40, 40)
     },
     //label: 'Home'
   };
@@ -72,8 +80,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   async updateLocationAndETA(): Promise<void> {
     try {
       //const busData = await this.http.get<any>('/api/bus-location').toPromise();
-      const busData = {lat: -1.2316069, lng: 36.6672981};
-
+      const busData = {lat: -1.2292826217129458, lng: 36.68172925536842};
       this.busLocation = busData;
       await this.calculateRouteAndETA();
       this.loading = false;
