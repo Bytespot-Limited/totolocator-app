@@ -1,16 +1,22 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from 'environment';
 
 
 @Component({
-    selector: 'app-student-trip',
-    templateUrl: './student-trip.component.html',
-    standalone: false
+  selector: 'app-student-trip',
+  templateUrl: './student-trip.component.html',
+  standalone: false
 })
 export class StudentTripComponent implements OnInit {
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  })
+
+
   actionPojo = {
     id: 1,
     status: ''
@@ -37,7 +43,7 @@ export class StudentTripComponent implements OnInit {
 
   // Get students on the given trip
   getStudentsOnTrip(tripId: number) {
-    this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"))
+    this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"), {headers: this.headers})
     .subscribe((res: any) => {
       this.students = res;
       console.log("Getting students in the trip data: {}", res)
@@ -49,7 +55,7 @@ export class StudentTripComponent implements OnInit {
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
 
-    this.http.get(environment.apiUrl.concat("student-trips").concat("?student_name.contains=" + filterValue))
+    this.http.get(environment.apiUrl.concat("student-trips").concat("?student_name.contains=" + filterValue), {headers: this.headers})
     .subscribe(res => {
       //this.students = res;
 
@@ -66,7 +72,6 @@ export class StudentTripComponent implements OnInit {
     if (action === 'pickup') {
       console.log("Picking up student: ", record.student.name);
       this.updateStudentOnTrip(record.id, 'BOARDED');
-
 
     } else if (action === 'drop_off') {
       console.log("Dropping of student: ", record.student.name)
@@ -116,7 +121,7 @@ export class StudentTripComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Confirm') {
         console.log("Confirmed update of student trip.")
-        this.http.patch(environment.apiUrl + "student-trips/" + this.actionPojo.id, this.actionPojo)
+        this.http.patch(environment.apiUrl + "student-trips/" + this.actionPojo.id, this.actionPojo, {headers: this.headers})
         .subscribe({
           next: (res) => {
             this.dialog.open(DialogBoxComponent, {
@@ -148,9 +153,9 @@ export class StudentTripComponent implements OnInit {
 }
 
 @Component({
-    selector: 'app-dialog-box',
-    templateUrl: './dialog-box.component.html',
-    standalone: false
+  selector: 'app-dialog-box',
+  templateUrl: './dialog-box.component.html',
+  standalone: false
 })
 export class DialogBoxComponent {
   title: string;
