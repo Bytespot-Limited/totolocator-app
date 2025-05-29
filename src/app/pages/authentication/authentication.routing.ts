@@ -13,6 +13,9 @@ import { AppSideTwoStepsComponent } from './side-two-steps/side-two-steps.compon
 import {
   SuccessfulRegistrationComponent
 } from "./successful-registration/successful-registration.component";
+import {
+  SuccessfulActivationComponent
+} from "./successful-activation/successful-activation.component";
 
 export const AuthenticationRoutes: Routes = [
   {
@@ -61,6 +64,10 @@ export const AuthenticationRoutes: Routes = [
       {
         path: 'registration-success',
         component: SuccessfulRegistrationComponent,
+      },
+      {
+        path: 'activation',
+        component: SuccessfulActivationComponent,
       },
     ],
   },
