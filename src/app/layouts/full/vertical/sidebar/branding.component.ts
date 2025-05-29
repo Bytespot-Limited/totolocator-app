@@ -7,9 +7,9 @@ import { CoreService } from 'src/app/services/core.service';
     imports: [RouterModule],
     template: `
     <div class="branding d-none d-lg-flex align-items-center">
-      <a [routerLink]="['/']" class="d-flex">
+      <a [routerLink]="['/dashboards/guardian']" class="d-flex">
         <img
-          src="./assets/images/logos/light-logo.svg"
+          src="./assets/images/logos/totolocator_logo.png"
           class="align-middle m-2"
           alt="logo"
         />
