@@ -201,15 +201,15 @@ export class HeaderComponent {
     {
       id: 2,
       img: '/assets/images/svgs/icon-inbox.svg',
-      title: 'My Inbox',
-      subtitle: 'Messages & Email',
+      title: 'My Password',
+      subtitle: 'Change your password',
       link: '/apps/email/inbox',
     },
     {
       id: 3,
       img: '/assets/images/svgs/icon-tasks.svg',
-      title: 'My Tasks',
-      subtitle: 'To-do and Daily Tasks',
+      title: 'My Kids',
+      subtitle: 'All your kids in one place',
       link: '/apps/taskboard',
     },
   ];

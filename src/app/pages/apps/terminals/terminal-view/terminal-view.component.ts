@@ -1,15 +1,21 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {ActivatedRoute} from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../../../../../environment";
 
 
 @Component({
-    selector: 'app-terminal-view',
-    templateUrl: './terminal-view.component.html',
-    standalone: false
+  selector: 'app-terminal-view',
+  templateUrl: './terminal-view.component.html',
+  standalone: false
 })
 export class TerminalViewComponent implements AfterViewInit, OnInit {
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  })
+
   terminalId: any;
   map: any;
   marker: any;
@@ -109,8 +115,8 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
     this.studentMarker = L.marker([Number(-1.2509837), Number(36.783291)], {icon: busIcon}).addTo(this.map)
     .bindPopup("Driver: John Mwangi.<br>Vehicle: KDH 722E")
     .openPopup();
-    L.polyline([L.latLng(this.terminal.latitude,this.terminal.longitude),
-    L.latLng(-1.2509837, 36.783291)], { color: '#0d9148'})
+    L.polyline([L.latLng(this.terminal.latitude, this.terminal.longitude),
+      L.latLng(-1.2509837, 36.783291)], {color: '#0d9148'})
     .addTo(this.map);
 
     // Set up the interval to refresh the map every 5 seconds
@@ -130,7 +136,9 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
    * @param id
    */
   fetchTerminalInfo(id: number) {
-    this.http.get("http://localhost:8080/api/terminals/" + id)
+    this.http.get(environment.apiUrl.concat("terminals/" + id), {
+      headers: this.headers
+    })
     .subscribe((res: any) => {
       console.log("Getting terminal information: {}", res)
       this.terminal = res;
@@ -144,7 +152,10 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
    * @param id
    */
   async fetchVehicleInfo(id: number) {
-    await this.http.get("http://localhost:8080/api/fleets?terminalId.equald=" + id)
+    await this.http.get(environment.apiUrl.concat("fleets?terminalId.equald=" + id), {
+        headers: this.headers
+      }
+    )
     .subscribe((res: any) => {
       console.log("Getting vehicle information: {}", res)
       this.vehicle = res[0];
