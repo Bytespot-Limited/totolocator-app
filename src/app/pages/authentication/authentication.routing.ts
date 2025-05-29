@@ -10,6 +10,12 @@ import { AppSideForgotPasswordComponent } from './side-forgot-password/side-forg
 import { AppSideLoginComponent } from './side-login/side-login.component';
 import { AppSideRegisterComponent } from './side-register/side-register.component';
 import { AppSideTwoStepsComponent } from './side-two-steps/side-two-steps.component';
+import {
+  SuccessfulRegistrationComponent
+} from "./successful-registration/successful-registration.component";
+import {
+  SuccessfulActivationComponent
+} from "./successful-activation/successful-activation.component";
 
 export const AuthenticationRoutes: Routes = [
   {
@@ -24,7 +30,7 @@ export const AuthenticationRoutes: Routes = [
         component: AppBoxedLoginComponent,
       },
       {
-        path: 'boxed-register',
+        path: 'register',
         component: AppBoxedRegisterComponent,
       },
       {
@@ -54,6 +60,14 @@ export const AuthenticationRoutes: Routes = [
       {
         path: 'side-two-steps',
         component: AppSideTwoStepsComponent,
+      },
+      {
+        path: 'registration-success',
+        component: SuccessfulRegistrationComponent,
+      },
+      {
+        path: 'activation',
+        component: SuccessfulActivationComponent,
       },
     ],
   },

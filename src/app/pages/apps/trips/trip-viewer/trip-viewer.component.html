@@ -14,9 +14,15 @@
             (mapInitialized)="onMapReady($event)"
         >
           <map-marker
+              [position]="schoolLocation"
+              [options]="schoolMarkerOptions"
+          ></map-marker>
+
+          <map-marker
               [position]="busLocation"
               [options]="busMarkerOptions"
           ></map-marker>
+
           <map-marker
               [position]="homeLocation"
               [options]="homeMarkerOptions"

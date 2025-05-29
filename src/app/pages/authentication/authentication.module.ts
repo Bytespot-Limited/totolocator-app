@@ -24,6 +24,9 @@ import { AppSideForgotPasswordComponent } from './side-forgot-password/side-forg
 import { AppSideLoginComponent } from './side-login/side-login.component';
 import { AppSideRegisterComponent } from './side-register/side-register.component';
 import { AppSideTwoStepsComponent } from './side-two-steps/side-two-steps.component';
+import {
+  SuccessfulRegistrationComponent
+} from "./successful-registration/successful-registration.component";
 
 
 @NgModule({
@@ -38,6 +41,7 @@ import { AppSideTwoStepsComponent } from './side-two-steps/side-two-steps.compon
     FormsModule,
     ReactiveFormsModule,
     TablerIconsModule.pick(TablerIcons),
+    SuccessfulRegistrationComponent,
   ],
   declarations: [
    AppBoxedForgotPasswordComponent,

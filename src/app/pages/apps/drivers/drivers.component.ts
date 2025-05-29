@@ -62,6 +62,12 @@ export class DriversComponent extends CrudActions implements OnInit {
    * @param record
    */
   onAddItem(record: any) {
+    // Add driver_id to the payload to send to the API
+    record = {
+      tripType: record.tripType,
+      driverId: 1
+    }
+
     let entity: EntityAction = {
       name: this.entityName,
       id: '',

@@ -61,6 +61,7 @@ export class CrudActions {
         record.data = result.data;
         this.addRecord(record).subscribe({
           next: (res) => {
+            res.name = '';
             this.handleApiRecordResponse(
                 res,
                 record,
@@ -87,7 +88,7 @@ export class CrudActions {
    */
   addRecord(entity: EntityAction): Observable<any> {
     console.log("Record added: ", entity);
-    return this.http.post(environment.apiUrl.concat(entity.name), entity.data)
+    return this.http.post(environment.apiUrl.concat(entity.name),  entity.data, {headers: this.headers})
   }
 
   /**
@@ -141,7 +142,7 @@ export class CrudActions {
    * @param entity
    */
   updateRecord(entity: EntityAction): Observable<any> {
-    return this.http.patch(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`), entity.data);
+    return this.http.patch(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`), entity.data, {headers: this.headers});
   }
 
   /**
@@ -197,7 +198,7 @@ export class CrudActions {
    * @param entity
    */
   deleteRecord(entity: EntityAction): Observable<any> {
-    return this.http.delete(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`));
+    return this.http.delete(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`), {headers: this.headers});
   }
 
   /**
@@ -205,7 +206,7 @@ export class CrudActions {
    * @param record
    */
   onFilterRecord(record: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(record.name).concat("?name.contains=" + record.data));
+    return this.http.get(environment.apiUrl.concat(record.name).concat("?name.contains=" + record.data), {headers: this.headers});
   }
 
 
