@@ -1,5 +1,7 @@
-import { IForm } from "./interfaces/IForm";
+import {IForm} from "./interfaces/IForm";
 
+// @ts-ignore
+// @ts-ignore
 export const studentForm: IForm = {
   formTitle: 'Student Form',
   saveBtnTitle: 'Add Student',
@@ -21,6 +23,7 @@ export const studentForm: IForm = {
       "placeholder": "e.g John Doe",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "text",
+      "displayInput": true,
       "validators": [
         {
           "validatorName": "pattern",
@@ -41,6 +44,7 @@ export const studentForm: IForm = {
       "placeholder": "YYYY-MM-DD",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "date",
+      "displayInput": true,
       "validators": [
         {
           "validatorName": "required",
@@ -61,12 +65,13 @@ export const studentForm: IForm = {
       "placeholder": "Class Level",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "select",
+      "displayInput": true,
       "options": [
-        { "label": "Grade 1", "value": "GRADE_1" },
-        { "label": "Grade 2", "value": "GRADE_2" },
-        { "label": "Grade 3", "value": "GRADE_3" },
-        { "label": "Grade 4", "value": "GRADE_4" },
-        { "label": "Grade 5", "value": "GRADE_5" }
+        {"label": "Grade 1", "value": "GRADE_1"},
+        {"label": "Grade 2", "value": "GRADE_2"},
+        {"label": "Grade 3", "value": "GRADE_3"},
+        {"label": "Grade 4", "value": "GRADE_4"},
+        {"label": "Grade 5", "value": "GRADE_5"}
       ],
       "validators": [
         {
@@ -83,6 +88,7 @@ export const studentForm: IForm = {
       "placeholder": "Choose an image...",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "file",
+      "displayInput": true,
       "validators": [
         // {
         //   "validatorName": "required",
@@ -92,12 +98,49 @@ export const studentForm: IForm = {
       ]
     },
     {
+      "name": "billingStatus",
+      "label": "Billing Status",
+      "value": "",
+      "placeholder": "e.g. ACTIVE",
+      "class": "col-md-6",
+      "type": "select",
+      "displayInput": true,
+      "options": [
+        {"value": "ACTIVE", "label": "ACTIVE"},
+        {"value": "OVERDUE", "label": "OVERDUE"}
+      ],
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Billing status is required."
+        }
+      ]
+    },
+    {
+      "name": "nextBillingCycle",
+      "label": "Next Billing Cycle",
+      "value": "",
+      "placeholder": "YYYY-MM-DD",
+      "class": "col-md-6",
+      "type": "date",
+      "displayInput": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Next billing cycle is required."
+        }
+      ]
+    },
+    {
       "name": "homeAddress",
       "label": "Home Address",
       "value": "",
       "placeholder": "e.g Lavington, Nairobi",
       "class": "col-md-6",
-      "type": "text",
+      "type": "map",
+      "displayInput": true,
       "validators": [
         {
           "validatorName": "pattern",
@@ -118,6 +161,7 @@ export const studentForm: IForm = {
       "placeholder": "e.g. -122.4194",
       "class": "col-md-6",
       "type": "text",
+      "displayInput": false,
       "validators": [
         {
           "validatorName": "pattern",
@@ -138,6 +182,7 @@ export const studentForm: IForm = {
       "placeholder": "e.g. 37.7749",
       "class": "col-md-6",
       "type": "text",
+      "displayInput": false,
       "validators": [
         {
           "validatorName": "pattern",
@@ -149,40 +194,6 @@ export const studentForm: IForm = {
         //   "pattern": "",
         //   "message": "Latitude is required."
         // }
-      ]
-    },
-    {
-      "name": "billingStatus",
-      "label": "Billing Status",
-      "value": "",
-      "placeholder": "e.g. ACTIVE",
-      "class": "col-md-6",
-      "type": "select",
-      "options": [
-        { "value": "ACTIVE", "label": "ACTIVE" },
-        { "value": "OVERDUE", "label": "OVERDUE" }
-      ],
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Billing status is required."
-        }
-      ]
-    },
-    {
-      "name": "nextBillingCycle",
-      "label": "Next Billing Cycle",
-      "value": "",
-      "placeholder": "YYYY-MM-DD",
-      "class": "col-md-6",
-      "type": "date",
-      "validators": [
-        {
-          "validatorName": "required",
-          "pattern": "",
-          "message": "Next billing cycle is required."
-        }
       ]
     }
     // {

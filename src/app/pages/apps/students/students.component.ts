@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import {IForm} from "../forms/interfaces/IForm";
@@ -84,7 +84,7 @@ export class StudentsComponent extends CrudActions implements OnInit {
   tableData: any[];
   entityName: string = 'students';
 
-  constructor(http: HttpClient, dialog: MatDialog) {
+  constructor(http: HttpClient, dialog: MatDialog, private ngZone: NgZone) {
     super(dialog, http); // Pass dependencies to the parent class
     this.displayedColumns = this.recordForm.displayColumns;
     this.tableHeading = this.recordForm.formTitle;

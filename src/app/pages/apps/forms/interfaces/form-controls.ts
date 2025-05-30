@@ -9,5 +9,6 @@ export interface FormControls {
   type: string;
   validators: Validators[];
   options?: { label: string, value: string }[];
-  minAge?: number; 
+  minAge?: number;
+  displayInput?: boolean;
 }
