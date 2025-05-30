@@ -1,8 +1,11 @@
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk78IBulZVCNl2SGPDSExuDX2poBlrZIA&libraries=places"></script>
+<!-- map.component.html -->
 <div class="col-lg-12">
   <mat-card class="cardWithShadow theme-card">
-<!--    <mat-card-header>-->
-<!--      <mat-card-title class="m-b-0">{{ form.formTitle }}</mat-card-title>-->
-<!--    </mat-card-header>-->
+    <!--    <mat-card-header>-->
+    <!--      <mat-card-title class="m-b-0">{{ form.formTitle }}</mat-card-title>-->
+    <!--    </mat-card-header>-->
     <mat-card-content class="b-t-1">
       <form [formGroup]="dynamicFormGroup">
 
@@ -12,8 +15,8 @@
             <div *ngFor="let control of form.formControls" class="row">
 
               <!-- Display this label if field is a text, email, password, number, date, or select (dropdown)-->
-              <div *ngIf="['text', 'email', 'password', 'number', 'date', 'select'].includes(control.type)"
-                [class]="control?.class">
+              <div *ngIf="['text', 'email', 'password', 'number', 'date', 'select', 'map'].includes(control.type)
+              && control.displayInput === true" [class]="control?.class">
                 <mat-label class="mat-subtitle-2 f-w-600 d-block m-b-16">
                   {{ control.label }}
                 </mat-label>
@@ -22,24 +25,28 @@
               <!-- Display date input -->
               <div class="col-sm-12" *ngIf="control.type === 'date'">
                 <mat-form-field appearance="outline" class="w-100">
-                  <input matInput [matDatepicker]="birthpicker" placeholder="{{control.placeholder}}"
-                    formControlName="{{control?.name}}" />
+                  <input matInput [matDatepicker]="birthpicker"
+                         placeholder="{{control.placeholder}}"
+                         formControlName="{{control?.name}}"/>
                   <mat-datepicker-toggle matIconSuffix [for]="birthpicker"></mat-datepicker-toggle>
                   <mat-datepicker #birthpicker></mat-datepicker>
                 </mat-form-field>
               </div>
 
               <!-- Display text, email, password, number input -->
-              <div class="col-sm-12" *ngIf="['text', 'email', 'password', 'number'].includes(control.type)">
-                <mat-form-field appearance="outline" class="w-100">
-                  <input matInput placeholder="{{control.placeholder}}" formControlName="{{control?.name}}"
-                    type="{{control?.type}}" class="form-control" />
+              <div class="col-sm-12"
+                   *ngIf="['text', 'email', 'password', 'number'].includes(control.type)">
+                <mat-form-field *ngIf="control.displayInput" appearance="outline" class="w-100">
+                  <input matInput placeholder="{{control.placeholder}}"
+                         formControlName="{{control?.name}}"
+                         type="{{control?.type}}" class="form-control" [readOnly]="readOnly"/>
                   <mat-icon matPrefix class="op-5">
                     <i-tabler name="user" class="icon-20 d-flex"></i-tabler>
                   </mat-icon>
 
                   <!-- Display the error message -->
-                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid" class="m-b-16 error-msg">
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid"
+                            class="m-b-16 error-msg">
                     <div class="text-error">
                       {{ getErrorMessage(control) }}
                     </div>
@@ -47,17 +54,68 @@
                 </mat-form-field>
               </div>
 
+              <!-- Display map input -->
+              <div class="col-sm-12" *ngIf="['map'].includes(control.type)">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Search for a place...</mat-label>
+                  <mat-icon matPrefix class="op-5">
+                    <i-tabler name="map-pin" class="icon-20 d-flex"></i-tabler>
+                  </mat-icon>
+
+                  <input #search matInput
+                         [placeholder]="control.placeholder || 'Search for a place...'"
+                         formControlName="{{control?.name}}"
+                         type="text">
+
+                  <div *ngIf="placeName" class="place-info-display">
+                    <h3>{{ placeName }}</h3>
+                    <p>{{ placeAddress }}</p>
+                  </div>
+
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid"
+                            class="m-b-16 error-msg">
+                    <div class="text-error">
+                      {{ getErrorMessage(control) }}
+                    </div>
+                  </mat-hint>
+                </mat-form-field>
+
+                <google-map
+                  height="500px"
+                  width="100%"
+                  [zoom]="zoom"
+                  [center]="center"
+                  [options]="options"
+                >
+                  <map-marker
+                    *ngIf="markerPosition"
+                    [position]="markerPosition"
+                    [options]="markerOptions"
+                    (mapDragend)="markerDragged($event)"
+                    #placeMarker
+                  >
+                  </map-marker>
+                  <map-info-window>
+                    <div *ngIf="placeName">
+                      <h3>{{ placeName }}</h3>
+                      <p>{{ placeAddress }}</p>
+                    </div>
+                  </map-info-window>
+                </google-map>
+              </div>
               <!-- Display dropdown (select) -->
               <div class="col-sm-12" *ngIf="control.type === 'select'">
                 <mat-form-field appearance="outline" class="w-100">
-                  <mat-select formControlName="{{control?.name}}" placeholder="{{control.placeholder}}">
+                  <mat-select formControlName="{{control?.name}}"
+                              placeholder="{{control.placeholder}}">
                     <mat-option *ngFor="let option of control.options" [value]="option.value">
                       {{ option.label }}
                     </mat-option>
                   </mat-select>
 
                   <!-- Display the error message -->
-                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid" class="m-b-16 error-msg">
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid"
+                            class="m-b-16 error-msg">
                     <div class="text-error">
                       {{ getErrorMessage(control) }}
                     </div>
@@ -68,14 +126,17 @@
               <!-- Display date and time input -->
               <div class="col-sm-12" *ngIf="control.type === 'datetime-local'">
                 <mat-form-field appearance="outline" class="w-100">
-                  <input matInput placeholder="{{control.placeholder}}" formControlName="{{control?.name}}"
-                    type="datetime-local" class="form-control" (focus)="setBrowserTime(control.name)" />
+                  <input matInput placeholder="{{control.placeholder}}"
+                         formControlName="{{control?.name}}"
+                         type="datetime-local" class="form-control"
+                         (focus)="setBrowserTime(control.name)"/>
                   <mat-icon matPrefix class="op-5">
                     <i-tabler name="clock" class="icon-20 d-flex"></i-tabler>
                   </mat-icon>
 
                   <!-- Display the error message -->
-                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid" class="m-b-16 error-msg">
+                  <mat-hint *ngIf="dynamicFormGroup.get(control.name)?.invalid"
+                            class="m-b-16 error-msg">
                     <div class="text-error">
                       {{ getErrorMessage(control) }}
                     </div>
@@ -87,8 +148,9 @@
               <div class="col-sm-12" *ngIf="control.type === 'file'">
                 <div class="file-upload-container">
                   <label>{{ control.label }}</label>
-                  <input type="file" accept=".jpeg,.jpg,.png" (change)="onFileSelected($event, control.name)"
-                    class="form-control" />
+                  <input type="file" accept=".jpeg,.jpg,.png"
+                         (change)="onFileSelected($event, control.name)"
+                         class="form-control"/>
                   <mat-icon class="op-5">
                     <i-tabler name="upload" class="icon-20 d-flex"></i-tabler>
                   </mat-icon>
@@ -110,9 +172,12 @@
 
         <div class="row justify-content-end">
           <div class="col-sm-12">
-            <button (click)="onSubmit()" type="button" mat-flat-button color="primary">{{ form.saveBtnTitle }}</button>
+            <button (click)="onSubmit()" type="button" mat-flat-button
+                    color="primary">{{ form.saveBtnTitle }}
+            </button>
             <button (click)="resetForm()" type="button" mat-flat-button color="warn"
-              class="m-l-8">{{ form.resetBtnTitle }}</button>
+                    class="m-l-8">{{ form.resetBtnTitle }}
+            </button>
           </div>
         </div>
       </form>

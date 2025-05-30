@@ -5,6 +5,7 @@ import {environment} from "../../../../../environment";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
 import {Observable} from "rxjs";
 import {IForm} from "../forms/interfaces/IForm";
+import {StudentFormComponent} from "../students/student-form/student-form.component";
 
 export class CrudActions {
   headers = new HttpHeaders({
