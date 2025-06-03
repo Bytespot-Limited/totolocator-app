@@ -143,11 +143,6 @@ export const studentForm: IForm = {
       "displayInput": true,
       "validators": [
         {
-          "validatorName": "pattern",
-          "pattern": "^[a-zA-Z\\s]+$",
-          "message": "Home Address should be 8-15 characters in uppercase"
-        },
-        {
           "validatorName": "required",
           "pattern": "",
           "message": "Home Address is Required"

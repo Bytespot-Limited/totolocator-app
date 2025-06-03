@@ -1,6 +1,6 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {IForm} from "../forms/interfaces/IForm";
 import {studentForm} from '../forms/student-registration-form-config';
 import {CrudActions} from "../reusable/CrudActions";
@@ -73,9 +73,9 @@ import {EntityAction} from "../reusable/EntityAction";
  */
 
 @Component({
-    selector: 'app-students',
-    templateUrl: './students.component.html',
-    standalone: false
+  selector: 'app-students',
+  templateUrl: './students.component.html',
+  standalone: false
 })
 export class StudentsComponent extends CrudActions implements OnInit {
   recordForm = studentForm as IForm;
@@ -130,6 +130,7 @@ export class StudentsComponent extends CrudActions implements OnInit {
       id: '',
       data: record
     };
+    console.log("Entity received: ", entity)
     this.onAddRecord(entity, this.recordForm);
   }
 

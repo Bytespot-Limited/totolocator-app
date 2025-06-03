@@ -90,11 +90,11 @@
                   <map-marker
                     *ngIf="markerPosition"
                     [position]="markerPosition"
-                    [options]="markerOptions"
-                    (mapDragend)="markerDragged($event)"
+                    [options]="markerOptions" (mapDragend)="markerDragged($event)"
                     #placeMarker
                   >
                   </map-marker>
+
                   <map-info-window>
                     <div *ngIf="placeName">
                       <h3>{{ placeName }}</h3>
