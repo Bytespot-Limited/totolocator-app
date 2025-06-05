@@ -88,13 +88,23 @@ export class DynamicFormComponent implements OnInit, AfterViewInit { // Ensure A
       this.dynamicFormGroup = this.fb.group(formGroup);
     }
     // Set default center for the map
-    this.center = {lat: -1.286389, lng: 36.817223}; // Nairobi, Kenya
+    if (this.dynamicFormGroup.get("longitude")?.value != null) {
+      console.log("Coordinates are available: ....")
+      this.center = {
+        lat: +this.dynamicFormGroup.get("latitude")?.value,
+        lng: +this.dynamicFormGroup.get("longitude")?.value
+      }; // Nairobi, Kenya
+      this.markerPosition = this.center;
+      console.log("Coordinates are available: ....", this.markerPosition, this.center);
+    } else {
+      this.center = {lat: -1.286389, lng: 36.817223}; // Nairobi, Kenya
+    }
   }
 
   onSubmit() {
     if (this.dynamicFormGroup.valid) {
-      this.dynamicFormGroup.get("longitude")?.setValue( this.markerPosition.lng);
-      this.dynamicFormGroup.get("latitude")?.setValue( this.markerPosition.lat);
+      this.dynamicFormGroup.get("longitude")?.setValue(this.markerPosition.lng);
+      this.dynamicFormGroup.get("latitude")?.setValue(this.markerPosition.lat);
 
       console.log('Form values:', this.dynamicFormGroup.value);
       const formValues = this.dynamicFormGroup.value;

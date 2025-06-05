@@ -74,6 +74,7 @@ export class SchoolViewComponent {
   }
 
   onCreationValue(event: any) {
+    console.log("Event triggered: ", event)
     if (this.action === 'Add') {
       this.dialogRef.close({ action: 'Add', data: event });
     } else if (this.action === 'Update') {

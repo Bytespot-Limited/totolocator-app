@@ -1,7 +1,9 @@
 // map.component.ts
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GoogleMap} from '@angular/google-maps';
+import {ActivatedRoute} from "@angular/router";
+import {environment} from "../../../../../../environment";
 
 @Component({
   selector: 'trip-viewer-map',
@@ -12,11 +14,25 @@ import {GoogleMap} from '@angular/google-maps';
 export class TripViewerComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, {static: false}) map!: GoogleMap;
 
+  // student-trip ID
+  id: any;
+  // terminal ID
+  terminalId: any;
+  // direction of travel i.e to home or to school
+  tripType: 'PICKUP';
+
+  // HTTP headers
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  })
+
+
   // map.component.ts
-  startLocation = 'Andaa School';
-  destination = 'Lily\'s home';
-  distance = '8.5 km';
-  busPlateNo = 'KDD 188P';
+  startLocation = 'Loading ...';
+  destination = 'Loading ...';
+  distance = 'Loading ...';
+  busPlateNo = 'Loading ...';
   driverName = 'John Doe';
 
 
@@ -66,24 +82,76 @@ export class TripViewerComponent implements OnInit, OnDestroy {
     //label: 'Home'
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private route: ActivatedRoute,
+  ) {
   }
 
   ngOnInit(): void {
+    // Fetch the student ID from the route
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');  // Use '+' to convert the parameter to a number if needed
+      console.log('Received ID:', this.id);
+    });
+
+    // Fetch the student trip
+    this.getStudentTrip(this.id)
+
+
     this.directionsRenderer = new google.maps.DirectionsRenderer();
     this.updateLocationAndETA();
+
+
     this.updateInterval = setInterval(() => {
       this.updateLocationAndETA();
-    }, 10000);
+    }, 20000);
   }
+
+  // Get students on the given trip
+  getStudentTrip(tripId: number) {
+    this.http.get(environment.apiUrl.concat("student-trips/" + tripId),
+      {headers: this.headers})
+    .subscribe((res: any) => {
+      this.homeLocation = {
+        lat: +res.student.latitude,
+        lng: +res.student.longitude
+      };
+
+      this.busLocation = {
+        lat: +res.student.fleet.terminal.latitude,
+        lng: +res.student.fleet.terminal.longitude
+      };
+
+      this.schoolLocation = {
+        lat: +res.student.fleet.school.latitude,
+        lng: +res.student.fleet.school.longitude
+      };
+
+      this.startLocation = res.student.fleet.school.name;
+      this.destination = res.student.name.concat('\'s home');
+      this.busPlateNo = res.student.fleet.numberPlate;
+      this.driverName = 'John Doe';
+      this.terminalId = +res.student.fleet.terminal.id;
+      this.tripType = res.trip.tripType;
+
+      console.log("Getting students trip data: {}", res)
+    })
+  }
+
 
   async updateLocationAndETA(): Promise<void> {
     try {
       //const busData = await this.http.get<any>('/api/bus-location').toPromise();
-      const busData = {lat: -1.2292826217129458, lng: 36.68172925536842};
-      this.busLocation = busData;
-      await this.calculateRouteAndETA();
-      this.loading = false;
+      this.http.get(environment.apiUrl.concat("terminals/").concat(String(this.terminalId)),
+        {headers: this.headers})
+      .subscribe((res: any) => {
+        const busData = {lat: +res.latitude, lng: +res.longitude};
+        this.busLocation = busData;
+        this.calculateRouteAndETA();
+        this.loading = false;
+
+      })
+
     } catch (err) {
       this.error = 'Failed to update location';
       this.loading = false;
@@ -96,7 +164,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
 
       const request: google.maps.DirectionsRequest = {
         origin: this.busLocation,
-        destination: this.homeLocation,
+        destination: (this.tripType == 'PICKUP') ? this.schoolLocation : this.homeLocation,
         travelMode: google.maps.TravelMode.DRIVING
       };
 
@@ -105,8 +173,12 @@ export class TripViewerComponent implements OnInit, OnDestroy {
           if (this.directionsRenderer) {
             this.directionsRenderer.setDirections(response);
             const route = response.routes[0];
+
             if (route && route.legs[0]) {
               this.eta = route.legs[0].duration?.text || 'Calculating...';
+              // Update Distance
+              // route.legs[0].distance will have a .text (e.g., "8.5 km") and a .value (in meters)
+              this.distance = route.legs[0].distance?.text || 'N/A';
             }
           }
         } else {
