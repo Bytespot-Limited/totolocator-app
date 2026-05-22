@@ -44,32 +44,19 @@ export class AppBoxedLoginComponent {
     .subscribe(
       (res: any) => {
         this.loginResponse = res;
-        if (this.loginResponse == null) {
-          console.log("Error fetching user token: ", this.loginResponse);
-          this.loginErrorResponse = res;
-        }
         // User successfully logged in
         if (this.loginResponse.code == 200) {
           console.log("Successfully fetched user token: ", this.loginResponse);
           localStorage.setItem('username', <string>payload.username);
           localStorage.setItem('token', this.loginResponse.token);
-          this.router.navigate(['/apps']);
-        }
-
-        // Error customer login
-        if (this.loginErrorResponse.status != 200) {
-          console.log("User failed to login: ", this.loginErrorResponse);
+          this.router.navigate(['/dashboards/harmony-admin']);
+        } else {
           this.loginSent = true;
         }
       },
-      (error: LoginErrorResponse) => { // Error handler
+      (error: LoginErrorResponse) => {
         console.error("An error occurred during login:", error);
-
-        // console.error("An error occurred during login:", this.loginErrorResponse);
-        // You can add more specific error handling here based on the 'error' object
-        // For example, you might check for specific HTTP status codes or error messages
-        this.router.navigate(['/error']); // Or navigate to a specific error page
-        //this.loginSent = true;
+        this.loginSent = true;
       }
     );
 
