@@ -49,7 +49,7 @@ export class AppBoxedLoginComponent {
           console.log("Successfully fetched user token: ", this.loginResponse);
           localStorage.setItem('username', <string>payload.username);
           localStorage.setItem('token', this.loginResponse.token);
-          this.router.navigate(['/dashboards/dashboard1']);
+          this.router.navigate(['/dashboards/harmony-admin']);
         } else {
           this.loginSent = true;
         }
