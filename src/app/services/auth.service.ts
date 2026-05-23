@@ -69,6 +69,28 @@ export class AuthService {
     this.permissionsService.loadPermissions(this.getRoles());
   }
 
+  isKeycloakUser(): boolean {
+    return !!this.keycloak.authenticated;
+  }
+
+  getUsername(): string {
+    return localStorage.getItem('username') ?? this.getTokenClaim('sub') ?? '';
+  }
+
+  getEmailFromToken(): string | null {
+    return this.getTokenClaim('email');
+  }
+
+  private getTokenClaim(claim: string): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      return JSON.parse(atob(token.split('.')[1]))[claim] ?? null;
+    } catch {
+      return null;
+    }
+  }
+
   roleBasedRedirect(): void {
     const roles = this.getRoles();
     if (roles.includes('ROLE_ADMIN')) {

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
 import { navItems } from '../../vertical/sidebar/sidebar-data';
@@ -9,6 +9,8 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { FormsModule } from '@angular/forms';
 import { BrandingComponent } from '../../vertical/sidebar/branding.component';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
+import { AccountInfo, AccountService } from 'src/app/services/account.service';
 
 interface notifications {
   id: number;
@@ -30,6 +32,7 @@ interface profiledd {
   title: string;
   subtitle: string;
   link: string;
+  queryParams?: Record<string, string>;
 }
 
 @Component({
@@ -54,7 +57,7 @@ export class AppHorizontalSearchDialogComponent {
     imports: [MaterialModule, RouterModule, TablerIconsModule, BrandingComponent, NgFor, NgIf, AppHorizontalSearchDialogComponent],
     templateUrl: './header.component.html'
 })
-export class AppHorizontalHeaderComponent {
+export class AppHorizontalHeaderComponent implements OnInit {
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
@@ -62,6 +65,16 @@ export class AppHorizontalHeaderComponent {
   @Output() toggleCollapsed = new EventEmitter<void>();
 
   showFiller = false;
+  displayUsername = '';
+  displayEmail = '';
+  displayRole = '';
+
+  private readonly roleLabels: Record<string, string> = {
+    ROLE_ADMIN: 'Administrator',
+    ROLE_USER: 'School Admin',
+    ROLE_DRIVER: 'Driver',
+    ROLE_GUARDIAN: 'Guardian',
+  };
 
   public selectedLanguage: any = {
     language: 'English',
@@ -97,9 +110,37 @@ export class AppHorizontalHeaderComponent {
   constructor(
     private vsidenav: CoreService,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private authService: AuthService,
+    private accountService: AccountService,
   ) {
     translate.setDefaultLang('en');
+  }
+
+  ngOnInit(): void {
+    this.displayUsername = this.authService.getUsername();
+    const roles = this.authService.getRoles();
+    this.displayRole = roles.length > 0 ? (this.roleLabels[roles[0]] ?? roles[0]) : '';
+    this.accountService.getAccount().subscribe({
+      next: (acc) => {
+        this.displayUsername = acc.login || this.displayUsername;
+        this.displayEmail = acc.email;
+        this.syncPlaceholderEmail(acc);
+      },
+    });
+  }
+
+  private syncPlaceholderEmail(acc: AccountInfo): void {
+    if (!this.authService.isKeycloakUser()) return;
+    if (!acc.email?.endsWith('@localhost')) return;
+    const jwtEmail = this.authService.getEmailFromToken();
+    if (!jwtEmail || jwtEmail === acc.email) return;
+    this.accountService.updateAccount({ ...acc, email: jwtEmail }).subscribe();
+    this.displayEmail = jwtEmail;
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   openDialog() {
@@ -187,21 +228,15 @@ export class AppHorizontalHeaderComponent {
       img: '/assets/images/svgs/icon-account.svg',
       title: 'My Profile',
       subtitle: 'Account Settings',
-      link: '/',
+      link: '/theme-pages/account-setting',
     },
     {
       id: 2,
       img: '/assets/images/svgs/icon-inbox.svg',
-      title: 'My Inbox',
-      subtitle: 'Messages & Email',
-      link: '/apps/email/inbox',
-    },
-    {
-      id: 3,
-      img: '/assets/images/svgs/icon-tasks.svg',
-      title: 'My Tasks',
-      subtitle: 'To-do and Daily Tasks',
-      link: '/apps/taskboard',
+      title: 'My Password',
+      subtitle: 'Change your password',
+      link: '/theme-pages/account-setting',
+      queryParams: { tab: 'password' },
     },
   ];
 }

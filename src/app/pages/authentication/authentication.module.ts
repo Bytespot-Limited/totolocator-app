@@ -27,6 +27,7 @@ import { AppSideTwoStepsComponent } from './side-two-steps/side-two-steps.compon
 import {
   SuccessfulRegistrationComponent
 } from "./successful-registration/successful-registration.component";
+import { ResetPasswordInitComponent } from './reset-password-init/reset-password-init.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import {
    AppSideForgotPasswordComponent,
    AppSideLoginComponent,
    AppSideRegisterComponent,
-   AppSideTwoStepsComponent
+   AppSideTwoStepsComponent,
+   ResetPasswordInitComponent,
   ],
 })
 
