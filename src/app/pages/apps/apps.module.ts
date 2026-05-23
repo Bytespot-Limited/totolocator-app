@@ -9,7 +9,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from '../../interceptors/auth.interceptor';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 // icons
@@ -87,5 +88,5 @@ import {GoogleMapsModule} from "@angular/google-maps";
             useFactory: adapterFactory,
         }),
         MatNativeDateModule,
-        NgScrollbarModule], providers: [DatePipe, provideHttpClient(withInterceptorsFromDi())] })
+        NgScrollbarModule], providers: [DatePipe, provideHttpClient(withInterceptors([authInterceptor]))] })
 export class AppsModule {}

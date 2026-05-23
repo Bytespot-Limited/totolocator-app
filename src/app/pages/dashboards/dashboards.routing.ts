@@ -1,4 +1,5 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
+import { RoleGuard } from '../authentication/auth-guard/RoleGuard';
 
 // dashboards
 import {AppDashboard1Component} from './dashboard1/dashboard1.component';
@@ -23,45 +24,41 @@ export const DashboardsRoutes: Routes = [
       {
         path: 'harmony-admin',
         component: HarmonyAdminDashboardComponent,
+        canActivate: [RoleGuard],
         data: {
+          roles: ['ROLE_ADMIN'],
           title: 'Harmony Admin',
-          urls: [
-            {title: 'Admin', url: '/dashboards/harmony-admin'},
-            {title: 'Harmony Admin'},
-          ],
+          urls: [{ title: 'Admin', url: '/dashboards/harmony-admin' }, { title: 'Harmony Admin' }],
         },
       },
       {
         path: 'school-admin',
         component: SchoolAdminDashboardComponent,
+        canActivate: [RoleGuard],
         data: {
+          roles: ['ROLE_ADMIN', 'ROLE_USER'],
           title: 'School Admin',
-          urls: [
-            {title: 'School Admin', url: '/dashboards/school-admin'},
-            {title: 'School Admin'},
-          ],
+          urls: [{ title: 'School Admin', url: '/dashboards/school-admin' }, { title: 'School Admin' }],
         },
       },
       {
         path: 'driver',
         component: DriverDashboardComponent,
+        canActivate: [RoleGuard],
         data: {
+          roles: ['ROLE_ADMIN', 'ROLE_DRIVER'],
           title: 'Driver',
-          urls: [
-            {title: 'Driver', url: '/dashboards/driver'},
-            {title: 'Driver'},
-          ],
+          urls: [{ title: 'Driver', url: '/dashboards/driver' }, { title: 'Driver' }],
         },
       },
       {
         path: 'guardian',
         component: ParentDashboardComponent,
+        canActivate: [RoleGuard],
         data: {
+          roles: ['ROLE_ADMIN', 'ROLE_GUARDIAN'],
           title: 'Guardian',
-          urls: [
-            {title: 'Guardian', url: '/dashboards/guardian'},
-            {title: 'Guardian'},
-          ],
+          urls: [{ title: 'Guardian', url: '/dashboards/guardian' }, { title: 'Guardian' }],
         },
       },
 

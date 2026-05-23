@@ -1,5 +1,5 @@
 import {MatDialog} from "@angular/material/dialog";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {EntityAction} from "./EntityAction";
 import {environment} from "../../../../../environment";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
@@ -7,10 +7,6 @@ import {Observable} from "rxjs";
 import {IForm} from "../forms/interfaces/IForm";
 
 export class CrudActions {
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  })
 
   constructor(public dialog: MatDialog, private http: HttpClient) {
   }
@@ -37,9 +33,7 @@ export class CrudActions {
    * @param entity
    */
   getRecord(entity: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"), {
-      headers: this.headers
-    });
+    return this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"));
   }
 
 
@@ -88,7 +82,7 @@ export class CrudActions {
    */
   addRecord(entity: EntityAction): Observable<any> {
     console.log("Record added: ", entity);
-    return this.http.post(environment.apiUrl.concat(entity.name),  entity.data, {headers: this.headers})
+    return this.http.post(environment.apiUrl.concat(entity.name), entity.data)
   }
 
   /**
@@ -142,7 +136,7 @@ export class CrudActions {
    * @param entity
    */
   updateRecord(entity: EntityAction): Observable<any> {
-    return this.http.patch(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`), entity.data, {headers: this.headers});
+    return this.http.patch(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`), entity.data);
   }
 
   /**
@@ -198,7 +192,7 @@ export class CrudActions {
    * @param entity
    */
   deleteRecord(entity: EntityAction): Observable<any> {
-    return this.http.delete(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`), {headers: this.headers});
+    return this.http.delete(environment.apiUrl.concat(entity.name).concat(`/${entity.id}`));
   }
 
   /**
@@ -206,7 +200,7 @@ export class CrudActions {
    * @param record
    */
   onFilterRecord(record: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(record.name).concat("?name.contains=" + record.data), {headers: this.headers});
+    return this.http.get(environment.apiUrl.concat(record.name).concat("?name.contains=" + record.data));
   }
 
 

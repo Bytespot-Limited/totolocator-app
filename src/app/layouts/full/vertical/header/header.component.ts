@@ -8,6 +8,7 @@ import {
 import { CoreService } from 'src/app/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
 import { navItems } from '../sidebar/sidebar-data';
+import { AuthService } from 'src/app/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
@@ -106,9 +107,14 @@ export class HeaderComponent {
   constructor(
     private vsidenav: CoreService,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private authService: AuthService,
   ) {
     translate.setDefaultLang('en');
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   openDialog() {
