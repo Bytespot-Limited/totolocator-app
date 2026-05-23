@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {ActivatedRoute} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../../../environment";
 
 
@@ -11,11 +11,6 @@ import {environment} from "../../../../../../environment";
   standalone: false
 })
 export class TerminalViewComponent implements AfterViewInit, OnInit {
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  })
-
   terminalId: any;
   map: any;
   marker: any;
@@ -136,9 +131,7 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
    * @param id
    */
   fetchTerminalInfo(id: number) {
-    this.http.get(environment.apiUrl.concat("terminals/" + id), {
-      headers: this.headers
-    })
+    this.http.get(environment.apiUrl.concat("terminals/" + id))
     .subscribe((res: any) => {
       console.log("Getting terminal information: {}", res)
       this.terminal = res;
@@ -152,10 +145,7 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
    * @param id
    */
   async fetchVehicleInfo(id: number) {
-    await this.http.get(environment.apiUrl.concat("fleets?terminalId.equald=" + id), {
-        headers: this.headers
-      }
-    )
+    await this.http.get(environment.apiUrl.concat("fleets?terminalId.equald=" + id))
     .subscribe((res: any) => {
       console.log("Getting vehicle information: {}", res)
       this.vehicle = res[0];

@@ -1,8 +1,11 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { AuthService } from './services/auth.service';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,5 +49,17 @@ export function HttpLoaderFactory(http: HttpClient): any {
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient],
             },
-        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        }),
+        NgxPermissionsModule.forRoot(),
+    ],
+    providers: [
+        provideHttpClient(withInterceptors([authInterceptor])),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (auth: AuthService) => () => auth.init(),
+            deps: [AuthService],
+            multi: true,
+        },
+    ],
+})
 export class AppModule {}

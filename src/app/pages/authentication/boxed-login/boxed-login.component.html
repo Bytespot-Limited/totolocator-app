@@ -21,7 +21,7 @@
 
           <div class="row m-t-24 custom-row">
             <div class="col-12 col-sm-6">
-              <button mat-stroked-button class="w-100">
+              <button mat-stroked-button class="w-100" (click)="loginWithGoogle()">
                 <div class="d-flex align-items-center">
                   <img
                     src="/assets/images/svgs/google-icon.svg"
@@ -34,18 +34,9 @@
               </button>
             </div>
             <div class="col-12 col-sm-6">
-              <button
-                mat-stroked-button
-                class="w-100 d-flex align-items-center"
-              >
+              <button mat-stroked-button class="w-100" (click)="loginWithSSO()">
                 <div class="d-flex align-items-center">
-                  <img
-                    src="/assets/images/svgs/facebook-icon.svg"
-                    alt="facebook"
-                    width="40"
-                    class="m-r-4"
-                  />
-                  Sign in with FB
+                  Sign in with SSO
                 </div>
               </button>
             </div>
@@ -56,11 +47,8 @@
           <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
 
             <mat-label *ngIf="loginSent"
-                       class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-            > {{ loginErrorResponse.message }}
-
-            </mat-label
-            >
+                       class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block text-error"
+            >{{ loginError }}</mat-label>
 
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
             >Username

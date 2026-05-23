@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from 'environment';
 
@@ -11,12 +11,6 @@ import {environment} from 'environment';
   standalone: false
 })
 export class StudentTripComponent implements OnInit {
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  })
-
-
   actionPojo = {
     id: 1,
     status: ''
@@ -43,7 +37,7 @@ export class StudentTripComponent implements OnInit {
 
   // Get students on the given trip
   getStudentsOnTrip(tripId: number) {
-    this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"), {headers: this.headers})
+    this.http.get(environment.apiUrl.concat("student-trips?tripId.equals=" + tripId + "&page=0&size=20"))
     .subscribe((res: any) => {
       this.students = res;
       console.log("Getting students in the trip data: {}", res)
@@ -55,7 +49,7 @@ export class StudentTripComponent implements OnInit {
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
 
-    this.http.get(environment.apiUrl.concat("student-trips").concat("?student_name.contains=" + filterValue), {headers: this.headers})
+    this.http.get(environment.apiUrl.concat("student-trips").concat("?student_name.contains=" + filterValue))
     .subscribe(res => {
       //this.students = res;
 
@@ -121,7 +115,7 @@ export class StudentTripComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'Confirm') {
         console.log("Confirmed update of student trip.")
-        this.http.patch(environment.apiUrl + "student-trips/" + this.actionPojo.id, this.actionPojo, {headers: this.headers})
+        this.http.patch(environment.apiUrl + "student-trips/" + this.actionPojo.id, this.actionPojo)
         .subscribe({
           next: (res) => {
             this.dialog.open(DialogBoxComponent, {
