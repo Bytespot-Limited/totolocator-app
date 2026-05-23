@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
-import {AuthGuard} from "./pages/authentication/auth-guard/AuthGuard";
+import { AuthGuard } from './pages/authentication/auth-guard/AuthGuard';
+import { ResetPasswordFinishComponent } from './pages/authentication/reset-password-finish/reset-password-finish.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,10 @@ const routes: Routes = [
           import('./pages/theme-pages/landingpage/landingpage.module').then(
             (m) => m.LandingPageModule
           ),
+      },
+      {
+        path: 'account/reset/finish',
+        component: ResetPasswordFinishComponent,
       },
     ],
   },

@@ -16,6 +16,7 @@ import {
 import {
   SuccessfulActivationComponent
 } from "./successful-activation/successful-activation.component";
+import { ResetPasswordInitComponent } from './reset-password-init/reset-password-init.component';
 
 export const AuthenticationRoutes: Routes = [
   {
@@ -68,6 +69,10 @@ export const AuthenticationRoutes: Routes = [
       {
         path: 'activation',
         component: SuccessfulActivationComponent,
+      },
+      {
+        path: 'reset-password/init',
+        component: ResetPasswordInitComponent,
       },
     ],
   },
