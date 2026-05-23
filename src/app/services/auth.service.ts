@@ -46,8 +46,14 @@ export class AuthService {
     if (!token) return [];
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const auth: string = payload['auth'] ?? '';
-      return auth.split(' ').filter((r: string) => r.length > 0);
+      const auth = payload['auth'];
+      const all: string[] = Array.isArray(auth)
+        ? auth
+        : typeof auth === 'string'
+        ? auth.split(' ')
+        : [];
+      // Keep only ROLE_* entries; Keycloak also emits default realm roles
+      return all.filter((r: string) => r.startsWith('ROLE_'));
     } catch {
       return [];
     }
