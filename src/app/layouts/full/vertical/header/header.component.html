@@ -238,13 +238,12 @@
       </div>
 
       <div class="p-y-12 p-x-32">
-        <a
-          [routerLink]="['/authentication/side-login']"
+        <button
           mat-stroked-button
           color="primary"
           class="w-100"
-        >Logout</a
-        >
+          (click)="logout()"
+        >Logout</button>
       </div>
     </ng-scrollbar>
   </mat-menu>

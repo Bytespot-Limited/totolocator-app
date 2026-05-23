@@ -5,7 +5,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { CoreService } from 'src/app/services/core.service';
 import { AppSettings } from 'src/app/app.config';
 import { navItems } from './vertical/sidebar/sidebar-data';
+import { NavItem } from './vertical/sidebar/nav-item/nav-item';
 import { NavService } from '../../services/nav.service';
+import { AuthService } from '../../services/auth.service';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {
   AppSearchDialogComponent,
@@ -46,7 +48,7 @@ const BELOWMONITOR = 'screen and (max-width: 1023px)';
     encapsulation: ViewEncapsulation.None
 })
 export class FullComponent implements OnInit {
-  navItems = navItems;
+  navItems: NavItem[] = [];
   @ViewChild('leftsidenav')
   public sidenav: MatSidenav;
   resView = false;
@@ -71,7 +73,8 @@ export class FullComponent implements OnInit {
     private settings: CoreService,
     private mediaMatcher: MediaMatcher,
     private navService: NavService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthService,
   ) {
     this.htmlElement = document.querySelector('html')!;
     this.layoutChangesSubscription = this.breakpointObserver
@@ -92,7 +95,12 @@ export class FullComponent implements OnInit {
     this.receiveOptions(this.options);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const userRoles = this.authService.getRoles();
+    this.navItems = navItems.filter(
+      (item) => !item.roles || item.roles.some((r) => userRoles.includes(r)),
+    );
+  }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();
