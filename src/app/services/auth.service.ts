@@ -34,7 +34,13 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     this.permissionsService.flushPermissions();
-    this.keycloak.logout({ redirectUri: window.location.origin + '/authentication/login' });
+    if (this.keycloak.authenticated) {
+      // Keycloak SSO session active — do a proper OIDC logout.
+      // redirectUri must match an allowed post-logout URI on the Keycloak client.
+      this.keycloak.logout({ redirectUri: window.location.origin + '/' });
+    } else {
+      this.router.navigate(['/authentication/login']);
+    }
   }
 
   getToken(): string {
