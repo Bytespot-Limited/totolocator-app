@@ -1,306 +1,107 @@
-import { Component } from '@angular/core';
-import {piechart} from "../harmony-admin-dashboard/admin-cards/admin-cards.component";
-import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexMarkers, ApexPlotOptions, ApexStroke,
-  ApexTooltip,
-  ApexXAxis, ApexYAxis
-} from "ng-apexcharts";
-
-export interface newsletterchartOptions {
-  series: ApexAxisChartSeries | any;
-  chart: ApexChart | any;
-  xaxis: ApexXAxis | any;
-  stroke: any | any;
-  tooltip: ApexTooltip | any;
-  dataLabels: ApexDataLabels | any;
-  legend: ApexLegend | any;
-  colors: string[] | any;
-  markers: any;
-  grid: ApexGrid | any;
-  fill: ApexFill | any;
-}
-
-export interface salesChart {
-  series: ApexAxisChartSeries | any;
-  chart: ApexChart | any;
-  dataLabels: ApexDataLabels | any;
-  plotOptions: ApexPlotOptions | any;
-  yaxis: ApexYAxis | any;
-  xaxis: ApexXAxis | any;
-  fill: ApexFill | any;
-  tooltip: ApexTooltip | any;
-  stroke: ApexStroke | any;
-  legend: ApexLegend | any;
-  grid: ApexGrid | any;
-  marker: ApexMarkers | any;
-}
-
+import { Component, OnInit } from '@angular/core';
+import { piechart } from '../harmony-admin-dashboard/admin-cards/admin-cards.component';
+import { DashboardService, DateRange, DriverDashboardData, StudentBoardingItem } from 'src/app/services/dashboard.service';
 
 @Component({
     selector: 'app-driver-dashboard',
     templateUrl: './driver-dashboard.component.html',
     standalone: false
 })
-export class DriverDashboardComponent {
-  // Creating data to feed into the student activity graph
-  public newsletterchartOptions: Partial<newsletterchartOptions> | any = {
-    series: [
-      {
-        name: 'Registered Student',
-        data: [250, 390, 485, 485, 490, 515, 530, 546],
-      },
-      {
-        name: 'Paying Students',
-        data: [245, 360, 478, 480, 480, 500, 530, 530],
-      },
-    ],
-    chart: {
-      height: 365,
-      fontFamily: 'Poppins,sans-serif',
-      type: 'area',
-      foreColor: '#adb0bb',
-    },
-    colors: ['#1e88e5', '#26c6da'],
-    dataLabels: {
-      enabled: false,
-    },
-    markers: {
-      size: 4,
-      border: 1,
-    },
-    legend: {
-      show: false,
-    },
-    xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-    },
-    grid: {
-      show: true,
-      borderColor: 'rgba(0, 0, 0, .2)',
-      color: 'rgba(0, 0, 0, .2)',
-      strokeDashArray: 2,
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
-    },
-    stroke: {
-      curve: 'smooth',
-      width: 3,
-    },
-    fill: {
-      type: 'gradient',
-      opacity: ['0.1', '0.1'],
-    },
-    tooltip: {
-      theme: 'dark',
-      x: {
-        format: 'dd/MM/yy HH:mm',
-      },
-    },
-  };
-  public graphMetadata: any = {
-    graphTitle: "Students Retaining Rate",
-    graphSubTitle: "Overview of Total Vs Paying Students",
-    lineGraphName1: "Registered Students",
-    lineGraphName2: "Paying Students"
-  }
+export class DriverDashboardComponent implements OnInit {
+  range: DateRange = this.dashboardService.defaultRange();
+  loading = false;
 
-  // Creating data for the school trips graph
-  public salesChart: Partial<salesChart> | any = {
-    series: [
-      {name: 'Trip Count', data: [20, 18, 25, 19, 21, 2, 0]}
-    ],
-    chart: {
-      type: 'bar',
-      height: 320,
-      offsetX: -15,
-      toolbar: {show: false},
-      foreColor: '#adb0bb',
-      fontFamily: 'Poppins',
-      sparkline: {enabled: false},
-    },
-    grid: {
-      show: false,
-    },
-    plotOptions: {
-      bar: {horizontal: false, columnWidth: '35%', borderRadius: 0},
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    xaxis: {
-      type: 'category',
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July'],
-    },
-    yaxis: {
-      show: true,
-      min: 0,
-      max: 30,
-      tickAmount: 3,
-    },
-    stroke: {
-      show: true,
-      width: 5,
-      lineCap: 'butt',
-      colors: ['transparent'],
-    },
+  fleetPlate = 'N/A';
+  terminalStatus = 'NONE';
+  currentTripRoster: StudentBoardingItem[] = [];
 
-    legend: {
-      show: false,
-    },
-    fill: {
-      colors: ['#26c6da', '#1e88e5'],
-      opacity: 1,
-    },
-    tooltip: {
-      theme: 'dark',
-    },
-  };
+  public salesChart: any = this.buildBarChart([0,0,0,0,0,0,0], ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
   public tripGraphMetadata: any = {
-    graphTitle: "Student Trips",
-    graphSubTitle: "Overview of Total Student Trips",
-    barName: "Trips",
+    graphTitle: 'My Trips',
+    graphSubTitle: 'Trips this period',
+    barName: 'Trips',
+  };
+
+  public pieChartData: Partial<piechart>[] = this.buildEmptyCards();
+
+  constructor(private dashboardService: DashboardService) {}
+
+  ngOnInit(): void { this.load(); }
+
+  applyRange(): void {
+    this.load();
   }
 
-  // Creating data for cards
-  public pieChartData: Partial<piechart> | any = [
-    {
-      name: 'Trips',
-      sumOfRecords: 4,
-      series: [3, 1],
-      chart: {
-        type: 'donut',
-        fontFamily: 'Poppins,sans-serif',
-        height: 100,
-        offsetY: 0,
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '85px',
-          },
-        },
-      },
-      stroke: {
-        width: 0,
-      },
-      legend: {
-        show: false,
-      },
-      tooltip: {
-        fillSeriesColor: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      labels: ['Active', 'Inactive'],
-      colors: ['#1e88e5', 'rgba(0, 0, 0, 0.1)'],
-    },
-    {
-      name: 'Cars',
-      sumOfRecords: 4,
-      series: [4, 0],
-      chart: {
-        type: 'donut',
-        fontFamily: 'Poppins,sans-serif',
-        height: 100,
-        offsetY: 0,
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '85px',
-          },
-        },
-      },
-      stroke: {
-        width: 0,
-      },
-      legend: {
-        show: false,
-      },
-      tooltip: {
-        fillSeriesColor: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      labels: ['Online', 'Offline'],
-      colors: ['#26c6da', 'rgba(0, 0, 0, 0.1)'],
-    },
-    {
-      name: 'Students',
-      sumOfRecords: 546,
-      series: [516, 30],
-      chart: {
-        type: 'donut',
-        fontFamily: 'Poppins,sans-serif',
-        height: 100,
-        offsetY: 0,
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '85px',
-          },
-        },
-      },
-      stroke: {
-        width: 0,
-      },
-      legend: {
-        show: false,
-      },
-      tooltip: {
-        fillSeriesColor: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      labels: ['Active', 'Inactive'],
-      colors: ['#ffb22b', 'rgba(0, 0, 0, 0.1)'],
-    },
-    {
-      name: 'Invoices',
-      sumOfRecords: 2,
-      series: [2, 0],
-      chart: {
-        type: 'donut',
-        fontFamily: 'Poppins,sans-serif',
-        height: 100,
-        offsetY: 0,
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '85px',
-          },
-        },
-      },
-      stroke: {
-        width: 0,
-      },
-      legend: {
-        show: false,
-      },
-      tooltip: {
-        fillSeriesColor: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      labels: ['Paid', 'Unpaid'],
-      colors: ['#fc4b6c', 'rgba(0, 0, 0, 0.1)'],
-    }
-  ];
+  get boardedPercent(): number {
+    const total = this.currentTripRoster.length;
+    if (!total) return 0;
+    const boarded = this.currentTripRoster.filter(s => s.boardingStatus === 'BOARDED' || s.boardingStatus === 'DROPPED_OFF').length;
+    return Math.round((boarded / total) * 100);
+  }
 
+  private load(): void {
+    this.loading = true;
+    this.dashboardService.getDriverDashboard(this.range).subscribe({
+      next: data => { this.apply(data); this.loading = false; },
+      error: () => { this.loading = false; },
+    });
+  }
+
+  private apply(data: DriverDashboardData): void {
+    this.fleetPlate = data.fleetNumberPlate || 'N/A';
+    this.terminalStatus = data.terminalStatus || 'NONE';
+    this.currentTripRoster = data.currentTripRoster ?? [];
+
+    const boarded = data.boardedInRange ?? 0;
+    const pending = data.pendingInRange ?? 0;
+    const total = data.totalStudentsOnFleet ?? 0;
+    const completed = data.tripsCompletedInRange ?? 0;
+    const tripsTotal = data.tripsTotalInRange ?? 0;
+
+    this.pieChartData = [
+      this.donut('Students Boarded', boarded + pending, [boarded, pending], ['Boarded', 'Pending'], '#1e88e5'),
+      this.donut('My Bus', 1, [1, 0], [this.fleetPlate, ''], this.terminalStatus === 'ONLINE' ? '#26c6da' : '#fc4b6c'),
+      this.donut('Trips', tripsTotal, [completed, tripsTotal - completed], ['Completed', 'Pending'], '#ffb22b'),
+      this.donut('Students', total, [boarded, total - boarded], ['Boarded', 'Not Boarded'], '#fc4b6c'),
+    ];
+
+    this.salesChart = this.buildBarChart(data.dailyTripCounts ?? [], data.dailyTripLabels ?? []);
+  }
+
+  private donut(name: string, total: number, series: number[], labels: string[], color: string): Partial<piechart> {
+    return {
+      name, sumOfRecords: total, series, labels,
+      chart: { type: 'donut', fontFamily: 'Poppins,sans-serif', height: 100, offsetY: 0 },
+      plotOptions: { pie: { donut: { size: '85px' } } },
+      stroke: { width: 0 }, legend: { show: false },
+      tooltip: { fillSeriesColor: false }, dataLabels: { enabled: false },
+      colors: [color, 'rgba(0,0,0,0.1)'],
+    };
+  }
+
+  private buildBarChart(data: number[], labels: string[]): any {
+    const max = data.length ? Math.max(...data, 5) + 5 : 10;
+    return {
+      series: [{ name: 'Trip Count', data }],
+      chart: { type: 'bar', height: 320, offsetX: -15, toolbar: { show: false }, foreColor: '#adb0bb', fontFamily: 'Poppins', sparkline: { enabled: false } },
+      grid: { show: false },
+      plotOptions: { bar: { horizontal: false, columnWidth: '35%', borderRadius: 0 } },
+      dataLabels: { enabled: false },
+      xaxis: { type: 'category', categories: labels },
+      yaxis: { show: true, min: 0, max, tickAmount: 3 },
+      stroke: { show: true, width: 5, lineCap: 'butt', colors: ['transparent'] },
+      legend: { show: false },
+      fill: { colors: ['#26c6da', '#1e88e5'], opacity: 1 },
+      tooltip: { theme: 'dark' },
+    };
+  }
+
+  private buildEmptyCards(): Partial<piechart>[] {
+    return [
+      this.donut('Students Boarded', 0, [0, 0], ['Boarded',   'Pending'],     '#1e88e5'),
+      this.donut('My Bus',           0, [0, 0], ['N/A',       ''],            '#26c6da'),
+      this.donut('Trips',            0, [0, 0], ['Completed', 'Pending'],     '#ffb22b'),
+      this.donut('Students',         0, [0, 0], ['Boarded',   'Not Boarded'], '#fc4b6c'),
+    ];
+  }
 }
