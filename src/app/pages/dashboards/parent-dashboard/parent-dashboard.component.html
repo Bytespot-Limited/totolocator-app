@@ -1,4 +1,58 @@
+<mat-card class="m-b-16 cardWithShadow">
+  <mat-card-content class="p-16">
+    <div class="d-flex align-items-center flex-wrap gap-16">
+      <mat-form-field appearance="outline" class="hide-hint" style="min-width:240px">
+        <mat-label>Date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="From" [(ngModel)]="range.from" />
+          <input matEndDate placeholder="To" [(ngModel)]="range.to" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="applyRange(range.from, range.to)">Apply</button>
+      @if (loading) { <mat-spinner diameter="20"></mat-spinner> }
+    </div>
+  </mat-card-content>
+</mat-card>
+
 <app-admin-cards [pieChartData]="pieChartData"></app-admin-cards>
 <app-admin-trips-graph [salesChart]="salesChart" [graphMetadata]="tripGraphMetadata"></app-admin-trips-graph>
-<!--<app-student-activity-graph [newsletterchartOptions]="newsletterchartOptions"-->
-<!--                            [graphMetadata]="graphMetadata"></app-student-activity-graph>-->
+
+@if (childrenStatus.length > 0) {
+  <div class="row m-t-16">
+    @for (child of childrenStatus; track child.id) {
+      <div class="col-lg-4 col-md-6">
+        <mat-card class="cardWithShadow m-b-16">
+          <mat-card-content class="p-16">
+            <h6 class="f-w-600 f-s-16 m-b-4">{{ child.name }}</h6>
+            <p class="mat-body-2 text-muted m-b-8">{{ child.classLevel | titlecase }} &middot; Bus: {{ child.fleetNumberPlate }}</p>
+            <div class="d-flex gap-8 flex-wrap">
+              <span class="badge"
+                [class.bg-primary]="child.boardingStatus === 'BOARDED'"
+                [class.bg-warning]="child.boardingStatus === 'PENDING'"
+                [class.bg-success]="child.boardingStatus === 'DROPPED_OFF'"
+                [class.bg-secondary]="child.boardingStatus === 'NONE'">
+                {{ child.boardingStatus }}
+              </span>
+              <span class="badge"
+                [class.bg-success]="child.billingStatus === 'ACTIVE'"
+                [class.bg-danger]="child.billingStatus === 'OVERDUE'">
+                {{ child.billingStatus === 'ACTIVE' ? 'Paid' : 'Overdue' }}
+              </span>
+            </div>
+            @if (child.lastTripDate) {
+              <p class="mat-caption text-muted m-t-8 m-b-0">Last trip: {{ child.lastTripDate | date:'dd MMM, HH:mm' }}</p>
+            }
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  </div>
+} @else {
+  <mat-card class="m-t-16 cardWithShadow">
+    <mat-card-content class="p-24 text-center">
+      <p class="mat-body-1 text-muted">No children linked to your account.</p>
+    </mat-card-content>
+  </mat-card>
+}

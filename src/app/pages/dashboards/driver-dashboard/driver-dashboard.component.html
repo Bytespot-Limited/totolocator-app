@@ -1,4 +1,63 @@
-<!--<app-admin-cards [pieChartData]="pieChartData"></app-admin-cards>-->
+<mat-card class="m-b-16 cardWithShadow">
+  <mat-card-content class="p-16">
+    <div class="d-flex align-items-center flex-wrap gap-16">
+      <mat-form-field appearance="outline" class="hide-hint" style="min-width:240px">
+        <mat-label>Date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="From" [(ngModel)]="range.from" />
+          <input matEndDate placeholder="To" [(ngModel)]="range.to" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="applyRange(range.from, range.to)">Apply</button>
+      @if (loading) { <mat-spinner diameter="20"></mat-spinner> }
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<app-admin-cards [pieChartData]="pieChartData"></app-admin-cards>
 <app-admin-trips-graph [salesChart]="salesChart" [graphMetadata]="tripGraphMetadata"></app-admin-trips-graph>
-<!--<app-student-activity-graph [newsletterchartOptions]="newsletterchartOptions"-->
-<!--                            [graphMetadata]="graphMetadata"></app-student-activity-graph>-->
+
+@if (currentTripRoster.length > 0) {
+  <mat-card class="m-t-16 cardWithShadow">
+    <mat-card-content class="p-24">
+      <h5 class="f-s-18 f-w-600 m-b-8">Current Trip — Boarding Status</h5>
+      <mat-progress-bar mode="determinate" [value]="boardedPercent" class="m-b-16"></mat-progress-bar>
+      <p class="mat-body-1 m-b-16">{{ boardedPercent }}% boarded</p>
+      <mat-table [dataSource]="currentTripRoster">
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Student</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.studentName }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="class">
+          <mat-header-cell *matHeaderCellDef>Class</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.classLevel | titlecase }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span class="f-w-600"
+              [class.text-primary]="row.boardingStatus === 'BOARDED'"
+              [class.text-warning]="row.boardingStatus === 'PENDING'"
+              [class.text-success]="row.boardingStatus === 'DROPPED_OFF'">
+              {{ row.boardingStatus }}
+            </span>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="time">
+          <mat-header-cell *matHeaderCellDef>Pickup Time</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.pickupTime ? (row.pickupTime | date:'HH:mm') : '—' }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="['name','class','status','time']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['name','class','status','time']"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <mat-card class="m-t-16 cardWithShadow">
+    <mat-card-content class="p-24 text-center">
+      <p class="mat-body-1 text-muted">No active trip at the moment.</p>
+    </mat-card-content>
+  </mat-card>
+}
