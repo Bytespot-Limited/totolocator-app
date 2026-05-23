@@ -32,8 +32,7 @@ export class SchoolAdminDashboardComponent implements OnInit {
 
   ngOnInit(): void { this.load(); }
 
-  applyRange(from: Date, to: Date): void {
-    this.range = { from, to };
+  applyRange(): void {
     this.load();
   }
 

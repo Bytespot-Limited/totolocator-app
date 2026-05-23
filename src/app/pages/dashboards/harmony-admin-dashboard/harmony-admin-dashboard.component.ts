@@ -38,8 +38,7 @@ export class HarmonyAdminDashboardComponent implements OnInit {
     this.load();
   }
 
-  applyRange(from: Date, to: Date): void {
-    this.range = { from, to };
+  applyRange(): void {
     this.load();
   }
 

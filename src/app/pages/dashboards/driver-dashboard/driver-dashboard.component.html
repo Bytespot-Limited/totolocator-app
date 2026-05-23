@@ -1,16 +1,19 @@
 <mat-card class="m-b-16 cardWithShadow">
   <mat-card-content class="p-16">
     <div class="d-flex align-items-center flex-wrap gap-16">
-      <mat-form-field appearance="outline" class="hide-hint" style="min-width:240px">
-        <mat-label>Date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="From" [(ngModel)]="range.from" />
-          <input matEndDate placeholder="To" [(ngModel)]="range.to" />
-        </mat-date-range-input>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-form-field appearance="outline" class="hide-hint" style="width:170px">
+        <mat-label>From</mat-label>
+        <input matInput [matDatepicker]="fromPicker" [(ngModel)]="range.from" />
+        <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
       </mat-form-field>
-      <button mat-flat-button color="primary" (click)="applyRange(range.from, range.to)">Apply</button>
+      <mat-form-field appearance="outline" class="hide-hint" style="width:170px">
+        <mat-label>To</mat-label>
+        <input matInput [matDatepicker]="toPicker" [(ngModel)]="range.to" />
+        <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="applyRange()">Apply</button>
       @if (loading) { <mat-spinner diameter="20"></mat-spinner> }
     </div>
   </mat-card-content>
