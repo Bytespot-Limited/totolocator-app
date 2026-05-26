@@ -128,13 +128,15 @@ export class SchoolStuffComponent extends CrudActions implements OnInit {
    * @param record
    */
   onFilterValue(record: any) {
+    this.currentPage = 0;
     let entity: EntityAction = {
       name: this.entityName,
       id: '',
       data: record
     };
-    this.onFilterRecord(entity).subscribe((response) => {
-      this.tableData = response
+    this.onFilterRecord(entity, 0, this.pageSize).subscribe(response => {
+      this.tableData = response.body;
+      this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
     });
   }
 

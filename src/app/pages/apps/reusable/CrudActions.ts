@@ -202,8 +202,11 @@ export class CrudActions {
    * Filter records given a name
    * @param record
    */
-  onFilterRecord(record: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(record.name).concat("?name.contains=" + record.data));
+  onFilterRecord(record: EntityAction, page = 0, size = 10): Observable<HttpResponse<any>> {
+    return this.http.get<any>(
+      environment.apiUrl + record.name + `?name.contains=${record.data}&page=${page}&size=${size}`,
+      { observe: 'response' }
+    );
   }
 
 
