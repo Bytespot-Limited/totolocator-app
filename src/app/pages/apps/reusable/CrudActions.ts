@@ -32,7 +32,7 @@ export class CrudActions {
    * Fetch records
    * @param entity
    */
-  getRecord(entity: EntityAction, page = 0, size = 20): Observable<HttpResponse<any>> {
+  getRecord(entity: EntityAction, page = 0, size = 10): Observable<HttpResponse<any>> {
     return this.http.get<any>(
       environment.apiUrl + entity.name + `?page=${page}&size=${size}`,
       { observe: 'response' }

@@ -19,7 +19,7 @@ export class SchoolsComponent extends CrudActions implements OnInit {
   tableData: any[];
   totalRecords = 0;
   currentPage = 0;
-  pageSize = 20;
+  pageSize = 10;
   entityName: string = 'schools';
 
   constructor(http: HttpClient, dialog: MatDialog) {
