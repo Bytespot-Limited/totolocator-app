@@ -141,6 +141,8 @@ export const studentForm: IForm = {
       "class": "col-md-6",
       "type": "map",
       "displayInput": true,
+      "latitudeField": "latitude",
+      "longitudeField": "longitude",
       "validators": [
         {
           "validatorName": "pattern",

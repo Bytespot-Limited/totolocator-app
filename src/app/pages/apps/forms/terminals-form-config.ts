@@ -100,6 +100,48 @@ export const terminalForm: IForm = {
           "message": "Status is Required"
         }
       ]
+    },
+    {
+      "name": "terminalLocation",
+      "label": "Installation Location",
+      "value": "",
+      "placeholder": "Search for terminal installation location...",
+      "class": "col-sm-12",
+      "type": "map",
+      "displayInput": true,
+      "latitudeField": "latitude",
+      "longitudeField": "longitude",
+      "validators": []
+    },
+    {
+      "name": "latitude",
+      "label": "Latitude",
+      "value": "",
+      "placeholder": "",
+      "class": "col-md-6",
+      "type": "text",
+      "displayInput": false,
+      "validators": []
+    },
+    {
+      "name": "longitude",
+      "label": "Longitude",
+      "value": "",
+      "placeholder": "",
+      "class": "col-md-6",
+      "type": "text",
+      "displayInput": false,
+      "validators": []
     }
   ]
+}
+
+export const terminalUpdateForm: IForm = {
+  formTitle: 'Terminal',
+  saveBtnTitle: 'Save Terminal',
+  resetBtnTitle: 'Cancel',
+  displayColumns: terminalForm.displayColumns,
+  formControls: terminalForm.formControls.filter(
+    c => !['terminalLocation', 'latitude', 'longitude'].includes(c.name)
+  )
 }

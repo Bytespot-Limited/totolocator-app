@@ -37,21 +37,38 @@ export const schoolForm: IForm = {
       "name": "location",
       "label": "Location",
       "value": "",
-      "placeholder": "e.g Lavington, Nairobi",
-      "class": "col-md-6",
-      "type": "text",
+      "placeholder": "Search for school location...",
+      "class": "col-sm-12",
+      "type": "map",
+      "latitudeField": "latitude",
+      "longitudeField": "longitude",
       "validators": [
-        {
-          "validatorName": "pattern",
-          "pattern": "^[a-zA-Z\\s]+$",
-          "message": "Location should have only alphabet characters"
-        },
         {
           "validatorName": "required",
           "pattern": "",
           "message": "Location is Required"
         }
       ]
+    },
+    {
+      "name": "latitude",
+      "label": "Latitude",
+      "value": "",
+      "placeholder": "",
+      "class": "col-md-6",
+      "type": "text",
+      "displayInput": false,
+      "validators": []
+    },
+    {
+      "name": "longitude",
+      "label": "Longitude",
+      "value": "",
+      "placeholder": "",
+      "class": "col-md-6",
+      "type": "text",
+      "displayInput": false,
+      "validators": []
     },
     {
       "name": "phoneNumber",
