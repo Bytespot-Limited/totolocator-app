@@ -123,6 +123,6 @@ export class VehiclesComponent extends CrudActions implements OnInit {
     });
   }
 
+
+  protected override onSuccess(): void { this.getRecords(); }
 }
-
-

@@ -146,7 +146,26 @@ export const driverForm: IForm = {
           "message": "Entity status is Required"
         }
       ]
+    },
+    {
+      "name": "fleet",
+      "label": "Fleet (Vehicle)",
+      "value": "",
+      "placeholder": "Select Fleet",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [],
+      "apiEndpoint": "fleets",
+      "optionLabel": "numberPlate",
+      "optionValue": "id",
+      "isRelation": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Fleet is required."
+        }
+      ]
     }
-
   ]
 }

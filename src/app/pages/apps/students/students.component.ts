@@ -175,6 +175,6 @@ export class StudentsComponent extends CrudActions implements OnInit {
     });
   }
 
+
+  protected override onSuccess(): void { this.getRecords(); }
 }
-
-

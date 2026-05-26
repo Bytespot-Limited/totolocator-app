@@ -20,16 +20,17 @@ export const vehicleForm: IForm = {
       "placeholder": "e.g KDP 099Y",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "text",
+      "displayInput": true,
       "validators": [
         {
           "validatorName": "pattern",
           "pattern": "^[a-zA-Z0-9\\s]+$",
-          "message": "Number plate should have number and text only"
+          "message": "Number plate should contain numbers and letters only."
         },
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Student name is Required"
+          "message": "Number plate is required."
         }
       ]
     },
@@ -48,9 +49,56 @@ export const vehicleForm: IForm = {
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Entity status is Required"
+          "message": "Vehicle type is required."
         }
       ]
+    },
+    {
+      "name": "entityStatus",
+      "label": "Status",
+      "value": "",
+      "placeholder": "Select Status",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [
+        {"label": "Active", "value": "ACTIVE"},
+        {"label": "Inactive", "value": "INACTIVE"}
+      ],
+      "validators": []
+    },
+    {
+      "name": "school",
+      "label": "School",
+      "value": "",
+      "placeholder": "Select School",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [],
+      "apiEndpoint": "schools",
+      "optionLabel": "name",
+      "optionValue": "id",
+      "isRelation": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "School is required."
+        }
+      ]
+    },
+    {
+      "name": "terminal",
+      "label": "Terminal",
+      "value": "",
+      "placeholder": "Select Terminal",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [],
+      "apiEndpoint": "terminals",
+      "optionLabel": "devideId",
+      "optionValue": "id",
+      "isRelation": true,
+      "validators": []
     }
   ]
 }

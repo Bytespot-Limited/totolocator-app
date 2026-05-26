@@ -20,11 +20,44 @@ export const terminalForm: IForm = {
       "placeholder": "e.g 223344556",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "text",
+      "displayInput": true,
       "validators": [
         {
           "validatorName": "required",
           "pattern": "",
           "message": "Device ID is required."
+        }
+      ]
+    },
+    {
+      "name": "manufacturer",
+      "label": "Manufacturer",
+      "value": "",
+      "placeholder": "e.g. Teltonika",
+      "class": "col-md-6",
+      "type": "text",
+      "displayInput": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Manufacturer is required."
+        }
+      ]
+    },
+    {
+      "name": "model",
+      "label": "Model",
+      "value": "",
+      "placeholder": "e.g. FMB920",
+      "class": "col-md-6",
+      "type": "text",
+      "displayInput": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Model is required."
         }
       ]
     },
@@ -35,6 +68,7 @@ export const terminalForm: IForm = {
       "placeholder": "e.g. +254712345678",
       "class": "col-md-6",
       "type": "text",
+      "displayInput": true,
       "validators": [
         {
           "validatorName": "pattern",

@@ -210,6 +210,8 @@ export class CrudActions {
    * @param entity
    * @param dialogComponent
    */
+  protected onSuccess(): void {}
+
   handleApiRecordResponse(
       res: any,
       entity: EntityAction,
@@ -223,6 +225,7 @@ export class CrudActions {
         message: 'Actioned '.concat(entity.name).concat(' successfully: ').concat(res.name),
       },
     });
+    this.onSuccess();
   }
 
 
@@ -246,10 +249,16 @@ export class CrudActions {
   // Helper method to populate form with existing data
   public prepareFormWithData(record: EntityAction, form: IForm): IForm {
     const populatedForm = {...form};
-    populatedForm.formControls = populatedForm.formControls.map(control => ({
-      ...control,
-      value: record.data[control.name] ?? control.value
-    }));
+    populatedForm.formControls = populatedForm.formControls.map(control => {
+      const raw = record.data[control.name];
+      let value: any;
+      if (control.isRelation && raw && typeof raw === 'object') {
+        value = raw.id;
+      } else {
+        value = raw ?? control.value;
+      }
+      return { ...control, value };
+    });
     return populatedForm;
   }
 

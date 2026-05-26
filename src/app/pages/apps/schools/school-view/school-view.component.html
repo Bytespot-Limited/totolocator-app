@@ -7,7 +7,8 @@
   <app-dynamic-form
     [form]="formInput"
     [readOnly]="readOnly"
-    (onCreationValue)="onCreationValue($event)">
+    (onCreationValue)="onCreationValue($event)"
+    (onCancel)="closeDialog()">
   </app-dynamic-form>
 
   <div *ngIf="local_data.errorMessage" class="error-message text-danger">

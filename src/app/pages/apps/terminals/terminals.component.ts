@@ -115,5 +115,6 @@ export class TerminalsComponent extends CrudActions implements OnInit {
     this.router.navigate(['apps/terminals', id]);
   }
 
-}
 
+  protected override onSuccess(): void { this.getRecords(); }
+}

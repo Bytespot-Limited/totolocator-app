@@ -3,7 +3,7 @@ import {IForm} from "./interfaces/IForm";
 export const schoolForm: IForm = {
   formTitle: 'School',
   saveBtnTitle: 'Save School',
-  resetBtnTitle: 'Reset',
+  resetBtnTitle: 'Cancel',
   displayColumns: [
     'id',
     'name',
@@ -100,12 +100,26 @@ export const schoolForm: IForm = {
       "placeholder": "Choose an image...",
       "class": "col-md-6",
       "type": "file",
+      "validators": []
+    },
+    {
+      "name": "organization",
+      "label": "Organization",
+      "value": "",
+      "placeholder": "Select Organization",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [],
+      "apiEndpoint": "organizations",
+      "optionLabel": "name",
+      "optionValue": "id",
+      "isRelation": true,
       "validators": [
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Image file is required"
-        // }
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Organization is required."
+        }
       ]
     }
     /*

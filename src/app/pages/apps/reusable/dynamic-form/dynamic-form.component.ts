@@ -12,6 +12,9 @@ import {IForm} from "../../forms/interfaces/IForm";
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {FormControls} from "../../forms/interfaces/form-controls";
 import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
+import {HttpClient, HttpEventType} from "@angular/common/http";
+import {UploadService} from "../../../../services/upload.service";
+import {environment} from "../../../../../../environment";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -20,6 +23,7 @@ import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
 })
 export class DynamicFormComponent implements OnInit {
   @Output() onCreationValue = new EventEmitter<any>();
+  @Output() onCancel = new EventEmitter<void>();
   @Input() form!: IForm;
   @Input() readOnly: boolean = false;  // Uncommented and properly declared
   dynamicFormGroup: FormGroup;
@@ -48,9 +52,16 @@ export class DynamicFormComponent implements OnInit {
 
   private autocomplete!: google.maps.places.Autocomplete;
 
+  uploadProgress: { [controlName: string]: number } = {};
+
   // ================
 
-  constructor(private fb: FormBuilder, private ngZone: NgZone) {
+  constructor(
+    private fb: FormBuilder,
+    private ngZone: NgZone,
+    private uploadService: UploadService,
+    private http: HttpClient
+  ) {
     this.dynamicFormGroup = fb.group({}, {updateOn: 'submit'});
   }
 
@@ -84,12 +95,35 @@ export class DynamicFormComponent implements OnInit {
       this.dynamicFormGroup = this.fb.group(formGroup);
     }
     this.center = {lat: -1.286389, lng: 36.817223};
+
+    // Fetch options for any relation select fields
+    this.form.formControls
+      .filter(c => c.apiEndpoint)
+      .forEach(control => {
+        this.http.get<any[]>(environment.apiUrl + control.apiEndpoint + '?page=0&size=100')
+          .subscribe(items => {
+            control.options = items.map(item => ({
+              label: item[control.optionLabel!],
+              value: item[control.optionValue!]
+            }));
+          });
+      });
   }
 
   onSubmit() {
     if (this.dynamicFormGroup.valid) {
-      console.log('Form values:', this.dynamicFormGroup.value);
-      const formValues = this.dynamicFormGroup.value;
+      const raw = this.dynamicFormGroup.value;
+      const formValues: any = {};
+
+      this.form.formControls.forEach(control => {
+        const val = raw[control.name];
+        if (control.isRelation && val !== null && val !== undefined && val !== '') {
+          formValues[control.name] = { id: val };
+        } else {
+          formValues[control.name] = val;
+        }
+      });
+
       this.onCreationValue.emit(formValues);
     }
   }
@@ -106,24 +140,40 @@ export class DynamicFormComponent implements OnInit {
 
   onFileSelected(event: Event, controlName: string) {
     const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!fileInput.files || fileInput.files.length === 0) return;
 
-      if (!validTypes.includes(file.type)) {
-        alert('Please upload a valid image file (JPEG, JPG, PNG)');
-        return;
-      }
+    const file = fileInput.files[0];
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
-      const maxSizeInMB = 5;
-      if (file.size > maxSizeInMB * 1024 * 1024) {
-        alert(`File size must not exceed ${maxSizeInMB} MB`);
-        return;
-      }
-
-      this.dynamicFormGroup.get(controlName)?.setValue(file.name);
-      console.log('Selected file:', file.name);
+    if (!validTypes.includes(file.type)) {
+      alert('Please upload a valid image file (JPEG, JPG, PNG)');
+      return;
     }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('File size must not exceed 10 MB');
+      return;
+    }
+
+    this.uploadProgress[controlName] = 0;
+    this.dynamicFormGroup.get(controlName)?.setValue('');
+
+    this.uploadService.upload(file).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.UploadProgress && event.total) {
+          this.uploadProgress[controlName] = Math.round(100 * event.loaded / event.total);
+        } else if (event.type === HttpEventType.Response) {
+          const url = (event.body as any)?.url;
+          this.dynamicFormGroup.get(controlName)?.setValue(url);
+          delete this.uploadProgress[controlName];
+        }
+      },
+      error: (err) => {
+        delete this.uploadProgress[controlName];
+        alert('Upload failed. Please try again.');
+        console.error('Upload error:', err);
+      }
+    });
   }
 
   minAgeValidator(minAge: number): ValidatorFn {

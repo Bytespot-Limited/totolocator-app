@@ -135,16 +135,34 @@ export const schoolStuffForm: IForm = {
         {"label": "Bursar", "value": "BURSAR"},
         {"label": "Transport Manager", "value": "TRANSPORT_MANAGER"},
         {"label": "Secretary", "value": "SECRETARY"}
-
       ],
       "validators": [
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Email address is Required"
+          "message": "Role description is required."
         }
       ]
     },
-
+    {
+      "name": "school",
+      "label": "School",
+      "value": "",
+      "placeholder": "Select School",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "options": [],
+      "apiEndpoint": "schools",
+      "optionLabel": "name",
+      "optionValue": "id",
+      "isRelation": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "School is required."
+        }
+      ]
+    }
   ]
 }
