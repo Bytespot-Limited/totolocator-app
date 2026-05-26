@@ -9,7 +9,8 @@ export const tripForm: IForm = {
     'tripStatus',
     'startTime',
     'endTime',
-    'entityStatus',
+    'driverName',
+    'numberPlate',
     'action',
   ],
   formControls: [
