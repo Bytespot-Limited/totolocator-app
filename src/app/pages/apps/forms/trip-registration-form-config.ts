@@ -5,8 +5,11 @@ export const tripForm: IForm = {
   saveBtnTitle: 'Save Trip',
   resetBtnTitle: 'Cancel',
   displayColumns: [
-    'id',
     'tripType',
+    'tripStatus',
+    'startTime',
+    'endTime',
+    'entityStatus',
     'action',
   ],
   formControls: [
