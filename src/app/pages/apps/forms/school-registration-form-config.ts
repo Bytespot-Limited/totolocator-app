@@ -3,7 +3,7 @@ import {IForm} from "./interfaces/IForm";
 export const schoolForm: IForm = {
   formTitle: 'School',
   saveBtnTitle: 'Save School',
-  resetBtnTitle: 'Reset',
+  resetBtnTitle: 'Cancel',
   displayColumns: [
     'id',
     'name',

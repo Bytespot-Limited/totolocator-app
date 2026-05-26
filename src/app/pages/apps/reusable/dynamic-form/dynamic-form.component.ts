@@ -12,6 +12,8 @@ import {IForm} from "../../forms/interfaces/IForm";
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {FormControls} from "../../forms/interfaces/form-controls";
 import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
+import {HttpEventType} from "@angular/common/http";
+import {UploadService} from "../../../../services/upload.service";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -20,6 +22,7 @@ import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
 })
 export class DynamicFormComponent implements OnInit {
   @Output() onCreationValue = new EventEmitter<any>();
+  @Output() onCancel = new EventEmitter<void>();
   @Input() form!: IForm;
   @Input() readOnly: boolean = false;  // Uncommented and properly declared
   dynamicFormGroup: FormGroup;
@@ -48,9 +51,15 @@ export class DynamicFormComponent implements OnInit {
 
   private autocomplete!: google.maps.places.Autocomplete;
 
+  uploadProgress: { [controlName: string]: number } = {};
+
   // ================
 
-  constructor(private fb: FormBuilder, private ngZone: NgZone) {
+  constructor(
+    private fb: FormBuilder,
+    private ngZone: NgZone,
+    private uploadService: UploadService
+  ) {
     this.dynamicFormGroup = fb.group({}, {updateOn: 'submit'});
   }
 
@@ -106,24 +115,40 @@ export class DynamicFormComponent implements OnInit {
 
   onFileSelected(event: Event, controlName: string) {
     const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!fileInput.files || fileInput.files.length === 0) return;
 
-      if (!validTypes.includes(file.type)) {
-        alert('Please upload a valid image file (JPEG, JPG, PNG)');
-        return;
-      }
+    const file = fileInput.files[0];
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
-      const maxSizeInMB = 5;
-      if (file.size > maxSizeInMB * 1024 * 1024) {
-        alert(`File size must not exceed ${maxSizeInMB} MB`);
-        return;
-      }
-
-      this.dynamicFormGroup.get(controlName)?.setValue(file.name);
-      console.log('Selected file:', file.name);
+    if (!validTypes.includes(file.type)) {
+      alert('Please upload a valid image file (JPEG, JPG, PNG)');
+      return;
     }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('File size must not exceed 10 MB');
+      return;
+    }
+
+    this.uploadProgress[controlName] = 0;
+    this.dynamicFormGroup.get(controlName)?.setValue('');
+
+    this.uploadService.upload(file).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.UploadProgress && event.total) {
+          this.uploadProgress[controlName] = Math.round(100 * event.loaded / event.total);
+        } else if (event.type === HttpEventType.Response) {
+          const url = (event.body as any)?.url;
+          this.dynamicFormGroup.get(controlName)?.setValue(url);
+          delete this.uploadProgress[controlName];
+        }
+      },
+      error: (err) => {
+        delete this.uploadProgress[controlName];
+        alert('Upload failed. Please try again.');
+        console.error('Upload error:', err);
+      }
+    });
   }
 
   minAgeValidator(minAge: number): ValidatorFn {
