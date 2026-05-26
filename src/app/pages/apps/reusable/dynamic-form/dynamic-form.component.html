@@ -14,8 +14,8 @@
 
                 <!-- Circular image preview (existing or newly uploaded, falls back to placeholder) -->
                 <div class="m-b-12 d-flex justify-content-center">
-                  <img [src]="dynamicFormGroup.get(control.name)?.value || 'assets/images/profile/profile.png'"
-                       (error)="$event.target.src='assets/images/profile/profile.png'"
+                  <img [src]="dynamicFormGroup.get(control.name)?.value || 'assets/images/profile/user-avatar.png'"
+                       (error)="onImageError($event)"
                        style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid #ddd;"
                        alt="Profile image" />
                 </div>

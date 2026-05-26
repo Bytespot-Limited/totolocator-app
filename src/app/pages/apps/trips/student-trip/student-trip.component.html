@@ -17,16 +17,16 @@
   </mat-card-content>
 </mat-card>
 
-<div class="row">
+<div class="row align-items-stretch">
   <div
-    class="col-sm-6 col-lg-4"
+    class="col-sm-6 col-lg-4 d-flex m-b-24"
     *ngFor="let student of students"
   >
-    <mat-card class="cardWithShadow">
+    <mat-card class="cardWithShadow w-100">
       <mat-card-content class="text-center p-24">
         <img
-          [src]="student.student.profileImageUrl || 'assets/images/profile/profile.png'"
-          (error)="$event.target.src='assets/images/profile/profile.png'"
+          [src]="student.student.profileImageUrl || 'assets/images/profile/user-avatar.png'"
+          (error)="onImageError($event)"
           class="rounded-circle border p-5"
           width="100"
           alt="profile"

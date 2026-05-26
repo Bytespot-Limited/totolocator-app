@@ -203,6 +203,10 @@ export class DynamicFormComponent implements OnInit {
     };
   }
 
+  onImageError(event: Event): void {
+    (event.target as HTMLImageElement).src = 'assets/images/profile/user-avatar.png';
+  }
+
   getErrorMessage(control: FormControls): string {
     const myFormControl = this.dynamicFormGroup.get(control.name);
     let errorMessage = '';

@@ -55,10 +55,11 @@ export class StudentTripComponent implements OnInit {
     });
   }
 
-  filter(v: string): void {
-
-
+  onImageError(event: Event): void {
+    (event.target as HTMLImageElement).src = 'assets/images/profile/user-avatar.png';
   }
+
+  filter(v: string): void {}
 
   // Process the incoming user action
   actionStudentTrip(action: string, record: any) {
