@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import {CrudActions} from "../reusable/CrudActions";
 import {IForm} from "../forms/interfaces/IForm";
 import {EntityAction} from "../reusable/EntityAction";
-import {terminalForm} from "../forms/terminals-form-config";
+import {terminalForm, terminalUpdateForm} from "../forms/terminals-form-config";
 import {Router} from "@angular/router";
 
 @Component({
@@ -80,7 +80,7 @@ export class TerminalsComponent extends CrudActions implements OnInit {
       id: record.id,
       data: record
     };
-    this.onUpdateRecord(entity, this.recordForm);
+    this.onUpdateRecord(entity, terminalUpdateForm as IForm);
   }
 
   /**

@@ -15,4 +15,6 @@ export interface FormControls {
   optionLabel?: string;
   optionValue?: string;
   isRelation?: boolean;
+  latitudeField?: string;
+  longitudeField?: string;
 }

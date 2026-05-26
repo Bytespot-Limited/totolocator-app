@@ -14,10 +14,10 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
   terminalId: any;
   map: any;
   marker: any;
-  studentMarker: any;
 
   terminal: any;
   vehicle: any;
+  driver: any;
 
   hide = true;
   hide2 = true;
@@ -59,8 +59,6 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     L.Icon.Default.imagePath = 'assets/images/maps/';
-    // this.fetchVehicleInfo(this.terminalId);
-    // this.initMap();
   }
 
   /**
@@ -68,6 +66,7 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
    * @private
    */
   private initMap() {
+    if (this.map) return; // prevent re-initialization from the polling interval
     const busIcon = L.icon({
       iconUrl: 'assets/images/maps/school_bus.png',  // Path to your bus icon
       iconSize: [32, 32],  // Size of the icon
@@ -76,43 +75,19 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
     });
     console.log("Loading map with data: {}", this.terminal);
 
-    this.map = L.map('map').setView([Number(this.terminal.latitude), Number(this.terminal.longitude)], 15); // Set initial coordinates and zoom level
-
-    const getMarkers = (): L.Marker[] => {
-      return [
-        new L.Marker(new L.LatLng(43.5121264, 16.4700729), {
-          icon: new L.Icon({
-            iconSize: [50, 41],
-            iconAnchor: [13, 41],
-            iconUrl: 'assets/blue-marker.svg',
-          }),
-          title: 'Workspace'
-        } as L.MarkerOptions),
-        new L.Marker(new L.LatLng(43.5074826, 16.4390046), {
-          icon: new L.Icon({
-            iconSize: [50, 41],
-            iconAnchor: [13, 41],
-            iconUrl: 'assets/red-marker.svg',
-          }),
-          title: 'Riva'
-        } as L.MarkerOptions),
-      ] as L.Marker[];
-    };
+    this.map = L.map('map').setView([Number(this.terminal.latitude), Number(this.terminal.longitude)], 15);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    this.marker = L.marker([Number(this.terminal.latitude), Number(this.terminal.longitude)], {icon: busIcon}).addTo(this.map)
-    .bindPopup("Driver: John Mwangi.<br>Vehicle: KDH 722E")
-    .openPopup();
+    const driverName = this.driver?.name ?? 'Unknown Driver';
+    const numberPlate = this.vehicle?.numberPlate ?? 'Unknown Vehicle';
 
-    this.studentMarker = L.marker([Number(-1.2509837), Number(36.783291)], {icon: busIcon}).addTo(this.map)
-    .bindPopup("Driver: John Mwangi.<br>Vehicle: KDH 722E")
-    .openPopup();
-    L.polyline([L.latLng(this.terminal.latitude, this.terminal.longitude),
-      L.latLng(-1.2509837, 36.783291)], {color: '#0d9148'})
-    .addTo(this.map);
+    this.marker = L.marker([Number(this.terminal.latitude), Number(this.terminal.longitude)], {icon: busIcon})
+      .addTo(this.map)
+      .bindPopup(`Driver: ${driverName}<br>Vehicle: ${numberPlate}`)
+      .openPopup();
 
     // Set up the interval to refresh the map every 5 seconds
     setInterval(() => {
@@ -149,7 +124,20 @@ export class TerminalViewComponent implements AfterViewInit, OnInit {
     .subscribe((res: any) => {
       console.log("Getting vehicle information: {}", res)
       this.vehicle = res[0];
-      //this.initMap();
+      if (this.vehicle?.id) {
+        this.fetchDriverInfo(this.vehicle.id);
+      } else {
+        this.initMap();
+      }
+    })
+  }
+
+  fetchDriverInfo(fleetId: number) {
+    this.http.get(environment.apiUrl.concat("drivers?fleetId.equals=" + fleetId))
+    .subscribe((res: any) => {
+      console.log("Getting driver information: {}", res)
+      this.driver = res[0];
+      this.initMap();
     })
   }
 

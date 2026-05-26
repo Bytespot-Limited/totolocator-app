@@ -45,7 +45,9 @@ export class DynamicFormComponent implements OnInit {
     maxZoom: 18,
     minZoom: 8,
   };
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  get markerOptions(): google.maps.MarkerOptions {
+    return { draggable: !this.readOnly };
+  }
   markerPosition!: google.maps.LatLngLiteral;
   placeName: string = '';
   placeAddress: string = '';
@@ -95,6 +97,17 @@ export class DynamicFormComponent implements OnInit {
       this.dynamicFormGroup = this.fb.group(formGroup);
     }
     this.center = {lat: -1.286389, lng: 36.817223};
+
+    // Bug 2 fix: pre-populate map center/marker from stored lat/lng on View/Update
+    const mapCtrl = this.form.formControls.find(c => c.type === 'map');
+    if (mapCtrl?.latitudeField && mapCtrl?.longitudeField) {
+      const lat = parseFloat(this.dynamicFormGroup.get(mapCtrl.latitudeField)?.value);
+      const lng = parseFloat(this.dynamicFormGroup.get(mapCtrl.longitudeField)?.value);
+      if (!isNaN(lat) && !isNaN(lng)) {
+        this.center = { lat, lng };
+        this.markerPosition = { lat, lng };
+      }
+    }
 
     // Fetch options for any relation select fields
     this.form.formControls
@@ -253,11 +266,15 @@ export class DynamicFormComponent implements OnInit {
             this.placeName = place.name || '';
             this.placeAddress = place.formatted_address || '';
 
-            this.center = {
-              lat: place.geometry.location.lat(),
-              lng: place.geometry.location.lng(),
-            };
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+            this.center = { lat, lng };
             this.markerPosition = this.center;
+
+            // Bug 1 fix: write coordinates into the form controls
+            const mapCtrl = this.form.formControls.find(c => c.type === 'map');
+            if (mapCtrl?.latitudeField)  this.dynamicFormGroup.get(mapCtrl.latitudeField)?.setValue(lat.toString());
+            if (mapCtrl?.longitudeField) this.dynamicFormGroup.get(mapCtrl.longitudeField)?.setValue(lng.toString());
 
             if (place.geometry.viewport) {
               this.map.fitBounds(place.geometry.viewport);
@@ -285,11 +302,14 @@ export class DynamicFormComponent implements OnInit {
   // **THE FIX IS HERE:** Change type from google.maps.MouseEvent to google.maps.MapMouseEvent
   markerDragged(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
-      this.markerPosition = {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      };
-      // ... (optional: reverse geocode the new position if you want to update placeName/Address after drag)
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      this.markerPosition = { lat, lng };
+
+      // Bug 1 fix: keep form controls in sync when marker is dragged
+      const mapCtrl = this.form.formControls.find(c => c.type === 'map');
+      if (mapCtrl?.latitudeField)  this.dynamicFormGroup.get(mapCtrl.latitudeField)?.setValue(lat.toString());
+      if (mapCtrl?.longitudeField) this.dynamicFormGroup.get(mapCtrl.longitudeField)?.setValue(lng.toString());
     }
   }
 }
