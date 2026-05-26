@@ -8,6 +8,7 @@ export interface AccountInfo {
   firstName: string;
   lastName: string;
   email: string;
+  imageUrl?: string;
   langKey: string;
   authorities: string[];
 }

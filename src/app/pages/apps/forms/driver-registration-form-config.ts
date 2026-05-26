@@ -5,9 +5,8 @@ export const driverForm: IForm = {
   saveBtnTitle: 'Save Driver',
   resetBtnTitle: 'Cancel',
   displayColumns: [
-    'id',
+    'profile',
     'name',
-    //'logoImageUrl',
     'phoneNumber',
     'entityStatus',
     'action',

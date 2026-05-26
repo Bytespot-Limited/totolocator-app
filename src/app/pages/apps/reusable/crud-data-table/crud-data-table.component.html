@@ -29,8 +29,97 @@
         <!-- Dynamically generate table headers -->
         <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{ column | camelToTitle }}</th>
+
           <div *ngIf="column !== 'action'">
-            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+            <td mat-cell *matCellDef="let element">
+              <ng-container [ngSwitch]="column">
+
+                <!-- Profile thumbnail -->
+                <ng-container *ngSwitchCase="'profile'">
+                  <img
+                    [src]="element['profileImageUrl'] || 'assets/images/profile/user-avatar.png'"
+                    (error)="$any($event.target).src = 'assets/images/profile/user-avatar.png'"
+                    class="rounded-circle object-cover"
+                    width="36"
+                    height="36"
+                    alt="profile"
+                  />
+                </ng-container>
+
+                <!-- entityStatus badge -->
+                <ng-container *ngSwitchCase="'entityStatus'">
+                  <span class="badge rounded-pill f-s-12"
+                    [class.bg-light-success]="element[column] === 'ACTIVE'"
+                    [class.text-success]="element[column] === 'ACTIVE'"
+                    [class.bg-light-error]="element[column] === 'INACTIVE'"
+                    [class.text-error]="element[column] === 'INACTIVE'">
+                    {{ element[column] | camelToTitle }}
+                  </span>
+                </ng-container>
+
+                <!-- billingStatus badge -->
+                <ng-container *ngSwitchCase="'billingStatus'">
+                  <span class="badge rounded-pill f-s-12"
+                    [class.bg-light-success]="element[column] === 'ACTIVE'"
+                    [class.text-success]="element[column] === 'ACTIVE'"
+                    [class.bg-light-error]="element[column] === 'OVERDUE'"
+                    [class.text-error]="element[column] === 'OVERDUE'"
+                    [class.bg-secondary]="element[column] === 'INACTIVE'">
+                    {{ element[column] | camelToTitle }}
+                  </span>
+                </ng-container>
+
+                <!-- terminal status badge -->
+                <ng-container *ngSwitchCase="'status'">
+                  <span class="badge rounded-pill f-s-12"
+                    [class.bg-light-success]="element[column] === 'ONLINE'"
+                    [class.text-success]="element[column] === 'ONLINE'"
+                    [class.bg-light-error]="element[column] === 'OFFLINE'"
+                    [class.text-error]="element[column] === 'OFFLINE'">
+                    {{ element[column] | camelToTitle }}
+                  </span>
+                </ng-container>
+
+                <!-- tripType badge -->
+                <ng-container *ngSwitchCase="'tripType'">
+                  <span class="badge rounded-pill f-s-12"
+                    [class.bg-light-primary]="element[column] === 'PICKUP'"
+                    [class.text-primary]="element[column] === 'PICKUP'"
+                    [class.bg-light-warning]="element[column] === 'DROPOFF'"
+                    [class.text-warning]="element[column] === 'DROPOFF'"
+                    [class.bg-secondary]="element[column] === 'FIELDTRIP'">
+                    {{ element[column] | camelToTitle }}
+                  </span>
+                </ng-container>
+
+                <!-- tripStatus badge -->
+                <ng-container *ngSwitchCase="'tripStatus'">
+                  <span class="badge rounded-pill f-s-12"
+                    [class.bg-light-warning]="element[column] === 'STARTED'"
+                    [class.text-warning]="element[column] === 'STARTED'"
+                    [class.bg-light-primary]="element[column] === 'ONGOING'"
+                    [class.text-primary]="element[column] === 'ONGOING'"
+                    [class.bg-light-success]="element[column] === 'COMPLETED'"
+                    [class.text-success]="element[column] === 'COMPLETED'">
+                    {{ element[column] | camelToTitle }}
+                  </span>
+                </ng-container>
+
+                <!-- date/time columns -->
+                <ng-container *ngSwitchCase="'creationDate'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'modifiedDate'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'startTime'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'endTime'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'lastPing'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'pickupTime'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'dropOffTime'">{{ element[column] | date:'dd MMM yyyy, HH:mm' }}</ng-container>
+                <ng-container *ngSwitchCase="'nextBillingCycle'">{{ element[column] | date:'dd MMM yyyy' }}</ng-container>
+
+                <!-- default: plain text through the pipe for clean casing -->
+                <ng-container *ngSwitchDefault>{{ element[column] }}</ng-container>
+
+              </ng-container>
+            </td>
           </div>
 
           <div *ngIf="column == 'action'">
@@ -39,15 +128,13 @@
                 (click)="actionRecord('View', element)"
                 class="m-r-10 cursor-pointer"
               >
-                <i-tabler name="eye" class="icon-18"></i-tabler
-                >
+                <i-tabler name="eye" class="icon-18"></i-tabler>
               </a>
               <a
                 (click)="actionRecord('Update', element)"
                 class="m-r-10 cursor-pointer"
               >
-                <i-tabler name="edit" class="icon-18"></i-tabler
-                >
+                <i-tabler name="edit" class="icon-18"></i-tabler>
               </a>
               <a
                 (click)="actionRecord('Delete', element)"
