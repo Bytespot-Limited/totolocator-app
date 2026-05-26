@@ -32,9 +32,10 @@ export class CrudActions {
    * Fetch records
    * @param entity
    */
-  getRecord(entity: EntityAction, page = 0, size = 10): Observable<HttpResponse<any>> {
+  getRecord(entity: EntityAction, page = 0, size = 10, sort?: string): Observable<HttpResponse<any>> {
+    const sortParam = sort ? `&sort=${sort}` : '';
     return this.http.get<any>(
-      environment.apiUrl + entity.name + `?page=${page}&size=${size}`,
+      environment.apiUrl + entity.name + `?page=${page}&size=${size}${sortParam}`,
       { observe: 'response' }
     );
   }

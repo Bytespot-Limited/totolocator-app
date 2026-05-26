@@ -3,9 +3,9 @@
   {{data.question}}
 </div>
 <div *ngIf="!data.cancel" mat-dialog-actions class="p-24 p-t-0">
-  <button mat-stroked-button color="warn" mat-dialog-close>No</button>
-  <button  (click)="doAction()"
-          mat-flat-button color="primary" mat-dialog-close cdkFocusInitial>
+  <button mat-stroked-button color="warn" (click)="closeDialog()">No</button>
+  <button (click)="doAction()"
+          mat-flat-button color="primary" cdkFocusInitial>
     Yes
   </button>
 </div>
