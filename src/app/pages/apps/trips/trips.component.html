@@ -1,19 +1,11 @@
-
 <app-crud-data-table [displayedColumns]="displayedColumns"
                      [tableData]="tableData"
                      [tableHeading]="tableHeading"
-
                      (onViewItem)="onViewItem($event)"
                      (onAddItem)="onAddItem($event)"
                      (onUpdateItem)="onUpdateItem($event)"
                      (onDeleteItem)="onDeleteItem($event)"
-  [totalRecords]="totalRecords"
-  (pageChange)="onPageChange($event)">
+                     (onFilterValue)="onFilterValue($event)"
+                     [totalRecords]="totalRecords"
+                     (pageChange)="onPageChange($event)">
 </app-crud-data-table>
-
-
-
-
-
-
-
