@@ -48,11 +48,10 @@ export class StudentTripComponent implements OnInit {
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-
-    this.http.get(environment.apiUrl.concat("student-trips").concat("?student_name.contains=" + filterValue))
-    .subscribe(res => {
-      //this.students = res;
-
+    this.http.get(environment.apiUrl.concat(
+      `student-trips?tripId.equals=${this.id}&studentName.contains=${filterValue}&page=0&size=20`
+    )).subscribe((res: any) => {
+      this.students = res;
     });
   }
 

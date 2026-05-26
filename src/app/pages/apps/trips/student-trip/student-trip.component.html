@@ -25,10 +25,11 @@
     <mat-card class="cardWithShadow">
       <mat-card-content class="text-center p-24">
         <img
-          src="{{ student.student.profileImageUrl }}"
+          [src]="student.student.profileImageUrl || 'assets/images/profile/profile.png'"
+          (error)="$event.target.src='assets/images/profile/profile.png'"
           class="rounded-circle border p-5"
           width="100"
-          alt="text"
+          alt="profile"
         />
         <h4 mat-card-title class="card-title m-t-16 m-b-0">
           {{ student.student.name }}
