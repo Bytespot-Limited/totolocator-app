@@ -1,60 +1,53 @@
 import {IForm} from "./interfaces/IForm";
 
-export const tripForm: IForm = {
-  formTitle: 'Trip',
-  saveBtnTitle: 'Save Trip',
+export const studentBillingsForm: IForm = {
+  formTitle: 'Invoice',
+  saveBtnTitle: 'Save Invoice',
   resetBtnTitle: 'Cancel',
   displayColumns: [
     'id',
-    'tripType',
+    'paymentChannel',
+    'paymentReference',
+    'subscriptionStart',
+    'subscriptionEnd',
     'action',
   ],
   formControls: [
     {
-      "name": "tripType",
-      "label": "Trip Type",
+      "name": "paymentChannel",
+      "label": "Payment Channel",
       "value": "",
-      "placeholder": "Select Trip Type",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "select",
+      "placeholder": "e.g. MPESA",
+      "class": "col-md-6",
+      "type": "text",
       "displayInput": true,
-      "options": [
-        {"label": "Dropoff", "value": "DROPOFF"},
-        {"label": "Field Trip", "value": "FIELDTRIP"},
-        {"label": "Pickup", "value": "PICKUP"}
-      ],
       "validators": [
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Trip type is required."
+          "message": "Payment channel is required."
         }
       ]
     },
     {
-      "name": "tripStatus",
-      "label": "Trip Status",
+      "name": "paymentReference",
+      "label": "Payment Reference",
       "value": "",
-      "placeholder": "Select Trip Status",
-      "class": "col-sm-12 d-flex align-items-center",
-      "type": "select",
+      "placeholder": "e.g. QK7E2X1P",
+      "class": "col-md-6",
+      "type": "text",
       "displayInput": true,
-      "options": [
-        {"label": "Started", "value": "STARTED"},
-        {"label": "Ongoing", "value": "ONGOING"},
-        {"label": "Completed", "value": "COMPLETED"}
-      ],
       "validators": [
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Trip status is required."
+          "message": "Payment reference is required."
         }
       ]
     },
     {
-      "name": "startTime",
-      "label": "Start Time",
+      "name": "subscriptionStart",
+      "label": "Subscription Start",
       "value": "",
       "placeholder": "YYYY-MM-DDTHH:MM",
       "class": "col-md-6",
@@ -63,8 +56,8 @@ export const tripForm: IForm = {
       "validators": []
     },
     {
-      "name": "endTime",
-      "label": "End Time",
+      "name": "subscriptionEnd",
+      "label": "Subscription End",
       "value": "",
       "placeholder": "YYYY-MM-DDTHH:MM",
       "class": "col-md-6",
@@ -73,22 +66,23 @@ export const tripForm: IForm = {
       "validators": []
     },
     {
-      "name": "driverId",
-      "label": "Driver",
+      "name": "student",
+      "label": "Student",
       "value": "",
-      "placeholder": "Select Driver",
+      "placeholder": "Select Student",
       "class": "col-sm-12 d-flex align-items-center",
       "type": "select",
       "displayInput": true,
       "options": [],
-      "apiEndpoint": "drivers",
+      "apiEndpoint": "students",
       "optionLabel": "name",
       "optionValue": "id",
+      "isRelation": true,
       "validators": [
         {
           "validatorName": "required",
           "pattern": "",
-          "message": "Driver is required."
+          "message": "Student is required."
         }
       ]
     }

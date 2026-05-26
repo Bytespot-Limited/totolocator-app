@@ -128,5 +128,6 @@ export class SchoolStuffComponent extends CrudActions implements OnInit {
     });
   }
 
-}
 
+  protected override onSuccess(): void { this.getRecords(); }
+}

@@ -129,6 +129,6 @@ export class GuardiansComponent extends CrudActions implements OnInit {
     });
   }
 
+
+  protected override onSuccess(): void { this.getRecords(); }
 }
-
-

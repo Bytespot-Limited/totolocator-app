@@ -110,4 +110,6 @@ export class OrganizationsComponent extends CrudActions implements OnInit {
     });
   }
 
+
+  protected override onSuccess(): void { this.getRecords(); }
 }

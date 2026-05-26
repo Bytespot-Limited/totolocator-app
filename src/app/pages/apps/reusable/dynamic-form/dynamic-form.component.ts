@@ -12,8 +12,9 @@ import {IForm} from "../../forms/interfaces/IForm";
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {FormControls} from "../../forms/interfaces/form-controls";
 import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
-import {HttpEventType} from "@angular/common/http";
+import {HttpClient, HttpEventType} from "@angular/common/http";
 import {UploadService} from "../../../../services/upload.service";
+import {environment} from "../../../../../../environment";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -58,7 +59,8 @@ export class DynamicFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private ngZone: NgZone,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private http: HttpClient
   ) {
     this.dynamicFormGroup = fb.group({}, {updateOn: 'submit'});
   }
@@ -93,12 +95,35 @@ export class DynamicFormComponent implements OnInit {
       this.dynamicFormGroup = this.fb.group(formGroup);
     }
     this.center = {lat: -1.286389, lng: 36.817223};
+
+    // Fetch options for any relation select fields
+    this.form.formControls
+      .filter(c => c.apiEndpoint)
+      .forEach(control => {
+        this.http.get<any[]>(environment.apiUrl + control.apiEndpoint + '?page=0&size=100')
+          .subscribe(items => {
+            control.options = items.map(item => ({
+              label: item[control.optionLabel!],
+              value: item[control.optionValue!]
+            }));
+          });
+      });
   }
 
   onSubmit() {
     if (this.dynamicFormGroup.valid) {
-      console.log('Form values:', this.dynamicFormGroup.value);
-      const formValues = this.dynamicFormGroup.value;
+      const raw = this.dynamicFormGroup.value;
+      const formValues: any = {};
+
+      this.form.formControls.forEach(control => {
+        const val = raw[control.name];
+        if (control.isRelation && val !== null && val !== undefined && val !== '') {
+          formValues[control.name] = { id: val };
+        } else {
+          formValues[control.name] = val;
+        }
+      });
+
       this.onCreationValue.emit(formValues);
     }
   }

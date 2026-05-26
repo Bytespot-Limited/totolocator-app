@@ -188,12 +188,49 @@ export const studentForm: IForm = {
           "validatorName": "pattern",
           "pattern": "^-?\\d{1,2}(\\.\\d+)?$",
           "message": "Latitude must be a valid number between -90 and 90."
-        },
-        // {
-        //   "validatorName": "required",
-        //   "pattern": "",
-        //   "message": "Latitude is required."
-        // }
+        }
+      ]
+    },
+    {
+      "name": "fleet",
+      "label": "Fleet (Vehicle)",
+      "value": "",
+      "placeholder": "Select Fleet",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "displayInput": true,
+      "options": [],
+      "apiEndpoint": "fleets",
+      "optionLabel": "numberPlate",
+      "optionValue": "id",
+      "isRelation": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Fleet is required."
+        }
+      ]
+    },
+    {
+      "name": "guardian",
+      "label": "Guardian",
+      "value": "",
+      "placeholder": "Select Guardian",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "displayInput": true,
+      "options": [],
+      "apiEndpoint": "guardians",
+      "optionLabel": "name",
+      "optionValue": "id",
+      "isRelation": true,
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Guardian is required."
+        }
       ]
     }
     // {

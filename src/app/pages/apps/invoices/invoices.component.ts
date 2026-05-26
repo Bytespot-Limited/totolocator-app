@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
 import {CrudActions} from "../reusable/CrudActions";
-import {organizationForm} from "../forms/institution-registration-form-config";
+import {studentBillingsForm} from "../forms/student-billings-form-config";
 import {IForm} from "../forms/interfaces/IForm";
 import {EntityAction} from "../reusable/EntityAction";
 
@@ -85,7 +85,7 @@ import {EntityAction} from "../reusable/EntityAction";
     standalone: false
 })
 export class InvoicesComponent extends CrudActions implements OnInit {
-  recordForm = organizationForm as IForm;
+  recordForm = studentBillingsForm as IForm;
   displayedColumns: string[];
   tableHeading: string;
   tableData: any[];
@@ -182,5 +182,6 @@ export class InvoicesComponent extends CrudActions implements OnInit {
     });
   }
 
-}
 
+  protected override onSuccess(): void { this.getRecords(); }
+}
