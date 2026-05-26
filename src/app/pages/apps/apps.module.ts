@@ -49,6 +49,7 @@ import { OrganizationsComponent } from './organizations/organizations.component'
 import {DynamicFormComponent} from "./reusable/dynamic-form/dynamic-form.component";
 import {TripViewerComponent} from "./trips/trip-viewer/trip-viewer.component";
 import {GoogleMapsModule} from "@angular/google-maps";
+import {CamelToTitlePipe} from "../../pipe/camel-to-title.pipe";
 
 @NgModule({ exports: [TablerIconsModule],
     declarations: [
@@ -70,7 +71,8 @@ import {GoogleMapsModule} from "@angular/google-maps";
         StudentTripComponent,
         TerminalViewComponent,
         DialogBoxComponent,
-        DynamicFormComponent
+        DynamicFormComponent,
+        CamelToTitlePipe
     ], imports: [GoogleMapsModule,
         CommonModule,
         RouterModule.forChild(AppsRoutes),
