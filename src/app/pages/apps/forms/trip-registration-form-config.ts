@@ -34,6 +34,26 @@ export const tripForm: IForm = {
           "message": "Trip type is required."
         }
       ]
+    },
+    {
+      "name": "driverId",
+      "label": "Driver",
+      "value": "",
+      "placeholder": "Select Driver",
+      "class": "col-sm-12 d-flex align-items-center",
+      "type": "select",
+      "displayInput": true,
+      "options": [],
+      "apiEndpoint": "drivers",
+      "optionLabel": "name",
+      "optionValue": "id",
+      "validators": [
+        {
+          "validatorName": "required",
+          "pattern": "",
+          "message": "Driver is required."
+        }
+      ]
     }
   ]
 }

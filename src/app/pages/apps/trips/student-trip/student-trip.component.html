@@ -51,11 +51,11 @@
         </div>
         <div class="m-t-20">
           <span class="f-s-14">
-            Guardian Name: {{ student.student.guardian.name }}
+            Guardian Name: {{ student.student.guardian?.name }}
             <br/>
-            Relationship: {{ student.student.guardian.guardianType }}
+            Relationship: {{ student.student.guardian?.guardianType }}
             <br/>
-            Mobile: {{ student.student.guardian.phoneNumber }}</span
+            Mobile: {{ student.student.guardian?.phoneNumber }}</span
           >
         </div>
       </mat-card-content>

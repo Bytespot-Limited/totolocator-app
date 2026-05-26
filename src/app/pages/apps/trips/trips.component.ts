@@ -53,7 +53,7 @@ export class TripsComponent extends CrudActions implements OnInit {
       id: '',
       data: ''
     };
-    this.getRecord(entity, page, size).subscribe(response => {
+    this.getRecord(entity, page, size, 'startTime,desc').subscribe(response => {
       this.tableData = response.body;
       this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
     });

@@ -113,32 +113,41 @@ export class StudentTripComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === 'Confirm') {
+      if (result?.event === 'Confirm') {
         console.log("Confirmed update of student trip.")
         this.http.patch(environment.apiUrl + "student-trips/" + this.actionPojo.id, this.actionPojo)
         .subscribe({
           next: (res) => {
-            this.dialog.open(DialogBoxComponent, {
-              data: {
-                cancel: true,
-                title: 'Success',
-                question: 'Student has been off-boarded'
-              },
-            });
-            this.getStudentsOnTrip(this.id)
-
+            if (this.actionPojo.status === 'DROPPED_OFF') {
+              this.http.get<any>(environment.apiUrl + 'trips/' + this.id).subscribe(trip => {
+                if (trip.tripStatus === 'COMPLETED') {
+                  this.dialog.open(DialogBoxComponent, {
+                    data: {cancel: true, title: 'Trip Completed', question: 'Trip is completed'}
+                  });
+                } else {
+                  this.dialog.open(DialogBoxComponent, {
+                    data: {cancel: true, title: 'Success', question: 'Student has been dropped off'}
+                  });
+                }
+              });
+            } else {
+              this.dialog.open(DialogBoxComponent, {
+                data: {cancel: true, title: 'Success', question: 'Student has been picked up'}
+              });
+            }
+            this.getStudentsOnTrip(this.id);
           },
           error: (error) => {
             this.dialog.open(DialogBoxComponent, {
               data: {
                 cancel: true,
                 title: 'Error',
-                question: 'An error occurred off-boarding the student. Please try again'
+                question: 'An error occurred. Please try again'
               },
             });
           },
         });
-      } else if (result.event === 'Cancel') {
+      } else if (result?.event === 'Cancel') {
         console.log("Cancel update of student trip.")
       }
     });
