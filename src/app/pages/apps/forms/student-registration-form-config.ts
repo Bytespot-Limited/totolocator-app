@@ -7,9 +7,8 @@ export const studentForm: IForm = {
   saveBtnTitle: 'Add Student',
   resetBtnTitle: 'Cancel',
   displayColumns: [
-    'id',
+    'profile',
     'name',
-    //'logoImageUrl',
     'classLevel',
     'billingStatus',
     'entityStatus',

@@ -78,6 +78,7 @@ export class HeaderComponent implements OnInit {
   displayUsername = '';
   displayEmail = '';
   displayRole = '';
+  profileImageUrl = 'assets/images/profile/user-avatar.png';
 
   private readonly roleLabels: Record<string, string> = {
     ROLE_ADMIN: 'Administrator',
@@ -135,6 +136,7 @@ export class HeaderComponent implements OnInit {
       next: (acc) => {
         this.displayUsername = acc.login || this.displayUsername;
         this.displayEmail = acc.email;
+        if (acc.imageUrl) this.profileImageUrl = acc.imageUrl;
         this.syncPlaceholderEmail(acc);
       },
     });

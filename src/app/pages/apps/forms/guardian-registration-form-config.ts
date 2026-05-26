@@ -5,7 +5,7 @@ export const guardianForm: IForm = {
   saveBtnTitle: 'Add Guardian',
   resetBtnTitle: 'Cancel',
   displayColumns: [
-    'id',
+    'profile',
     'name',
     'guardianType',
     'phoneNumber',
