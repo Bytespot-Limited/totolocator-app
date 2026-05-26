@@ -6,5 +6,7 @@
   (onViewItem)="onViewItem($event)"
   (onAddItem)="onAddItem($event)"
   (onUpdateItem)="onUpdateItem($event)"
-  (onDeleteItem)="onDeleteItem($event)">
+  (onDeleteItem)="onDeleteItem($event)"
+  [totalRecords]="totalRecords"
+  (pageChange)="onPageChange($event)">
 </app-crud-data-table>

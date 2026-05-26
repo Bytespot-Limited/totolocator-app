@@ -28,6 +28,7 @@ export class CrudDataTableComponent implements AfterViewInit {
   @Input() tableData: any[] = [];
   @Input() displayedColumns: string[] = [];
   @Input() tableHeading: string;
+  @Input() totalRecords: number = 0;
 
   searchText: any;
 
@@ -37,6 +38,7 @@ export class CrudDataTableComponent implements AfterViewInit {
   @Output() onViewItem = new EventEmitter<any>();
   @Output() onUpdateItem = new EventEmitter<any>();
   @Output() onDeleteItem = new EventEmitter<any>();
+  @Output() pageChange = new EventEmitter<{ page: number; size: number }>();
 
 
   dataSource = new MatTableDataSource();

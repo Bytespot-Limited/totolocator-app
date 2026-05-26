@@ -30,6 +30,9 @@ export class VehiclesComponent extends CrudActions implements OnInit {
   displayedColumns: string[];
   tableHeading: string;
   tableData: any[];
+  totalRecords = 0;
+  currentPage = 0;
+  pageSize = 10;
   entityName: string = 'fleets';
 
   constructor(http: HttpClient, dialog: MatDialog) {
@@ -44,15 +47,22 @@ export class VehiclesComponent extends CrudActions implements OnInit {
   }
 
   // Fetch schools from the backend
-  getRecords() {
+  getRecords(page = this.currentPage, size = this.pageSize) {
     let entity: EntityAction = {
       name: this.entityName,
       id: '',
       data: ''
     };
-    this.getRecord(entity).subscribe((response) => {
-      this.tableData = response
+    this.getRecord(entity, page, size).subscribe(response => {
+      this.tableData = response.body;
+      this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
     });
+  }
+
+  onPageChange(event: { page: number; size: number }) {
+    this.currentPage = event.page;
+    this.pageSize = event.size;
+    this.getRecords(event.page, event.size);
   }
 
   /**
@@ -113,13 +123,15 @@ export class VehiclesComponent extends CrudActions implements OnInit {
    * @param record
    */
   onFilterValue(record: any) {
+    this.currentPage = 0;
     let entity: EntityAction = {
       name: this.entityName,
       id: '',
       data: record
     };
-    this.onFilterRecord(entity).subscribe((response) => {
-      this.tableData = response
+    this.onFilterRecord(entity, 0, this.pageSize).subscribe(response => {
+      this.tableData = response.body;
+      this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
     });
   }
 

@@ -1,5 +1,5 @@
 import {MatDialog} from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import {EntityAction} from "./EntityAction";
 import {environment} from "../../../../../environment";
 import {SchoolViewComponent} from "../schools/school-view/school-view.component";
@@ -32,8 +32,11 @@ export class CrudActions {
    * Fetch records
    * @param entity
    */
-  getRecord(entity: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(entity.name).concat("?page=0&size=20"));
+  getRecord(entity: EntityAction, page = 0, size = 10): Observable<HttpResponse<any>> {
+    return this.http.get<any>(
+      environment.apiUrl + entity.name + `?page=${page}&size=${size}`,
+      { observe: 'response' }
+    );
   }
 
 
@@ -199,8 +202,11 @@ export class CrudActions {
    * Filter records given a name
    * @param record
    */
-  onFilterRecord(record: EntityAction): Observable<any> {
-    return this.http.get(environment.apiUrl.concat(record.name).concat("?name.contains=" + record.data));
+  onFilterRecord(record: EntityAction, page = 0, size = 10): Observable<HttpResponse<any>> {
+    return this.http.get<any>(
+      environment.apiUrl + record.name + `?name.contains=${record.data}&page=${page}&size=${size}`,
+      { observe: 'response' }
+    );
   }
 
 
