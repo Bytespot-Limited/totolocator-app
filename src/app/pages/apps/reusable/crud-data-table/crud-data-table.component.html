@@ -48,7 +48,7 @@
 
                 <!-- entityStatus badge -->
                 <ng-container *ngSwitchCase="'entityStatus'">
-                  <span class="badge rounded-pill f-s-12"
+                  <span class="badge rounded-pill f-s-14 px-3 py-2"
                     [class.bg-light-success]="element[column] === 'ACTIVE'"
                     [class.text-success]="element[column] === 'ACTIVE'"
                     [class.bg-light-error]="element[column] === 'INACTIVE'"
@@ -59,7 +59,7 @@
 
                 <!-- billingStatus badge -->
                 <ng-container *ngSwitchCase="'billingStatus'">
-                  <span class="badge rounded-pill f-s-12"
+                  <span class="badge rounded-pill f-s-14 px-3 py-2"
                     [class.bg-light-success]="element[column] === 'ACTIVE'"
                     [class.text-success]="element[column] === 'ACTIVE'"
                     [class.bg-light-error]="element[column] === 'OVERDUE'"
@@ -71,7 +71,7 @@
 
                 <!-- terminal status badge -->
                 <ng-container *ngSwitchCase="'status'">
-                  <span class="badge rounded-pill f-s-12"
+                  <span class="badge rounded-pill f-s-14 px-3 py-2"
                     [class.bg-light-success]="element[column] === 'ONLINE'"
                     [class.text-success]="element[column] === 'ONLINE'"
                     [class.bg-light-error]="element[column] === 'OFFLINE'"
@@ -82,7 +82,7 @@
 
                 <!-- tripType badge -->
                 <ng-container *ngSwitchCase="'tripType'">
-                  <span class="badge rounded-pill f-s-12"
+                  <span class="badge rounded-pill f-s-14 px-3 py-2"
                     [class.bg-light-primary]="element[column] === 'PICKUP'"
                     [class.text-primary]="element[column] === 'PICKUP'"
                     [class.bg-light-warning]="element[column] === 'DROPOFF'"
@@ -94,7 +94,7 @@
 
                 <!-- tripStatus badge -->
                 <ng-container *ngSwitchCase="'tripStatus'">
-                  <span class="badge rounded-pill f-s-12"
+                  <span class="badge rounded-pill f-s-14 px-3 py-2"
                     [class.bg-light-warning]="element[column] === 'STARTED'"
                     [class.text-warning]="element[column] === 'STARTED'"
                     [class.bg-light-primary]="element[column] === 'ONGOING'"
