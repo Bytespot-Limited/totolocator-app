@@ -15,10 +15,15 @@ export class AuthService {
   constructor(private router: Router, private permissionsService: NgxPermissionsService) {}
 
   async init(): Promise<void> {
-    const authenticated = await this.keycloak.init({ onLoad: 'check-sso', pkceMethod: 'S256' });
-    if (authenticated && this.keycloak.token) {
-      localStorage.setItem('token', this.keycloak.token);
-      this.loadRolesFromToken();
+    try {
+      const authenticated = await this.keycloak.init({ onLoad: 'check-sso', pkceMethod: 'S256' });
+      if (authenticated && this.keycloak.token) {
+        localStorage.setItem('token', this.keycloak.token);
+        this.loadRolesFromToken();
+      }
+    } catch {
+      // Keycloak SSO check failed (e.g. third-party cookie blocked) — app still boots,
+      // AuthGuard will redirect to login if no token exists.
     }
   }
 
