@@ -1,5 +1,9 @@
-// environment.ts (Development)
 export const environment = {
   production: false,
-  apiUrl: 'https://harmony-api-d3c63c482f2e.herokuapp.com/api/'
+  apiUrl: 'https://api.staging.totolocator.com/api/',
+  keycloak: {
+    url: 'https://auth.staging.totolocator.com',
+    realm: 'harmony',
+    clientId: 'totolocator-frontend'
+  }
 };
