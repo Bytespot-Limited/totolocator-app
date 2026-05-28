@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://api.totolocator.com/api/',
+  apiUrl: 'https://api.staging.totolocator.com/api/',
   keycloak: {
-    url: 'https://auth.totolocator.com',
+    url: 'https://auth.staging.totolocator.com',
     realm: 'harmony',
     clientId: 'totolocator-frontend'
   }
