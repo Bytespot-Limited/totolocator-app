@@ -7,5 +7,5 @@ ARG BUILD_CONFIG=staging
 RUN npx ng build --configuration=${BUILD_CONFIG}
 
 FROM nginx:alpine
-COPY --from=build /app/dist/totolocator /usr/share/nginx/html
+COPY --from=build /app/dist/totolocator/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
