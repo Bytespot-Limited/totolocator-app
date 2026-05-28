@@ -16,14 +16,13 @@ export class AuthService {
 
   async init(): Promise<void> {
     try {
-      const authenticated = await this.keycloak.init({ onLoad: 'check-sso', pkceMethod: 'S256' });
+      const authenticated = await this.keycloak.init({ pkceMethod: 'S256' });
       if (authenticated && this.keycloak.token) {
         localStorage.setItem('token', this.keycloak.token);
         this.loadRolesFromToken();
       }
     } catch {
-      // Keycloak SSO check failed (e.g. third-party cookie blocked) — app still boots,
-      // AuthGuard will redirect to login if no token exists.
+      // Keycloak init failed — app still boots, AuthGuard handles redirect to login.
     }
   }
 
