@@ -18,6 +18,8 @@ export class TripViewerComponent implements OnInit, OnDestroy {
   distance = '';
   busPlateNo = '';
   driverName = '';
+  tripType = '';
+  studentStatus = '';
 
   schoolLocation: google.maps.LatLngLiteral = {lat: -1.286389, lng: 36.817223};
   busLocation: google.maps.LatLngLiteral = {lat: -1.286389, lng: 36.817223};
@@ -79,12 +81,14 @@ export class TripViewerComponent implements OnInit, OnDestroy {
         const terminal = fleet.terminal || {};
         const school = fleet.school || {};
 
+        this.tripType = st.trip?.tripType || '';
+        this.studentStatus = st.status || '';
+
         // Home location
         if (student.latitude && student.longitude) {
           this.homeLocation = {lat: Number(student.latitude), lng: Number(student.longitude)};
           this.center = this.homeLocation;
         }
-        this.destination = student.homeAddress || `${student.name}'s home`;
 
         // School location
         if (school.latitude && school.longitude) {
@@ -136,12 +140,19 @@ export class TripViewerComponent implements OnInit, OnDestroy {
     });
   }
 
+  private getRouteDestination(): google.maps.LatLngLiteral {
+    if (this.studentStatus === 'BOARDED' && this.tripType === 'PICKUP') {
+      return this.schoolLocation;
+    }
+    return this.homeLocation;
+  }
+
   private async calculateRouteAndETA(): Promise<void> {
     return new Promise((resolve) => {
       const directionsService = new google.maps.DirectionsService();
       const request: google.maps.DirectionsRequest = {
         origin: this.busLocation,
-        destination: this.homeLocation,
+        destination: this.getRouteDestination(),
         travelMode: google.maps.TravelMode.DRIVING
       };
       directionsService.route(request, (response, status) => {
