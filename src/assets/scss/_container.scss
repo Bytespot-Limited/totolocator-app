@@ -119,44 +119,69 @@ html .mat-drawer-container {
     padding: 12px;
   }
 
-  // Stack mat-table rows as cards on mobile
-  .mat-mdc-table {
-    thead {
-      display: none;
+  // Remove horizontal scroll — cards stack vertically instead
+  .table-responsive {
+    overflow-x: visible !important;
+
+    td,
+    mat-cell {
+      white-space: normal !important;
+      padding: 0 !important;
     }
+  }
 
-    tr.mat-mdc-row {
-      display: block;
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      border-radius: 8px;
-      margin-bottom: 12px;
-      padding: 8px 0;
+  // Break native table layout so rows can stack
+  table.mat-mdc-table {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  // Hide header row
+  tr.mat-mdc-header-row {
+    display: none !important;
+  }
+
+  // Each data row becomes a card — override Angular Material's fixed row height
+  tr.mat-mdc-row {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+    padding: 4px 0 !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  // Each cell becomes a label → value row
+  td.mat-mdc-cell {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 16px !important;
+    border-bottom: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    font-size: 13px !important;
+    white-space: normal !important;
+
+    &::before {
+      content: attr(data-label);
+      font-weight: 600;
+      font-size: 12px;
+      color: $textPrimary;
+      flex: 0 0 42%;
+      margin-right: 8px;
+      white-space: nowrap;
     }
+  }
 
-    td.mat-mdc-cell {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 6px 16px;
-      border-bottom: none;
-      font-size: 13px;
+  // Action cell: icons only, no label
+  td.mat-mdc-cell.action-link {
+    justify-content: flex-end !important;
 
-      &::before {
-        content: attr(data-label);
-        font-weight: 600;
-        color: $textPrimary;
-        flex: 0 0 45%;
-        margin-right: 8px;
-        white-space: nowrap;
-      }
-    }
-
-    td.action-link {
-      justify-content: flex-end;
-
-      &::before {
-        display: none;
-      }
+    &::before {
+      display: none !important;
     }
   }
 }
