@@ -25,7 +25,11 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              { "glob": "manifest.webmanifest", "input": "src/", "output": "/" }
+            ],
             "styles": [
               "src/styles.scss",
               "src/assets/scss/style.scss",
@@ -49,13 +53,15 @@
                   "maximumError": "12mb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "staging": {
               "fileReplacements": [
                 { "replace": "environment.ts", "with": "environment.staging.ts" }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,

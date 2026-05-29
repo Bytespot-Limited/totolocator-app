@@ -113,3 +113,50 @@ html .mat-drawer-container {
 .filter-sidebar {
   width: 290px;
 }
+
+@media (max-width: 599px) {
+  .pageWrapper {
+    padding: 12px;
+  }
+
+  // Stack mat-table rows as cards on mobile
+  .mat-mdc-table {
+    thead {
+      display: none;
+    }
+
+    tr.mat-mdc-row {
+      display: block;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 8px 0;
+    }
+
+    td.mat-mdc-cell {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 6px 16px;
+      border-bottom: none;
+      font-size: 13px;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: $textPrimary;
+        flex: 0 0 45%;
+        margin-right: 8px;
+        white-space: nowrap;
+      }
+    }
+
+    td.action-link {
+      justify-content: flex-end;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}

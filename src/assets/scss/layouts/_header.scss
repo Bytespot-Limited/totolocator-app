@@ -12,6 +12,11 @@ html .topbar {
   &.mat-mdc-menu-panel.mat-mdc-menu-panel {
     overflow: unset;
   }
+
+  @media (max-width: 399px) {
+    min-width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+  }
 }
 
 .apps-dd {

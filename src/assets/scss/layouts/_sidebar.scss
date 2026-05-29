@@ -156,6 +156,11 @@
   right: 30px;
   bottom: 30px;
   z-index: 9;
+
+  @media (max-width: 599px) {
+    right: 16px;
+    bottom: 16px;
+  }
 }
 
 .sidebar-list {
