@@ -112,6 +112,12 @@ html .mat-drawer-container {
 
 .filter-sidebar {
   width: 290px;
+  @media (max-width: 599px) { width: 100%; }
+}
+
+.date-filter-field {
+  width: 170px;
+  @media (max-width: 599px) { width: 100%; }
 }
 
 @media (max-width: 599px) {

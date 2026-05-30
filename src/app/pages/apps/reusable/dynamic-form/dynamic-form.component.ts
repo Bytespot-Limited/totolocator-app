@@ -37,6 +37,7 @@ export class DynamicFormComponent implements OnInit {
 
   zoom = 12;
   center!: google.maps.LatLngLiteral;
+  get mapHeight(): string { return window.innerWidth < 600 ? '250px' : '500px'; }
   options: google.maps.MapOptions = {
     mapTypeId: 'roadmap',
     zoomControl: true,

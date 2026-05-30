@@ -26,6 +26,12 @@ html .topbar {
   .mat-mdc-menu-content {
     padding: 0;
   }
+
+  @media (max-width: 860px) {
+    min-width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    overflow-x: auto !important;
+  }
 }
 
 .upgrade-bg {

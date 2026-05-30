@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit {
   }
 
   confirmLogout(): void {
-    this.dialog.open(LogoutConfirmDialogComponent, { width: '360px' })
+    this.dialog.open(LogoutConfirmDialogComponent, { width: '360px', maxWidth: '95vw' })
       .afterClosed().subscribe(confirmed => {
         if (confirmed) this.authService.logout();
       });

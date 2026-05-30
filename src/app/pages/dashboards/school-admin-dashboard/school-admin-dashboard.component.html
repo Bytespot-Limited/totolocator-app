@@ -1,13 +1,13 @@
 <mat-card class="m-b-16 cardWithShadow">
   <mat-card-content class="p-16">
     <div class="d-flex align-items-center flex-wrap gap-16">
-      <mat-form-field appearance="outline" class="hide-hint" style="width:170px">
+      <mat-form-field appearance="outline" class="hide-hint date-filter-field">
         <mat-label>From</mat-label>
         <input matInput [matDatepicker]="fromPicker" [(ngModel)]="range.from" />
         <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
         <mat-datepicker #fromPicker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="hide-hint" style="width:170px">
+      <mat-form-field appearance="outline" class="hide-hint date-filter-field">
         <mat-label>To</mat-label>
         <input matInput [matDatepicker]="toPicker" [(ngModel)]="range.to" />
         <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>

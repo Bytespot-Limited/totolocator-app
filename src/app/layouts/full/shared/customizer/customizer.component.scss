@@ -1,5 +1,9 @@
 .customizerNav {
     width: 320px;
     padding-top: 70px;
+
+    @media (max-width: 599px) {
+        width: min(320px, calc(100vw - 32px));
+    }
 }
 

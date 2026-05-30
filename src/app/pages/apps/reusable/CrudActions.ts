@@ -19,6 +19,7 @@ export class CrudActions {
   onViewRecord(entity: EntityAction, form: IForm) {
     const populatedForm = this.prepareFormWithData(entity, form);
     this.dialog.open(SchoolViewComponent, {
+      maxWidth: '95vw',
       data: {
         action: 'View',
         formInput: populatedForm,
@@ -48,6 +49,7 @@ export class CrudActions {
    */
   onAddRecord(record: EntityAction, form: IForm) {
     this.dialog.open(SchoolViewComponent, {
+      maxWidth: '95vw',
       data: {
         action: 'Add',
         organizationData: record.data,
@@ -97,6 +99,7 @@ export class CrudActions {
   onUpdateRecord(record: EntityAction, form: IForm) {
     const populatedForm = this.prepareFormWithData(record, form);
     this.dialog.open(SchoolViewComponent, {
+      maxWidth: '95vw',
       data: {
         action: 'Update',
         formInput: populatedForm,
@@ -150,6 +153,7 @@ export class CrudActions {
   onDeleteRecord(entity: EntityAction) {
 
     const dialogRef = this.dialog.open(SchoolViewComponent, {
+      maxWidth: '95vw',
       data: {
         action: 'Delete',
         local_data: entity,
@@ -225,6 +229,7 @@ export class CrudActions {
       dialogComponent: any
   ): void {
     this.dialog.open(dialogComponent, {
+      maxWidth: '95vw',
       data: {
         action: 'Notification',
         local_data: res,
@@ -245,6 +250,7 @@ export class CrudActions {
   handleApiRecordError(error: any, entity: EntityAction, dialogComponent: any): void {
     console.error('Error creating organization:', error);
     this.dialog.open(dialogComponent, {
+      maxWidth: '95vw',
       data: {
         action: 'Notification',
         local_data: error,
