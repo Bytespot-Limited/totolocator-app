@@ -13,13 +13,19 @@ import {environment} from 'environment';
 export class TripViewerComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, {static: false}) map!: GoogleMap;
 
+  studentName = '';
+  schoolName = '';
+  homeAddress = '';
   startLocation = '';
-  destination = '';
   distance = '';
   busPlateNo = '';
   driverName = '';
   tripType = '';
   studentStatus = '';
+
+  get destination(): string {
+    return this.tripType === 'PICKUP' ? this.schoolName : this.homeAddress;
+  }
 
   schoolLocation: google.maps.LatLngLiteral = {lat: -1.286389, lng: 36.817223};
   busLocation: google.maps.LatLngLiteral = {lat: -1.286389, lng: 36.817223};
@@ -83,6 +89,8 @@ export class TripViewerComponent implements OnInit, OnDestroy {
 
         this.tripType = st.trip?.tripType || '';
         this.studentStatus = st.status || '';
+        this.studentName = student.name || '';
+        this.homeAddress = student.homeAddress || '';
 
         // Home location
         if (student.latitude && student.longitude) {
@@ -94,6 +102,7 @@ export class TripViewerComponent implements OnInit, OnDestroy {
         if (school.latitude && school.longitude) {
           this.schoolLocation = {lat: Number(school.latitude), lng: Number(school.longitude)};
         }
+        this.schoolName = school.name || '';
         this.startLocation = school.name || 'School';
 
         // Bus location from terminal GPS

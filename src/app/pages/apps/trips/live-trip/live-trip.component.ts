@@ -17,10 +17,15 @@ export class LiveTripComponent implements OnInit, OnDestroy {
   driverName = '';
   busPlateNo = '';
   schoolName = '';
+  homeAddress = '';
   tripType = '';
   eta = 'Calculating...';
   distance = '';
   startLocation = '';
+
+  get destination(): string {
+    return this.tripType === 'PICKUP' ? this.schoolName : this.homeAddress;
+  }
 
   tripEnded = false;
   loading = true;
@@ -83,6 +88,7 @@ export class LiveTripComponent implements OnInit, OnDestroy {
         this.busPlateNo = data.vehiclePlate || '';
         this.schoolName = data.schoolName || '';
         this.tripType = data.tripType || '';
+        this.homeAddress = data.homeAddress || '';
         this.startLocation = data.schoolName || 'School';
 
         if (data.schoolLat && data.schoolLng) {
