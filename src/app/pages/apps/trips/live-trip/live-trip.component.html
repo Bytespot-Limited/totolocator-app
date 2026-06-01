@@ -1,0 +1,76 @@
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk78IBulZVCNl2SGPDSExuDX2poBlrZIA&libraries=places"></script>
+
+<div class="live-trip-wrapper">
+
+  <!-- App bar -->
+  <div class="live-trip-header">
+    <img src="assets/images/logos/light-logo.svg" alt="TotoLocator" class="live-trip-logo" />
+    <span class="live-trip-title">Live Trip Tracker</span>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="live-trip-loading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Loading trip details…</p>
+  </div>
+
+  <!-- Trip ended -->
+  <div *ngIf="!loading && tripEnded" class="live-trip-ended-card">
+    <mat-icon class="ended-icon">check_circle</mat-icon>
+    <h2>Trip has ended</h2>
+    <p>Your child has been safely dropped off. Log in to view the full trip history.</p>
+    <button mat-flat-button color="primary" (click)="goToLogin()">Log In</button>
+  </div>
+
+  <!-- Active trip -->
+  <div *ngIf="!loading && !tripEnded" class="row live-trip-content">
+
+    <div class="col-lg-6">
+      <mat-card class="cardWithShadow">
+        <mat-card-content>
+          <google-map
+            [center]="center"
+            [zoom]="zoom"
+            [options]="options"
+            (mapInitialized)="onMapReady($event)"
+            height="450px"
+            width="100%">
+            <map-marker [position]="schoolLocation" [options]="schoolMarkerOptions"></map-marker>
+            <map-marker [position]="busLocation"    [options]="busMarkerOptions"></map-marker>
+            <map-marker [position]="homeLocation"   [options]="homeMarkerOptions"></map-marker>
+          </google-map>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-lg-6">
+      <mat-card class="cardWithShadow m-b-16">
+        <mat-card-content class="p-b-16">
+          <mat-card-title>Student</mat-card-title>
+          <p class="detail-item"><span class="label">Name: </span><span class="value">{{ studentName }}</span></p>
+          <p class="detail-item"><span class="label">School: </span><span class="value">{{ schoolName }}</span></p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="cardWithShadow m-b-16">
+        <mat-card-content class="p-b-16">
+          <mat-card-title>Trip</mat-card-title>
+          <p class="detail-item"><span class="eta-label">ETA: </span><span class="eta-value">{{ eta }}</span></p>
+          <p class="detail-item"><span class="label">Distance: </span><span class="value">{{ distance }}</span></p>
+          <p class="detail-item"><span class="label">Route: </span><span class="value">{{ tripType === 'PICKUP' ? 'To School' : 'Heading Home' }}</span></p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="cardWithShadow">
+        <mat-card-content class="p-b-16">
+          <mat-card-title>Bus</mat-card-title>
+          <p class="detail-item"><span class="label">Plate No: </span><span class="value">{{ busPlateNo }}</span></p>
+          <p class="detail-item"><span class="label">Driver: </span><span class="value">{{ driverName }}</span></p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </div>
+
+</div>

@@ -91,6 +91,13 @@ const routes: Routes = [
         path: 'account/reset/finish',
         component: ResetPasswordFinishComponent,
       },
+      {
+        path: 'apps/live-trip/:id',
+        loadChildren: () =>
+          import('./pages/apps/trips/live-trip/live-trip.module').then(
+            (m) => m.LiveTripModule
+          ),
+      },
     ],
   },
   {
