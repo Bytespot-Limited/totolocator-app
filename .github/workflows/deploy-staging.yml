@@ -1,0 +1,26 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy app to staging
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: root
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /root/totolocator/totolocator-app
+            git pull origin master
+            docker build --build-arg BUILD_CONFIG=staging -t totolocator-app:staging .
+            curl -sf -X POST http://localhost:3000/api/trpc/compose.redeploy \
+              -H 'Content-Type: application/json' \
+              -H 'Authorization: Bearer ${{ secrets.DOKPLOY_API_KEY }}' \
+              -H 'x-trpc-source: nextjs-react' \
+              -d '{"json":{"composeId":"${{ secrets.DOKPLOY_COMPOSE_ID }}"}}'
