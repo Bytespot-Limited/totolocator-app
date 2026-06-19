@@ -14,13 +14,25 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: root
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          envs: DOKPLOY_ADMIN_PASS,DOKPLOY_COMPOSE_ID
           script: |
             set -e
             cd /root/totolocator/totolocator-app
             git pull origin master
             docker build --build-arg BUILD_CONFIG=staging -t totolocator-app:staging .
+
+            # Sign in to Dokploy and get a fresh session cookie
+            RESPONSE=$(curl -si -X POST http://localhost:3000/api/auth/sign-in/email \
+              -H 'Content-Type: application/json' \
+              -d "{\"email\":\"elimuraya.dev@gmail.com\",\"password\":\"$DOKPLOY_ADMIN_PASS\"}")
+            COOKIE=$(echo "$RESPONSE" | grep -i 'set-cookie: better-auth' | sed 's/.*set-cookie: //i' | cut -d';' -f1)
+
+            # Trigger Dokploy redeploy
             curl -sf -X POST http://localhost:3000/api/trpc/compose.redeploy \
               -H 'Content-Type: application/json' \
-              -H 'Authorization: Bearer ${{ secrets.DOKPLOY_API_KEY }}' \
+              -H "Cookie: $COOKIE" \
               -H 'x-trpc-source: nextjs-react' \
-              -d '{"json":{"composeId":"${{ secrets.DOKPLOY_COMPOSE_ID }}"}}'
+              -d "{\"json\":{\"composeId\":\"$DOKPLOY_COMPOSE_ID\"}}"
+        env:
+          DOKPLOY_ADMIN_PASS: ${{ secrets.DOKPLOY_ADMIN_PASS }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
