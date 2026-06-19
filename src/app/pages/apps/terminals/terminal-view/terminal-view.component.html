@@ -71,8 +71,8 @@
               </div>
               <div class="col-sm-12">
                 <mat-form-field appearance="outline" class="w-100">
-                  <input readonly [value]="terminal.lastPing" matInput
-                         placeholder="{{terminal.lastPing}}"/>
+                  <input readonly [value]="terminal.lastPing | date:'dd MMM yyyy, h:mm a'" matInput
+                         placeholder="{{terminal.lastPing | date:'dd MMM yyyy, h:mm a'}}"/>
                 </mat-form-field>
               </div>
             </div>
@@ -82,11 +82,14 @@
                 >Status
                 </mat-label>
               </div>
-              <div class="col-sm-12">
-                <mat-form-field appearance="outline" class="w-100">
-                  <input readonly [value]="terminal.status" matInput
-                         placeholder="{{terminal.status}}"/>
-                </mat-form-field>
+              <div class="col-sm-12 m-b-16">
+                <span class="badge rounded-pill f-s-14 px-3 py-2"
+                  [class.bg-light-success]="terminal.status === 'ONLINE'"
+                  [class.text-success]="terminal.status === 'ONLINE'"
+                  [class.bg-light-error]="terminal.status === 'OFFLINE'"
+                  [class.text-error]="terminal.status === 'OFFLINE'">
+                  {{ terminal.status }}
+                </span>
               </div>
             </div>
           </div>

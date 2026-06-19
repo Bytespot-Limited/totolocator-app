@@ -5,11 +5,11 @@ export const terminalForm: IForm = {
   saveBtnTitle: 'Save Terminal',
   resetBtnTitle: 'Cancel',
   displayColumns: [
-    'id',
     'devideId',
     'phoneNumber',
     'status',
-    'entityStatus',
+    'driverName',
+    'numberPlate',
     'action',
   ],
   formControls: [
